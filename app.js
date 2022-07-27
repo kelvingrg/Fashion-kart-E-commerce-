@@ -25,7 +25,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:'key',cookie:{maxAge:60000}}))
+app.use(session({secret:'key',cookie:{maxAge:6000000}}))
+
+// app.use((req, res, next) => {
+
+//   if (!req.user) {
+//     res.header("cache-control", "private,no-cache,no-store,must revalidate");
+//     res.header("Express", "-3");
+//   }
+//   next();
+// });
+// app.use((req, res, next) => {
+//   if (!req.admin) {
+//     res.header("cache-control", "private,no-cache,no-store,must revalidate");
+//     res.header("Express", "-3");
+//   }
+//   next();
+// });
 
 app.use('/admin', adminRouter);
 app.use('/', usersRouter);

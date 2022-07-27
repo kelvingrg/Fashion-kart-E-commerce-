@@ -1,5 +1,5 @@
 var express = require('express');
-const { response } = require('../app');
+// const {response} = require('../app');
 const app = require('../app');
 var router = express.Router();
 var userHelpers =require('../helpers/userHelpers')
@@ -11,6 +11,8 @@ router.get('/', function(req, res, next) {
   let user=req.session.user;
 if(req.session.loggedIn){
   res.render('index',{user})
+console.log(req.body.name);
+
 }
   else
   res.render('index')
@@ -35,8 +37,8 @@ router.post('/login',(req,res)=>{
   // console.log(req.body)
 
   userHelpers.doLogin(req.body).then((response)=>{
-    console.log(response.user)
-    console.log(response.status)
+    // console.log(response.user)
+    // console.log(response.status)
     if (response.status) {
       req.session.user = response.user;
       req.session.loggedIn=true;
@@ -55,7 +57,7 @@ router.post('/signup',(req,res)=>{
 
  
   userHelpers.userExist(req.body).then((response)=>{
-    console.log(response+'signup response')
+    //console.log(response+'signup response')
      if(response.phone||response.email){
 
     

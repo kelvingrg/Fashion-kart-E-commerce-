@@ -1,0 +1,98 @@
+
+<body>
+
+<div class=" w-25 " style="margin-left:38% ;margin-top:13% ">
+							<form action="/admin/addUser" method="POST">
+								<div class="new-customers">
+									<h2 class="login-title text-center">ADD USER</h2>
+									<div class="row">
+										<div class="col-sm-6">
+											<input type="text" class="custom-form" placeholder="First Name" name="firstName"  id="firstName" onfocusout="validateFirstName()" />
+											<label for="fisrtName" id="labelname" ></label>
+											<i class="fa fa-check" aria-hidden="true" style=" color:green" id="tick"></i>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" class="custom-form" placeholder="Last Name" name="lastName" id="lastName" onfocusout="validateSecondName()"/>
+											<label for="fisrtName" id="labellastname" ></label>
+										</div>
+
+										
+										
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<input type="text" class="custom-form" placeholder="address" name="address" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<select class="custom-select custom-form" name='city'>
+												<option>City</option>
+												<option>Dhaka</option>
+												<option>New York</option>
+												<option>London</option>
+												<option>Melbourne</option>
+											</select>
+										</div>
+										<div class="col-sm-6">
+											<select class="custom-select custom-form"name='country'>
+												<option>Country</option>
+												<option>Bangladesh</option>
+												<option>United States</option>
+												<option>United Kingdom</option>
+												<option>Australia</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<input type="text" class="custom-form" placeholder="mobileNumber" name="mobileNumber" id="mobileNumber"onfocusout="validateNumber()" />
+											<label for="mobileNumber" id="labelMobile" ></label>
+											
+										</div>
+										<div class="col-sm-6">
+											<input type="text" class="custom-form" placeholder="pinCode" name="pinCode" id="pinCode"onfocusout="validatePinCode()"/>
+											<label for="mobileNumber" id="labelPin" ></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<input class="custom-form" type="text" placeholder="Email" name="email" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<input class="custom-form" type="password" placeholder="Password"name="password" id="password"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<input class="custom-form" type="password" placeholder="Confirm Password" id="confirmPassword"onfocusout="validatePassword()"/>
+											<label for="text" id="labelPassword" ></label>
+										</div>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" checked="checked" name="create-account"/>
+											Sign up for our newsletter!
+										</label>
+										<label>
+											<input type="checkbox" name="billing-address"/>
+											Receive special offers from our partners!
+										</label>
+									</div>
+									<div class="row">
+										
+											<input type="submit" class="custom-form custom-submit no-margin text-center" value="Add User" onclick="return validateSubmission()" />
+											<label for="text" id="labelSubmission" ></label>
+											{{#if phoneerr}}<label for="mobileNumber" style="color: red;">Mobile Number Already exists</label>{{/if}}
+											{{#if emailerr}}<label for="email" style="color: red;">Email Already exists</label>{{/if}}
+											
+										
+									
+								</div>
+							</form>
+						</div>
+			{{!-- <script src="/javascripts/myjs/myjs.js"></script>
+			 --}}
+</body>

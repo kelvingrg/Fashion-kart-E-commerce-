@@ -1,3 +1,7 @@
+{{#if adminlogin}}
+{{{body}}}
+{{else}}
+
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -42,8 +46,18 @@
 		<script src="https://use.fontawesome.com/0e95deba40.js"></script>
     </head>
     <body>
+		{{#if admin}}
+		{{>adminPartial}}
+		{{else }}
          {{>userHeader}}
+		 {{/if}}
     {{{body}}}
+	
+{{#if admin}}
+		
+		{{else}}
+        
+		
     <footer class="footer-area">
 			<div class="footer-top">
 				<div class="footer">
@@ -130,7 +144,7 @@
 		<!-- all js here -->
 		<script src="/javascript/myjs/myjs.js"></script>
 		<!-- jquery latest version -->
-        <script src="/js/vendor/jquery-1.12.0.min.js"></script>
+        {{!-- <script src="/js/vendor/jquery-1.12.0.min.js"></script>
 		<!-- bootstrap js -->
         <script src="/javascript/js/bootstrap.min.js"></script>
 		<!-- jquery.nivo.slider js -->
@@ -154,10 +168,11 @@
 		<!-- plugins js -->
         <script src="/javascript/js/plugins.js"></script>
 		<!-- main js -->
-        <script src="/javascript/js/main.js"></script>
+        <script src="/javascript/js/main.js"></script> --}}
     </body>
 </html>
 
     </body>
    
-  
+   {{/if}}
+      {{/if}}

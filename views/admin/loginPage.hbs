@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Login || Shopick</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+		
+		<!-- Google Font -->
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,500.00,700,300' rel='stylesheet' type='text/css'>
+		
+		<!-- all css here -->
+		<!-- bootstrap v3.3.6 css -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- animate css -->
+        <link rel="stylesheet" href="/css/animate.css">
+		<!-- jquery-ui.min css -->
+        <link rel="stylesheet" href="/css/jquery-ui.min.css">
+		<!-- meanmenu css -->
+        <link rel="stylesheet" href="/css/meanmenu.min.css">
+		<!-- nivo-slider css -->
+        <link rel="stylesheet" href="/lib/css/nivo-slider.css">
+		<!-- owl.carousel css -->
+        <link rel="stylesheet" href="/css/owl.carousel.css">
+		<!-- flaticon css -->
+        <link rel="stylesheet" href="/css/shopick-icon.css">
+		<!-- pe-icon-7-stroke css -->
+        <link rel="stylesheet" href="/css/pe-icon-7-stroke.css">
+		<!-- lightbox css -->
+        <link rel="stylesheet" href="/css/lightbox.min.css">
+		<!-- style css -->
+		<link rel="stylesheet" href="/style.css">
+		<!-- responsive css -->
+        <link rel="stylesheet" href="/css/responsive.css">
+		<!-- modernizr css -->
+        <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+		
+			<!-- LOGIN-AREA START -->
+			<div class="lognin-area" style="margin-top: 9%; margin-left:29%">
+				<div class="container">
+					<div class="row">
+						<!-- Registered-Customers Start -->
+						<div class="col-md-6">
+							<form action="/admin/login" method="post">
+								<div class="registered-customers">
+									<h2 class="login-title">Admin Login</h2>
+									<div class="registered">
+										<div class="row">
+											<div class="col-md-12">
+												<input type="text" class="custom-form" name="email" placeholder="Email Address" id="email" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<input type="password" class="custom-form" placeholder="Password" name="password" id="password"/>
+                    
+											</div>
+                                            <p class="text-danger">{{#if logerr}}Invalid Credentials{{/if}}</p>
+										</div>
+									
+										<input type="submit" class="custom-submit-2" value="login" />
+									</div>
+								</div>
+							</form>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- LOGIN-AREA END -->
+		
+			
+
+		
+		<!-- all js here -->
+		<!-- jquery latest version -->
+        <script src="/js/vendor/jquery-1.12.0.min.js"></script>
+		<!-- bootstrap js -->
+        <script src="/js/bootstrap.min.js"></script>
+		<!-- jquery.nivo.slider js -->
+        <script src="/lib/js/jquery.nivo.slider.js"></script>
+        <script src="/lib/home.js"></script>
+		<!-- owl.carousel js -->
+        <script src="/js/owl.carousel.min.js"></script>
+		<!-- meanmenu js -->
+        <script src="/js/jquery.meanmenu.js"></script>
+		<!-- jquery-ui js -->
+        <script src="/js/jquery-ui.min.js"></script>
+		<!-- lightbox.min js -->
+        <script src="/js/lightbox.min.js"></script>
+		<!-- countdon.min js -->
+        <script src="/js/countdon.min.js"></script>
+		<!-- wow js -->
+        <script src="/js/wow.min.js"></script>
+		<script type="text/javascript">
+			new WOW().init();
+		</script>
+		<!-- plugins js -->
+        <script src="/js/plugins.js"></script>
+		<!-- main js -->
+        <script src="/js/main.js"></script>
+    </body>
+</html>
