@@ -1,0 +1,80 @@
+
+<section class="page-content">
+		
+			<!-- PAGE-BANNER END -->
+			<!-- LOGIN-AREA START -->
+			<div class="lognin-area">
+				<div class="container">
+					<div class="row">
+						<!-- Registered-Customers Start -->
+                        
+						<div class="col-md-6">
+							<form action="/mobileNumber" method="POST">
+								<div class=" mt-2">
+									<h2 class="login-title">Login With Otp</h2>
+									<div class="">
+										<p>Enter your Regiserd Mobile Number</p>
+										<div class="row">
+											<div class="col-md-6">
+												<input type="number" class="custom-form" name="mobileNumber" placeholder="Mobile Number" id="mobileNumber" {{#if otp}}value="{{mob}}" {{/if}}/>
+                                                <label for="mobileNumber" id="labelMobile" ></label>
+											</div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-dark"  onclick="otpPage()">Get Otp</button> 
+                                            </div>
+										</div>
+										
+							</form>
+
+							
+						
+
+						{{!-- otp login start --}}
+
+							
+						</div>
+                        </div>
+
+                        {{#if otp}}
+                        <div class="row" id="otpVerify" style="visibility:visible ;">
+                            <div class="col-md-6">
+							<form action="/otpLogin" method="POST">
+								<div class="">
+                                    <div class="row">
+									<div class="col-md-12">
+                                    
+                                          <label for="mobileNumber" id="labelMobile" >otp is send to :</label>
+												<input type="text" name="mobileNumber" placeholder="Mobile Number" id="mobileNumber" value="{{mob}}" style="none" />
+                                              
+											</div></div>
+                                            
+									
+					
+										<div class="row">
+											<div class="col-md-12">
+												<input type="number" class="custom-form" name="otp" placeholder="Enter OTP"  />
+											</div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="submit" class="custom-submit-2">Log in</button> 
+                                            </div>
+                                           {{#if wrongOtp}} <label for="mobileNumber" id="labelMobile" >invalid otp :</label>{{/if}}
+										</div>
+                                        
+										
+							</form>
+
+							{{/if}}
+						
+
+						{{!-- otp login start --}}
+
+							
+						</div>
+
+                        </div>
+                        </div>
+                        </div>
+                        <script src="/javascripts/myjs/myjs.js"></script>
+                        </section>

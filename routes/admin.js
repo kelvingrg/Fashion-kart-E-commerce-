@@ -4,6 +4,24 @@ var express = require("express");
 var router = express.Router();
 var adminHelpers = require("../helpers/adminHelpers");
 var userHelpers = require("../helpers/userHelpers");
+var productHelpers = require("../helpers/productHelpers");
+const multer=require('multer')
+                    
+
+
+                     const fileStorageEngine=multer.diskStorage({
+                      destination:(req,file,cb)=>{
+                        cb(null,'./images')
+                    
+                    },
+                    filename:(req,file,cb)=>{
+                        cb(null,Date.now()+"--"+file.originalname);
+                    }
+                      
+                    })
+                    const upload=multer({storage:fileStorageEngine});
+
+
 
 let admin = {};
 admin.email = "admin@gmail.com";
@@ -24,9 +42,7 @@ router.get("/", function (req, res, next) {
   if (req.session.admin) {
     res.redirect("/admin/dashbord");
   } else {
-    res.render("admin/loginPage", {
-      adminlogin: true,
-      logerr: req.session.logerr,
+    res.render("admin/loginPage", {adminlogin: true,logerr: req.session.logerr,
     });
     req.session.logerr = false;
   }
@@ -58,11 +74,7 @@ router.get("/userDetails", verifyLoggedIn, (req, res) => {
     res.render("admin/userDetails", { admin: true, user });
   });
 });
-router.get("/productDetails", verifyLoggedIn, (req, res) => {
-  adminHelpers.getAllUsers().then((user) => {
-    res.render("admin/ProductDetails", { admin: true, user });
-  });
-});
+
 router.get("/addUser", verifyLoggedIn, (req, res) => {
     res.render("admin/addUser", { admin:true,emailerr:req.session.emailerr,phoneerr:req.session.phoneerr});
     req.session.emailerr=false
@@ -96,13 +108,71 @@ router.post("/addUser", (req, res) => {
     })
   })
   router.post("/updateUser/:id", (req, res) => {
-    console.log(req.body)
         adminHelpers.updateUser(req.params.id,req.body)
          .then((respone)=>{
      
         res.redirect("/admin/userDetails")
          })
         })
+       
+
+        
+      router.get("/productDetails", verifyLoggedIn, (req, res) => {
+        productHelpers.getProducts().then((productData) => {
+          res.render("admin/ProductDetails", { admin: true, productData });
+        });
+      });
+      
+    
+
+      router.get("/addProduct", verifyLoggedIn, (req, res) => {
+        res.render("admin/addProduct", { admin: true });
+      })
+
+      router.post("/addProduct",upload.array("images",4),(req,res)=>{
+      
+       if(!req.files){
+        res.redirect('/admin/addProduct')
+        
+       }
+       var filenames = req.files.map(function (file) {
+        return file.filename;
+      });
+      req.body.images=filenames
+  
+     productHelpers.addProduct(req.body).then((response)=>{
+      res.redirect("/admin/productDetails")
+     })
+    })
+    router.get('/updateProduct/:id',verifyLoggedIn,(req,res)=>{
+      productHelpers.getProduct(req.params.id).then((productData)=>{
+        console.log(productData)
+        res.render('admin/updateProduct',{admin:true,productData})
+      })
+
+     
+    })
+    router.post("/updateProduct/:id",upload.array("images",4),(req,res)=>{
+      if(!req.files){
+        productHelpers.getProduct(req.params.id).then((productData)=>{
+          res.render('admin/updateProduct',{admin:true,productData})
+        })
+        }else{
+
+       
+       var filenames = req.files.map(function (file) {
+        return file.filename;
+      });
+      req.body.images=filenames
+           productHelpers.updateProduct(req.params.id,req.body).then((resolve)=>{
+            res.redirect('/admin/productDetails')
+
+
+    })
+  }
+        });
+      
+
     
       
   

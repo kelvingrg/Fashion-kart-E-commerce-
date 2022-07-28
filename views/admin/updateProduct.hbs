@@ -1,0 +1,99 @@
+<body>
+
+<div class=" w-25 " style="margin-left:38% ;margin-top:13% ">
+							<form action="/admin/updateProduct/{{productData.[0]._id}}" method="POST" enctype="multipart/form-data">
+								<div class="new-customers">
+									<h2 class="login-title text-center">UPDATE PRODUCT</h2>
+							
+                                        <div class="row">
+										<div class="col-sm-12">
+                                            <label for="fisrtName" id="labelname" >Product Title</label>
+											<input type="text" class="custom-form" value="{{productData.[0].productTitle}}" name="productTitle"  id="productTitle" />
+										</div>
+                                        </div>
+									<div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="fisrtName" id="labellastname" >Regular Price</label>
+											<input type="text" class="custom-form" value="{{productData.[0].regularPrice}}" name="regularPrice" id="regularPrice" />
+											
+										</div>
+
+										<div class="col-sm-6">
+                                            <label for="fisrtName" id="labelname" >Offer Price</label>
+											<input type="text" class="custom-form" value="{{productData.[0].offerPrice}}" name="offerPrice"  />
+										
+											
+										</div>
+                                        </div>
+										
+
+										
+										
+									
+									
+									{{!-- <div class="row">
+										<div class="col-sm-6">
+											<select class="custom-select custom-form" name='city' >
+												<option>{{userData.city}}</option>
+												<option>Dhaka</option>
+												<option>New York</option>
+												<option>London</option>
+												<option>Melbourne</option>
+											</select>
+										</div>
+										<div class="col-sm-6">
+											<select class="custom-select custom-form"name='country'>
+												<option>{{userData.country}}</option>
+												<option>Bangladesh</option>
+												<option>United States</option>
+												<option>United Kingdom</option>
+												<option>Australia</option>
+											</select>
+										</div>
+									</div> --}}
+									<div class="row">
+										<div class="col-sm-6">
+                                            	<label for="mobileNumber" id="labelMobile" >Catagory</label>
+											<input type="text" class="custom-form" name="catagory" id="catagory"value="{{productData.[0].catagory}}" />
+											</div>
+
+                                            <div class="col-sm-6">
+                                            	<label for="mobileNumber" id="labelMobile" >Sub Catagory</label>	
+											<input type="text" class="custom-form" name="subCatagory" id="subCatagory"value="{{productData.[0].catagory}}" />
+										</div>
+                                        </div>
+											
+										<div class="row">
+										<div class="col-sm-12">
+											<input type="file" class="custom-form" placeholder="pinCode" name="images" id="images" value="{{productData.[0].images}}" multiple/>
+											<label for="mobileNumber" id="labelPin" ></label>
+										</div></div>
+									
+                                     
+							
+									
+									{{!-- <div class="checkbox">
+										<label>
+											<input type="checkbox" checked="checked" name="create-account"/>
+											Sign up for our newsletter!
+										</label>
+										<label>
+											<input type="checkbox" name="billing-address"/>
+											Receive special offers from our partners!
+										</label>
+									</div> --}}
+									<div class="row">
+										
+											<input type="submit" class="custom-form custom-submit no-margin text-center" value="Update User" onclick="return validateSubmission()" />
+											
+											
+										
+									
+								</div>
+                                </div>
+                               
+							</form>
+						
+			 {{!-- <script src="/javascripts/myjs/myjs.js"></script> --}}
+			 
+</body>

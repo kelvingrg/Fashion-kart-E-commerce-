@@ -99,6 +99,16 @@ module.exports = {
         });
     });
   },
+  doMobileNumber: (userData) => {
+    return new Promise(async (resolve, reject) => {
+  let number = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .findOne({ mobileNumber: userData.mobileNumber })
+          resolve(number);
+        
+    });
+  }
 
   
 };

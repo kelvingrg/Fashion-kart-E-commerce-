@@ -25,7 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:'key',cookie:{maxAge:6000000}}))
+app.use(session({secret:"key",
+resave:false,
+saveUninitialized:true,
+  cookie: { maxAge: 5000000 }
+}))
+
+app.use(express.static(__dirname + "/images"));
 
 // app.use((req, res, next) => {
 

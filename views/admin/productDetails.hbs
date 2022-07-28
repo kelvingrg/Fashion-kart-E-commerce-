@@ -3,6 +3,7 @@
     <div class="card m-b-30">
       <div class="card-body">
         <h4 class="mt-0 header-title mb-4">Product List</h4>
+        <a class="float-right" href="/admin/addProduct/{{this._id}}"><button class="btn btn-success">Add Product</button></a>
         <div class="table-responsive">
 
           <table class="table table-hover">
@@ -12,7 +13,7 @@
                 <th scope="col">Regular Price</th>
                 <th scope="col">Offer Price</th>
                 <th scope="col">Catagory</th>
-                <th scope="col" >SubCatagory</th>
+                <th scope="col" >Sub Catagory</th>
                 <th scope="col">Tags</th>
                  <th scope="col">Product Decription</th>
                 <th scope="col">Image</th>
@@ -20,23 +21,31 @@
               </tr>
             </thead>
             <tbody>
-              {{#each user}}
+              {{#each productData}}
                 <tr>
-                  <td>{{this.firstName}}</td>
-                  <td>{{this.lastName}}</td>
-                  <td>{{this.mobileNumber}}</td>
-                  <td>{{this.email}}</td>
-                  <td>{{this.address}}</td>
-                  <td>{{this.pinCode}}</td>
-                  <td>{{this.city}}</td>
-                    <td>{{this.country}}</td>
-                  {{#if this.status}}
+                  <td>{{this.productTitle}}</td>
+                  <td>{{this.regularPrice}}</td>
+                  <td>{{this.offerPrice}}</td>
+                  <td>{{this.catagory}}</td>
+                   <td>{{this.subCatagory}}</td>
+                  <td>{{this.tags}}</td>
+                  <td>{{this.productDescription}}</td>
+                 
+
+                  <td><img
+                style="width: 50px;height:50px"
+                src="/{{this.images.[0]}}"
+                alt=""/>
+              </td>
+          
+                    {{!-- <td>{{this.country}}</td> --}}
+                  {{!-- {{#if this.status}}
                     <td><span class="btn btn-success">Active</span></td>
                   {{else}}
-                    <td><span  class="btn btn-secondary">Banned</span></td>
+                    <td><span  class="btn btn-secondary">Banned</span></td> --}}
                     
 
-                  {{/if}}
+                  {{!-- {{/if}} --}}
 
                   {{!-- <td>
                     <div>
@@ -51,7 +60,7 @@
 
                   <td>
                     <div>
-                      <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                      <a href="/admin/updateProduct/{{this._id}}" class="btn btn-primary btn-sm">Edit</a>
                       <a href="#" class="btn btn-danger btn-sm">Delete</a>
                       {{#if this.status}}
                         <a href="#" class="btn btn-warning btn-sm">Hold</a>

@@ -40,6 +40,7 @@ function validateNumber(){
     {
         valid('labelMobile')
         mn=true;
+        return true
     }
     else{
         invalid('labelMobile')
@@ -122,3 +123,23 @@ document.getElementById(labelname).innerHTML="check your entries";
 document.getElementById(labelname).style.visibility="visible";
 document.getElementById(labelname).style.color="red";
 }
+
+function otpPage(){
+   console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaiiiiiiiiiiiiiiiiiii');
+    var text=document.getElementById("mobileNumber").value;
+    var regx=/^([0-9]{10})+$/;
+    if(regx.test(text))
+    {
+        valid('labelMobile')
+       
+        document.getElementById("otpVerify").style.visibility="visible";
+    }
+    else{
+        invalid('labelMobile')
+     
+    }
+
+}
+   
+        document.getElementById("otpVerify").style.visibility="visible";
+  
