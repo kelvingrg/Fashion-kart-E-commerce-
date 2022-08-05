@@ -1,114 +1,326 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
+const {response} = require("../app");
+const {PRODUCT_COLLECTION} = require("../config/collections");
 // const { response } = require('../app')
+let respond = {};
 var objectId = require("mongodb").ObjectId;
 module.exports = {
-  doSignup: (userData) => {
-    console.log(userData);
-    return new Promise(async (resolve, reject) => {
-      console.log("dosignup user data ");
-      userData.password = await bcrypt.hash(userData.password, 10); // this 10 refers salt value
-      db.get()
-        .collection(collection.USER_COLLECTION)
-        .insert(userData)
-        .then((data) => {
-          console.log(data);
-          resolve(data.insertId);
+    doSignup: (userData) => {
+        console.log(userData);
+        return new Promise(async (resolve, reject) => {
+            console.log("dosignup user data ");
+            userData.password = await bcrypt.hash(userData.password, 10); // this 10 refers salt value
+            db.get().collection(collection.USER_COLLECTION).insert(userData).then((data) => {
+                console.log(data);
+                resolve(data.insertId);
+            });
         });
-    });
-  },
-  statusUpdate: (userData) => {
-    db.get()
-      .collection(collection.USER_COLLECTION)
-      .updateOne({ email: userData.email }, { $set: { status: true } })
-      .then((data) => {});
-  },
+    },
+    statusUpdate: (userData) => {
+        db.get().collection(collection.USER_COLLECTION).updateOne({
+            email: userData.email
+        }, {
+            $set: {
+                state: true
+            }
+        }).then((data) => {});
+    },
 
-  userExist: (userData) => {
-    console.log("user exist-user data ");
-    return new Promise(async (resolve, reject) => {
-      let response = {};
-      let email = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({ email: userData.email });
-      let phone = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({ mobileNumber: userData.mobileNumber });
-      console.log(email, phone);
-      if (email || phone) {
-        if (email) {
-          console.log("same email");
-          response.email = true;
-        } else {
-          response.email = false;
+    userExist: (userData) => {
+        console.log("user exist-user data ");
+        return new Promise(async (resolve, reject) => {
+            let response = {};
+            let email = await db.get().collection(collection.USER_COLLECTION).findOne({email: userData.email});
+            let phone = await db.get().collection(collection.USER_COLLECTION).findOne({mobileNumber: userData.mobileNumber});
+            console.log(email, phone);
+            if (email || phone) {
+                if (email) {
+                    console.log("same email");
+                    response.email = true;
+                } else {
+                    response.email = false;
+                }
+                if (phone) {
+                    console.log("existing mobile number");
+                    response.phone = true;
+                } else {
+                    response.phone = false;
+                }
+
+                resolve(response);
+            } else {
+                response.noexist = true;
+                resolve(response);
+            }
+        });
+    },
+
+    doLogin: (userData) => {
+        return new Promise(async (resolve, reject) => { // console.log(userData)
+
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({email: userData.email});
+
+            if (user) {
+                if (user.state == true) {
+                    bcrypt.compare(userData.password, user.password).then((status) => {
+                        if (status) {
+                            console.log("success");
+                            respond.user = user;
+                            respond.status = true;
+                            resolve(respond);
+                        } else {
+                            console.log("password mismatch");
+                            resolve({status: false});
+                        }
+
+                    });
+                } else {
+                    respond.block = true;
+                    console.log(respond.block);
+                    resolve(respond);
+                }
+
+
+            } else {
+                console.log("mail id  mismatch");
+                resolve({status: false});
+            }
+
+
+        });
+    },
+    doGetUser: (userData) => {
+
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({email: userData.email}).then((data) => {;
+                resolve(data);
+            });
+        });
+    },
+    doMobileNumber: (userData) => {
+        return new Promise(async (resolve, reject) => {
+            let number = await db.get().collection(collection.USER_COLLECTION).findOne({mobileNumber: userData.mobileNumber});
+            resolve(number);
+        });
+    },
+    deleteUser: (userId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).deleteOne().then((response) => {
+                resolve(response);
+            });
+        });
+    },
+    banUser: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({
+                _id: objectId(userId)
+            }, {
+                $set: {
+                    state: false
+                }
+            }).then((response) => {
+                resolve(response);
+            });
+        });
+    },
+    unbanUser: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({
+                _id: objectId(userId)
+            }, {
+                $set: {
+                    state: true
+                }
+            }).then((response) => {
+                resolve(response);
+            });
+        });
+    },
+    updatePassword: (newPassword, user) => {
+        let response = {};
+        return new Promise(async (resolve, reject) => {
+            await bcrypt.compare(newPassword.oldPassword, user.password).then(async (status) => {
+                if (status) {
+                    let hashedpassword = await bcrypt.hash(newPassword.password, 10);
+                    await db.get().collection(collection.USER_COLLECTION).updateOne({
+                        email: user.email
+                    }, {
+                        $set: {
+                            password: hashedpassword
+                        }
+                    }).then((response) => {
+                        response.updatepass = true;
+                        resolve(response);
+                    });
+                } else {
+                    response.updatepass = false;
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    // update peprsonal data of user
+    updatePersonalData: (newUserData, user) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne({
+                email: user.email
+            }, {
+                $set: {
+                    firstName: newUserData.firstName,
+                    lastName: newUserData.lastName,
+                    address: newUserData.address,
+                    city: newUserData.city,
+                    country: newUserData.country,
+                    pinCode: newUserData.pinCode
+                }
+            }).then((response) => {
+                resolve(response);
+                console.log(response);
+            });
+        });
+    },
+
+    // add to cart
+
+    addToCart: (prodId, userId) => {
+        let prodObj = {
+            item: objectId(prodId),
+            quantity: 1
         }
-        if (phone) {
-          console.log("existing mobile number");
-          response.phone = true;
-        } else {
-          response.phone = false;
-        }
+        return new Promise(async (resolve, reject) => {
+            let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({user: objectId(userId)})
+            if (userCart) {
+                let proExist = userCart.products.findIndex(product => product.item == prodId)
+                if (proExist != -1) {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({
+                        user: objectId(userId),
+                        'products.item': objectId(prodId)
+                    }, {
+                        $inc: {
+                            'products.$.quantity': 1
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
+                } else {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({
+                        user: objectId(userId)
+                    }, {
+                        $push: {
+                            products: prodObj
+                        }
+                    }).then(() => {
+                        resolve();
+                    })
+                }
+            } else {
+                let cartObj = {
+                    user: objectId(userId),
+                    products: [prodObj]
+                }
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then(() => {
+                    resolve()
+                })
+            }
+        })
 
-        resolve(response);
-      } else {
-        response.noexist = true;
-        resolve(response);
-      }
-    });
-  },
+    },
 
-  doLogin: (userData) => {
-    return new Promise(async (resolve, reject) => {
-      let response = {};
-      // console.log(userData)
+    // get cart products
 
-      let user = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({ email: userData.email });
-      if (user) {
-        bcrypt.compare(userData.password, user.password).then((status) => {
-          if (status) {
-            console.log("success");
-            response.user = user;
-            // console.log(user)
-            response.status = true;
-            resolve(response);
-          } else {
-            console.log("password mismatch");
-            resolve({ status: false });
-          }
-        });
-      } else {
-        console.log("mail id  mismatch");
-        resolve({ status: false });
-      }
-    });
-  },
-  doGetUser: (userData) => {
-    return new Promise(async (resolve, reject) => {
-      var user = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({ email: userData.email })
-        .then((data) => {
-          resolve(user);
-        });
-    });
-  },
-  doMobileNumber: (userData) => {
-    return new Promise(async (resolve, reject) => {
-  let number = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({ mobileNumber: userData.mobileNumber })
-          resolve(number);
-        
-    });
-  }
+    getCartProducts: (userId) => {
+        return new Promise(async (resolve, reject) => {
 
-  
-};
+            let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match: {
+                        user: objectId(userId)
+                    }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+
+                    }
+                }, {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: {
+                            $arrayElemAt: ['$product', 0]
+                        }
+                    }
+
+                }
+
+
+                // {
+                // $lookup:{
+                // from:collection.PRODUCT_COLLECTION,
+                // let:{prodList:'$products'},
+                // pipeline:[{
+                //     $match:{
+                //       $expr:{
+                //         $in:['$_id',"$$prodList"]
+                //       }
+                //     }
+
+                // }
+                // ],
+                // as:'cartItems'
+                // }}
+            ]).toArray()
+            resolve(cartItems)
+        })
+    },
+    // get cart count
+    getCartItemsCount: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({user: objectId(userId)})
+            if (cart) {
+                count = cart.products.length
+                resolve(count)
+
+            } else 
+                resolve(0)
+            
+        })
+    },
+    // chaange product quantity at cart
+    changeProductQuantity: (details) => {
+        console.log(details, 'at userhelpers');
+        let count = parseInt(details.count)
+        console.log(count, 'count after pasre')
+        return new Promise((resolve, reject) => {
+          console.log(details)
+            db.get().collection(collection.CART_COLLECTION).updateOne({
+                _id: objectId(details.cart),
+                'products.item': objectId(details.product)
+            }, {
+                $inc: {
+                    'products.$.quantity': count
+                }
+            }).then(() => {
+                resolve()
+            })
+        })
+
+    }
+
+
+}

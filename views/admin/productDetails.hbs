@@ -3,7 +3,11 @@
     <div class="card m-b-30">
       <div class="card-body">
         <h4 class="mt-0 header-title mb-4">Product List</h4>
-        <a class="float-right" href="/admin/addProduct/{{this._id}}"><button class="btn btn-success">Add Product</button></a>
+        						
+                   
+        <a class="float-right" href="/admin/addProduct"><button class="btn btn-success">Add Product</button></a>
+          <a class="float-right mx-3" href="/admin/addCatagory"><button class="btn btn-success">Add Catagory</button></a>
+            
         <div class="table-responsive">
 
           <table class="table table-hover">
@@ -61,8 +65,8 @@
                   <td>
                     <div>
                       <a href="/admin/updateProduct/{{this._id}}" class="btn btn-primary btn-sm">Edit</a>
-                      <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                      {{#if this.status}}
+                      <a href="/admin/deleteProduct/{{this._id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete {{this.firstName}} ?')">Delete</a>
+                      {{#if this.state}}
                         <a href="#" class="btn btn-warning btn-sm">Hold</a>
                       {{else}}
                         <a href="#" class="btn btn-success btn-sm">Unhold</a>

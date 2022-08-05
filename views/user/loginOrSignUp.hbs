@@ -22,7 +22,8 @@
 											<div class="col-md-12">
 												<input type="password" class="custom-form" placeholder="Password" name="password"/>
 											</div>
-											{{#if logerr}}<label for="mobileNumber" style="color: red;">invalid credentials>{{/if}}
+											{{#if logerr}}<label for="mobileNumber" style="color: red;">invalid credentials</label>{{/if}}
+												{{#if blocked}}<label for="mobileNumber" style="color: red;">You have been blocked please contact Customer Care</label>{{/if}}
 										</div>
 										<p><label class="forgot"><a href="#">Forgot your password?</a></label></p>
 										<input type="submit" class="custom-submit-2" value="login" />
@@ -108,7 +109,7 @@
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<input class="custom-form" type="password" placeholder="Confirm Password" id="confirmPassword"onfocusout="validatePassword()"/>
+											<input class="custom-form" type="password" placeholder="Confirm Password" id="confirmPassword" onfocusout="validatePassword()"/>
 											<label for="text" id="labelPassword" ></label>
 										</div>
 									</div>

@@ -31,7 +31,7 @@
                   <td>{{this.pinCode}}</td>
                   <td>{{this.city}}</td>
                     <td>{{this.country}}</td>
-                  {{#if this.status}}
+                  {{#if this.state}}
                     <td><span class="btn btn-success">Active</span></td>
                   {{else}}
                     <td><span  class="btn btn-secondary">Banned</span></td>
@@ -53,10 +53,10 @@
                     <div>
                       <a href="/admin/updateUser/{{this._id}}" class="btn btn-primary btn-sm">Edit</a>
                       <a href="/admin/deleteUser/{{this._id}}" class="btn btn-danger btn-sm"  onclick="return confirm('Are you want to delete {{this.FirstName}} ?')">Delete</a>
-                      {{#if this.status}}
-                        <a href="/admin/banUser/{{this._id}}" class="btn btn-warning btn-sm">Ban</a>
+                      {{#if this.state}}
+                        <a href="/admin/banUser/{{this._id}}" class="btn btn-warning btn-sm"onclick="return confirm('Are you sure to Ban {{this.firstName}} ?')">Ban</a>
                       {{else}}
-                        <a href="/admin/unbanUser/{{this._id}}" class="btn btn-success btn-sm" onclick="return confirm('Are you sure to Ban {{this.firstName}} ?')">Unban</a>
+                        <a href="/admin/unbanUser/{{this._id}}" class="btn btn-success btn-sm" onclick="return confirm('Are you sure to UnBan {{this.firstName}} ?')">Unban</a>
                       {{/if}}
                     </div>
                   </td>

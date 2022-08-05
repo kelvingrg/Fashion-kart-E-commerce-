@@ -1,0 +1,339 @@
+<section>
+			<!-- MY-ACCOUNT-AREA START -->
+            <!-- CSS only -->
+<!-- MY-ACCOUNT-AREA START -->
+			<div class="my-account-area">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="panel-group  margin-btm-0" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#personal-info" aria-expanded="true">
+											<i class="pe-7s-bookmarks"></i>
+											<span>My Personal Information</span>
+											</a>
+										</h4>
+									</div>
+									<div id="personal-info" class="panel-collapse collapse in" role="tabpanel">
+										<div class="panel-body">
+											<form  id="personalDataUpdate">
+												<div class="row">
+													<div class="col-md-12">
+														<div class="billing-address">
+															<div class="row">
+										<div class="col-sm-6">
+											<input type="text" class="custom-form" name="firstName" value="{{user.firstName}}" id="firstName" onfocusout="validateFirstName()" />
+											<label for="fisrtName" id="labelname" ></label>
+											<i class="fa fa-check" aria-hidden="true" style=" color:green" id="tick"></i>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" class="custom-form"  name="lastName" id="lastName"value="{{user.lastName}}" onfocusout="validateSecondName()"/>
+											<label for="fisrtName" id="labellastname" ></label>
+										</div>
+
+										
+										
+									</div>
+                                                            
+
+
+									                           
+															<div class="row">
+																<div class="col-md-12">
+																	<input type="text" class="custom-form"  name="address"value="{{user.address}}" />
+																</div>
+															</div>
+															<div class="row">
+										<div class="col-sm-6">
+											<select class="custom-select custom-form" name="city" >
+												<option>{{user.city}}</option>
+												<option>Dhaka</option>
+												<option>New York</option>
+												<option>London</option>
+												<option>Melbourne</option>
+											</select>
+										</div>
+										<div class="col-sm-6">
+											<select class="custom-select custom-form" name='country'>
+												<option>{{user.city}}</option>
+												<option>Bangladesh</option>
+												<option>United States</option>
+												<option>United Kingdom</option>
+												<option>Australia</option>
+											</select>
+										</div>
+									</div>
+															<div class="row">
+										<div class="col-sm-6">
+											<label for="mobile" class="custom-form"  >{{user.mobileNumber}}</label>
+											
+											
+										</div>
+										<div class="col-sm-6">
+											<input type="text" class="custom-form"  name="pinCode" id="pinCode"value="{{user.pinCode}}"onfocusout="validatePinCode()"/>
+											<label for="mobileNumber" id="labelPin" ></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+                                    <label for="email" class="custom-form">{{user.email}}</label>
+										</div>
+										</div>
+									
+															
+															
+															<div class="row">
+																<div class="col-md-12">
+																	<input type="submit" class="custom-submit-2 save" value="Update" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+
+                                
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#shipping-info" aria-expanded="false">
+											<i class="pe-7s-cart"></i>
+											<span>My shipping address</span>
+											</a>
+										</h4>
+									</div>
+									<div id="shipping-info" class="panel-collapse collapse" role="tabpanel">
+										<div class="panel-body">
+											<!-- CHECKOUT-AREA START -->
+											<div class="checkout-area">
+												<form action="#">
+													<div class="row">
+														<!-- Shipping-Address Start -->
+														<div class="col-md-12">
+															<div class="shipping-address">
+																<div class="row">
+																	<div class="col-md-12">
+																		<select class="custom-select custom-form">
+																			<option>Select Delivery Method</option>
+																			<option>Select Delivery Method</option>
+																			<option>Select Delivery Method</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<input class="custom-form" type="text" placeholder="Subash" name="firstname"/>
+																	</div>
+																	<div class="col-md-6">
+																		<input class="custom-form" type="text" placeholder="Chandra" name="lastname"/>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<input type="text" class="custom-form" placeholder="Address" />
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<select class="custom-select custom-form">
+																			<option>City</option>
+																			<option>Dhaka</option>
+																			<option>New York</option>
+																			<option>London</option>
+																			<option>Melbourne</option>
+																		</select>
+																	</div>
+																	<div class="col-md-6">
+																		<select class="custom-select custom-form">
+																			<option>Country</option>
+																			<option>Bangladesh</option>
+																			<option>United States</option>
+																			<option>United Kingdom</option>
+																			<option>Australia</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+																		<input class="custom-form" type="text" placeholder="Phone Number" />
+																	</div>
+																	<div class="col-md-6">
+																		<select class="custom-select custom-form">
+																			<option>Post Code</option>
+																			<option>012345</option>
+																			<option>0123456</option>
+																			<option>01234567</option>
+																			<option>012345678</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<input type="text" class="custom-form" placeholder="Email" name="email" />
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-md-12">
+																		<textarea class="custom-form" placeholder="Order Note"></textarea>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- Shipping-Address End -->
+													</div>
+												</form>
+											</div>
+											<!-- CHECKOUT-AREA END -->								
+										</div>
+									</div>
+								</div>
+
+                                 <div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a role="button" data-toggle="collapse" data-parent="#accordion" href="#password-info" aria-expanded="false">
+											<i class="pe-7s-settings"></i>
+											<span>Password Reset</span>
+											</a>
+										</h4>
+									</div>
+									<div id="password-info" class="panel-collapse collapse" role="tabpanel">
+										<div class="panel-body">
+										
+											<div class="checkout-area">
+												<form id="passwordReset" >
+													<div class="row">
+														
+														<div class="col-md-12">
+														    <input type="text" class="custom-form" placeholder="old password" name="oldPassword" />
+														</div>
+															<div class="col-md-12">
+															<input type="text" class="custom-form" placeholder="New passWord" id="password" />
+														</div>
+                                                        <div class="col-md-12">
+															<input type="passwowrd" class="custom-form" placeholder="Repeat Password" name="password" id="confirmPassword" onfocusout="validatePassword()" />
+														</div>
+                                                        <label for="password" id="labelPassword" ></label>
+                                                        <div class="col-sm-6">
+											<input type="submit" class="custom-submit-2 save" value="Reset Password" id="resetPasswordSubmit" style="visibility: hidden;"/>
+											<label for="mobileNumber" id="labelPin" ></label>
+										</div>
+														</div>
+														
+													
+												</form>
+                                               
+											</div>
+											<!-- CHECKOUT-AREA END -->								
+										</div>
+									</div>
+								</div>
+
+							</div>					
+						</div>
+
+						
+						<div class="col-sm-6">
+							<div class="panel-group margin-btm-0" >
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a href="wishlist.html" >
+											<i class="pe-7s-like"></i>
+											<span>My Wishlist Information</span>
+											</a>
+										</h4>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a href="cart.html">
+											<i class="pe-7s-news-paper"></i>
+											<span>Order history and details</span>
+											</a>
+										</h4>
+									</div>
+								</div>
+							</div>					
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- MY-ACCOUNT-AREA END -->
+			<!-- BRAND-LOGO-AREA START -->
+			<div class="brand-logo-area margin-bottom-80">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-5 col-sm-12">
+							<div class="brand-brief">
+								<h2 class="border-left-right">they are with us</h2>
+								<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
+							</div>
+						</div>
+						<div class="col-md-7 col-sm-12">
+							<div class="brand-logo fix">
+								<div class="single-logo">
+									<img src="img/brand/1.png" alt="" />
+								</div>
+								<div class="single-logo">
+									<img src="img/brand/2.png" alt="" />
+								</div>
+								<div class="single-logo">
+									<img src="img/brand/3.png" alt="" />
+								</div>
+								<div class="single-logo">
+									<img src="img/brand/4.png" alt="" />
+								</div>
+								<div class="single-logo">
+									<img src="img/brand/5.png" alt="" />
+								</div>
+								<div class="single-logo">
+									<img src="img/brand/6.png" alt="" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- BRAND-LOGO-AREA END -->
+		</section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/javascripts/myjs/ajaxFile.js"></script>
+		<!-- PAGE-CONTENT END -->
+		<script src="/javascripts/myjs/myjs.js"></script>
+		 <script src="/js/vendor/jquery-1.12.0.min.js"></script>
+		<!-- bootstrap js -->
+        <script src="/js/bootstrap.min.js"></script>
+		<!-- jquery.nivo.slider js -->
+        <script src="/lib/js/jquery.nivo.slider.js"></script>
+        <script src="/lib/home.js"></script>
+		<!-- owl.carousel js -->
+        <script src="/js/owl.carousel.min.js"></script>
+		<!-- meanmenu js -->
+        <script src="/js/jquery.meanmenu.js"></script>
+		<!-- jquery-ui js -->
+        <script src="/js/jquery-ui.min.js"></script>
+		<!-- lightbox.min js -->
+        <script src="/js/lightbox.min.js"></script>
+		<!-- countdon.min js -->
+        <script src="/js/countdon.min.js"></script>
+		<!-- wow js -->
+        <script src="/js/wow.min.js"></script>
+		<script type="text/javascript">
+			new WOW().init();
+		</script>
+		<!-- plugins js -->
+        <script src="/js/plugins.js"></script>
+		<!-- main js -->
+        <script src="/js/main.js"></script>
+
+		
+		
+   
+</section>

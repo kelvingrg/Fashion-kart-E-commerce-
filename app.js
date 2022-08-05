@@ -26,28 +26,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret:"key",
-resave:false,
-saveUninitialized:true,
+resave:true,
+saveUninitialized:true,rolling:true,
   cookie: { maxAge: 5000000 }
 }))
 
 app.use(express.static(__dirname + "/images"));
 
-// app.use((req, res, next) => {
+app.use((req, res, next) => {
 
-//   if (!req.user) {
-//     res.header("cache-control", "private,no-cache,no-store,must revalidate");
-//     res.header("Express", "-3");
-//   }
-//   next();
-// });
-// app.use((req, res, next) => {
-//   if (!req.admin) {
-//     res.header("cache-control", "private,no-cache,no-store,must revalidate");
-//     res.header("Express", "-3");
-//   }
-//   next();
-// });
+  if (!req.user) {
+    res.header("cache-control", "private,no-cache,no-store,must revalidate");
+    res.header("Express", "-9");
+  }
+  next();
+});
+app.use((req, res, next) => {
+  if (!req.admin) {
+    res.header("cache-control", "private,no-cache,no-store,must revalidate");
+    res.header("Express", "-9");
+  }
+  next();
+});
 
 app.use('/admin', adminRouter);
 app.use('/', usersRouter);

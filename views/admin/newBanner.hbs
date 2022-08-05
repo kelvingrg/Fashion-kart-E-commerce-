@@ -1,0 +1,120 @@
+<body>
+	<div class="container-fluid "  style="margin-top:13% ">
+   <div class="row">
+   <div class="col-md-9">
+   <div class="col-sm-9" >
+     
+        {{!-- <div class="new-customers">
+             <h2 class="login-title text-center">CURRENT BANNER</h2>
+            <div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 1</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
+               </div>
+            </div>
+			<div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
+               </div>
+            </div>
+			<div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
+               </div>
+            </div>
+           
+           <div class="row">
+			<div class="col-md-4">
+				<img src="" alt="sd">
+			</div>
+			<div class="col-md-4">
+				<img src="" alt="sds">
+			</div>
+			<div class="col-md-4">
+				<img src="" alt="sdS">
+			</div>
+		   </div>
+           
+            
+         </div>--}}
+		<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Banner Title 1 </th>
+      <th scope="col">Banner Title 2</th>
+      <th scope="col">Banner Title 3</th>
+      <th scope="col">Image 1 </th>
+	 <th scope="col">Image 2</th>
+	 <th scope="col">Image 3</th>
+		
+		 <th scope="col">status </th>
+    </tr>
+  </thead>
+  <tbody>
+	{{#each bannerData}}
+    <tr>
+      <td>{{this.bannerTitle1}}</td>
+	   <td>{{this.bannerTitle2}}</td>
+	    <td>{{this.bannerTitle2}}</td>
+		 <td><img src="/{{this.images.[0]}}" alt=""></td>
+		  <td><img src="/{{this.images.[1]}}" alt=""></td>
+		   <td><img src="/{{this.images.[2]}}" alt=""></td>
+
+    
+    </tr>
+   {{/each}}
+   
+  </tbody>
+</table>
+
+
+
+ 
+   </div> 
+   </div>
+   <div class="col-md-3">
+      <div class="col-sm-9 " >
+         <form action="/admin/addBanners" method="POST" enctype="multipart/form-data">
+              <div class="new-customers">
+            <h2 class="login-title text-center">NEW BANNER</h2>
+            <div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 1</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
+               </div>
+            </div>
+			<div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle2"  id="bannerTitle2" />
+               </div>
+            </div>
+			<div class="row">
+               <div class="col-sm-12">
+                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
+                  <input type="text" class="custom-form" value="" name="bannerTitle3"  id="bannerTitle3" />
+               </div>
+            </div>
+           
+          <div class="row">
+               <div class="col-sm-12">
+                  <label for="files" id="labelname" > Upload Images</label>
+                  <input  type="file" class="custom-form" placeholder="Images" name="images" id="images" multiple/>
+               </div>
+            </div>
+           
+            
+         </div>
+             
+               <div class="row">
+                  <input type="submit" class="custom-form custom-submit no-margin text-center" value="Update new Banner"  />
+               </div>
+            </div>
+         </form>
+      </div>
+	  </div>
+	  </div>
+
+</body>

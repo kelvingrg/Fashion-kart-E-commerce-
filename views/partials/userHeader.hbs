@@ -10,11 +10,11 @@
 								<ul>
 									<li>
 										<i class="sp-phone"></i>
-										<span>+019 (111) 25184203</span>
+										<span>+91 8281665008</span>
 									</li>
 									<li>
 										<i class="sp-email"></i>
-										<span>Company@domain.com</span>
+										<span>kelvin@domain.com</span>
 									</li>
 								</ul>
 							</div>
@@ -25,7 +25,7 @@
 							
 									<li><a href="#">{{#if user}} {{user.firstName}} {{else}}Account{{/if}} <span><i class="sp-gear"></i></span></a>
 										<ul class="submenu">
-											<li><a href="/singleProduct">My Account</a></li>
+											<li><a href="/myAccount">My Account</a></li>
 											<li><a href="#">Wishlist</a></li>
 											<li><a href="#">Checkout</a></li>
 											{{#if user}}
@@ -64,7 +64,8 @@
 									<ul>
 										<li><a href="/">home</a></li>
 										<li><a href="/productsVeiw">mens</a></li>
-										<li><a href="shop.html">womens</a></li>
+										<li><a href="/productsVeiw">womens</a></li>
+										<li><a href="/productsVeiw">kids</a></li>
 										<li><a href="blog.html">blog</a>
 											<ul class="submenu">
 												<li class="submenu-title"><a href="#">Blog pages</a></li>
@@ -99,12 +100,12 @@
 							<div class="total-cart">
 								<ul>
 									<li>
-										<a href="#">
-											<span class="total-cart-number">2 Item</span>
+										<a href="/cartPage">
+											<span class="total-cart-number" id="cartCount">{{user.cartCount}}</span>
 											<span><i class="sp-shopping-bag"></i></span>
 										</a>
 										<!-- Mini-cart-content Start -->
-										<div class="total-cart-brief">
+										{{!-- <div class="total-cart-brief">
 											<div class="cart-photo-details">
 												<div class="cart-photo">
 													<a href="#"><img src="img/total-cart/1.jpg" alt="" /></a>
@@ -135,7 +136,7 @@
 											<div class="cart-inner-btm">
 												<a href="#">Checkout</a>
 											</div>
-										</div>
+										</div> --}}
 										<!-- Mini-cart-content End -->
 									</li>
 								</ul>

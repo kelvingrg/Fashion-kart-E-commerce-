@@ -1,0 +1,30 @@
+<body>
+  <div class=" w-25 " style="margin-left:38% ;margin-top:13% ">
+    <form action="/admin/addCatagory" method="POST">
+      <div class="new-customers">
+        <h2 class="login-title text-center">ADD CATAGORY</h2>
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="mobileNumber" id="labelMobile" >Add Catagoty</label>
+            <input type="text" class="custom-form" name="catagory" id="catagory"/>
+          </div>
+        </div>
+        <button class="float-right btn btn-success" onclick="addSubCatagories()">+</button>
+        <label for="mobileNumber" id="labelMobile" >Sub Catagory </label>
+        <div class="row">
+          <div class="col-sm-12" id="addSubCatagory">
+            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
+            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
+            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
+            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
+            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
+          </div>
+        </div>
+        <div class="row">
+          <input type="submit" class="custom-form custom-submit no-margin text-center" value="Add Catagory"/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="/javascripts/myjs/ajaxFile.js"></script>
+</body>

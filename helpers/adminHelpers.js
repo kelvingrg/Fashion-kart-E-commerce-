@@ -57,5 +57,42 @@ module.exports = {
  
   });
 
-  }
-};
+  },
+  // add banner 
+addBanner: (bannerDetails) => {
+  return new Promise(async (resolve, reject) => {
+    await db
+      .get()
+      .collection(collection.BANNER_COLLECTION)
+      .insertOne(bannerDetails)
+      .then((data) => {
+        resolve(data);
+      });
+  });
+},
+//get banner 
+getBanner: () => {
+  return new Promise(async (resolve, reject) => {
+   let data= await db
+      .get()
+      .collection(collection.BANNER_COLLECTION)
+      .find().toArray()
+      
+        resolve(data);
+     
+    })
+
+},
+getBannerOne: () => {
+  return new Promise(async (resolve, reject) => {
+    let data= await db
+      .get()
+      .collection(collection.BANNER_COLLECTION)
+      .find().toArray()
+       
+      resolve(data)
+
+      })
+        
+}
+}

@@ -6,6 +6,7 @@
 							<form action="/admin/addProduct" method="post" enctype="multipart/form-data">
 								<div class="registered-customers">
 									<h2 class="login-title text-center">Add Product</h2>
+			
 									<div class="registered">
 										<div class="row">
 											<div class="col-md-12">
@@ -22,17 +23,41 @@
 												<input type="text" class="custom-form " name="offerPrice" placeholder="Offer Price" id="offerPrice" />
 											</div>
 										</div>
+
 										<div class="row">
-											<div class="col-md-6">
-												<input  type="text" class="custom-form" placeholder="Catagory" name="catagory" id="catagory"/>
-                    
-											</div>
-											<div class="col-md-6">
-												<input  type="text" class="custom-form" placeholder="Sub Catagory" name="subCatagory" id="subCatagory"/>
-                    
-											</div>
-                                            
-									 </div>
+											
+										<div class="col-sm-6">
+											<label for="subCatagory">Catagory</label>
+											<select class=" custom-form" id="mainCatagory" name="catagory" onchange="callSubCatagory()">
+												<option value="">select       ⧨ </option>
+												{{#each catData}}
+												<option>{{this.catagory}}</option>
+												{{/each}}
+											</select>
+										</div>
+										<div class="col-sm-6">
+															<label for="subCatagory">Sub-Catagory</label>
+															
+											<select class=" custom-form" id="subCatagory" name="subCatagory">
+												
+												
+												<option value="" id="temporarySubCat">select       ⧨ </option>
+												
+
+																	
+											</select>
+										</div>
+									</div>
+
+
+
+													
+												
+
+
+
+
+							
                                       	{{!--  <div class="row">
 											<div class="col-md-12">
 												<input type="text" class="custom-form" name="email" placeholder="Email Address" id="email" />
@@ -63,5 +88,6 @@
 					</div>
 				</div>
 			</div>
+			<script src="/javascripts/myjs/ajaxFile.js"></script>
 			<!-- LOGIN-AREA END -->
 		

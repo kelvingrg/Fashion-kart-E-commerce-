@@ -73,6 +73,8 @@ function validatePassword(){
         document.getElementById("labelPassword").style.visibility="visible";
         document.getElementById("labelPassword").style.color="green";
         pass=true
+        document.getElementById("resetPasswordSubmit").style.visibility="visible";
+  
     
     }
     else{
@@ -80,6 +82,7 @@ function validatePassword(){
 document.getElementById("labelPassword").style.visibility="visible";
 document.getElementById("labelPassword").style.color="red";
 pass=false
+document.getElementById("resetPasswordSubmit").style.visibility="hidden";
 }
     }
 
@@ -125,7 +128,6 @@ document.getElementById(labelname).style.color="red";
 }
 
 function otpPage(){
-   console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaiiiiiiiiiiiiiiiiiii');
     var text=document.getElementById("mobileNumber").value;
     var regx=/^([0-9]{10})+$/;
     if(regx.test(text))
@@ -140,6 +142,5 @@ function otpPage(){
     }
 
 }
-   
-        document.getElementById("otpVerify").style.visibility="visible";
-  
+
+       

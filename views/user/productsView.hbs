@@ -195,13 +195,13 @@
 											<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 												<div class="single-product">
 													<div class="product-photo">
-														<a href=""/singleProduct/{{this._id}}">
+														<a href="/singleProduct/{{this._id}}">
 															<img class="primary-photo" src="/{{this.images.[0]}}" alt="" />
 															<img class="secondary-photo" src="{{this.images.[0]}}" alt="" />
 														</a>
 														<div class="pro-action">
 															<a href="#" class="action-btn"><i class="sp-heart"></i><span>Wishlist</span></a>
-															<a href="#" class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a>
+															<button onclick="addToCart('{{this._id}}')"><a class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a></button>
 															<a href="#" class="action-btn"><i class="sp-compare-alt"></i><span>Compare</span></a>
 														</div>
 													</div>
@@ -492,7 +492,21 @@
 		</section>
 		<!-- PAGE-CONTENT END -->
 		
-	
+		{{!-- <script>
+			function addToCart(prodId){
+    alert('i reacehd at ajax ')
+    $.ajax({
+        url:'/addToCart/'+prodId,
+        method:'get',
+        success:(response)=>{
+            alert(response)
+        }
+
+    })
+    
+    
+}
+		</script> --}}
 		
 	<!-- all js here -->
 		<!-- jquery latest version -->

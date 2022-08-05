@@ -3072,7 +3072,7 @@ h3.widget-title-modal {
 .table-content table td.product-subtotal {
   font-size: 14px;
   font-weight: bold;
-  width: 120px;
+  width: 110px;
 }
 .table-content table td.product-name a {
   font-size: 14px;
@@ -3101,6 +3101,9 @@ h3.widget-title-modal {
 }
 .product-remove {
   width: 90px;
+}
+.product-quantity{
+  width: 140px;
 }
 .coupon {
   margin-bottom: 50px;
