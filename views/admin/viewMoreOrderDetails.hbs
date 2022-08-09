@@ -1,0 +1,197 @@
+ <!-- DataTables -->
+    <link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Order Detailed Data</h4>
+                    </div>
+                   
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div class="card m-b-30">
+                        <div class="card-body">
+                            <div class="row">
+                                 <div class="invoice-title">
+                                        <h4 class="float-right font-16"><strong>Order id: </strong></h4>
+                                        <h3 class="m-t-0">
+                                            {{!-- <img src="/assets/images/logo-dark.png" alt="logo" height="24"/> --}}
+                                        </h3>
+                                    </div>
+                                <div class="col-12">
+                                   
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <address>
+                                                <strong>Billed To:</strong><br>
+                                              
+                                                {{detailedOrder.userData.firstName}} {{detailedOrder.userData.lastName}}<br>
+                                                {{detailedOrder.userData.address}}<br>
+                                                {{detailedOrder.userData.city}} <br>
+                                                 {{detailedOrder.userData.country}} <br>
+                                                  {{detailedOrder.userData.pinCode}} <br>
+                                                  {{detailedOrder.userData.mobileNumber}} <br>
+                                                  
+                                            </address>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <address>
+                                                <strong>Shipped To:</strong><br>
+                                               <br>
+                                                {{detailedOrder.orderData.[0].deliveryDetails.name}}<br>
+                                                {{detailedOrder.orderData.[0].deliveryDetails.address}}<br>
+                                               {{detailedOrder.orderData.[0].deliveryDetails.city}}, 
+                                               {{detailedOrder.orderData.[0].deliveryDetails.state}}<br>
+                                               {{detailedOrder.orderData.[0].deliveryDetails.country}}<br>
+                                               {{detailedOrder.orderData.[0].deliveryDetails.pin}}<br>
+                                              mob: {{detailedOrder.orderData.[0].deliveryDetails.mobileNumber}}<br>
+                                              
+                                            </address>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 m-t-30">
+                                            <address>
+                                                <strong>Payment Method:</strong><br>
+                                                 {{detailedOrder.orderData.[0].paymnetMethod}}<br>
+                                             
+                                            </address>
+                                        </div>
+                                        <div class="col-6 m-t-30 text-right">
+                                            <address>
+                                                <strong>Order Date:</strong><br>
+                                                 {{detailedOrder.orderData.[0].date}}<br><br>
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="panel panel-default">
+                                        <div class="p-2">
+                                            <h3 class="panel-title font-20"><strong>Order summary</strong></h3>
+                                        </div>
+                                        <div class="">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <td><strong>Item</strong></td>
+                                                       
+                                                        </td>
+                                                        <td class="text-center"><strong>Catagory</strong>
+                                                        </td>
+                                                        <td class="text-center"><strong>Sub Catagory</strong>
+                                                         <td class="text-center"><strong>Price</strong></td>
+                                                        <td class="text-center"><strong>Quantity</strong>
+                                                        </td>
+                                                        {{!-- <td class="text-right"><strong>Totals</strong></td> --}}
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                                    {{#each detailedOrder.productData}}
+                                                    <tr>
+                                                        <td> {{this.product.[0].productTitle}}</td>
+                                                        <td class="text-right"> {{this.product.[0].catagory}}</td>
+                                                        <td class="text-right"> {{this.product.[0].subCatagory}}</td>
+                                                        <td class="text-center"> {{this.product.[0].offerPrice}}</td>
+                                                        <td class="text-center"> {{this.quantity}}</td>
+                                                    </tr>
+                                                    {{/each}}
+                                                   
+                                                    {{!-- <tr>
+                                                        <td class="thick-line"></td>
+                                                        <td class="thick-line"></td>
+                                                        <td class="thick-line"></td>
+                                                        <td class="thick-line"></td>
+                                                        <td class="thick-line text-center">
+                                                            <strong>Subtotal</strong></td>
+                                                        <td class="thick-line text-right"></td>
+                                                    </tr> --}}
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                   
+                                                       
+                                                        <td class="no-line text-center">
+                                                            <strong>Shipping</strong></td>
+                                                        <td class="no-line text-right">00</td>
+                                                         <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                       
+
+                                                        <td class="no-line text-center">
+                                                            <strong>Total</strong></td>
+                                                        <td class="no-line text-right"><h4 class="m-0">Rs: {{detailedOrder.orderData.[0].totalAmount}}</h4></td>
+                                                    <td class="no-line"></td>
+                                                        <td class="no-line"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="d-print-none mo-mt-2">
+                                                <div class="float-right">
+                                                    <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light">Print</a>
+                                                    {{!-- <a href="#" class="btn btn-primary waves-effect waves-light">Send</a> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> <!-- end row -->
+
+                        </div>
+                        
+                    </div>
+                 
+                </div> <!-- end col -->
+            </div> <!-- end row -->  
+
+        </div>
+        <!-- end container-fluid -->
+    </div>
+    <!-- end wrapper -->
+
+    <!-- jQuery  -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/jquery.slimscroll.js"></script>
+    <script src="/assets/js/waves.min.js"></script>
+
+    <!-- App js -->
+    <script src="/assets/js/app.js"></script>
+
+</body>
+
+</html>

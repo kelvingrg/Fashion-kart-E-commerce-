@@ -33,9 +33,9 @@
 												<td class="product-name"><a href="#">{{this.product.productTitle}}</a></td>
 												<td class="product-edit"><a href="#">Edit</a></td>
 												<td class="product-price"><span class="amount">{{this.product.offerPrice}}</span></td>
-												<td class="product-quantity product-remove"><button name="{{this.product._id}}" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"><i class="pe-7s-less"></i></button> <button  id="{{this.product._id}}">{{this.quantity}}</button><button onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"><i class="pe-7s-plus"></i></button></td>
+												<td class="product-quantity product-remove"><button name="{{this.product._id}}" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)"><i class="pe-7s-less"></i></button> <button  id="{{this.product._id}}">{{this.quantity}}</button><button onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)"><i class="pe-7s-plus"></i></button></td>
 												<td class="product-subtotal">$350.00</td>
-												<td class="product-remove"><a href="#"><i class="pe-7s-close"></i></a></td>
+												<td class="product-remove"><button onclick="deleteProduct('{{this.product._id}}','{{../user._id}}')"><i class="pe-7s-close"></i></button> </td>
 											</tr>
 											{{/each}}
 										</tbody>
@@ -60,7 +60,7 @@
 													<tbody class="cart-totals-list">
 														<tr>
 															<th>Subtotal</th>
-															<td>$700.00</td>
+															<td id="totalValue">{{totalCost.[0].total}}</td>
 														</tr>
 														<tr>
 															<th>Discount</th>
@@ -77,7 +77,7 @@
 													</tbody>
 												</table>
 												<div class="we-proceed-to-checkout">
-													<a href="#">proceed to chackout</a>
+													<a href="/checkOut">proceed to checkout</a>
 												</div>
 											</div>
 										</div>

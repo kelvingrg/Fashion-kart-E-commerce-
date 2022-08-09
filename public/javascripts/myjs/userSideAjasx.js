@@ -1,5 +1,6 @@
-const { get } = require("jquery")
 
+
+// adding to cart 
 function addToCart(prodId){
     
     $.ajax({
@@ -26,8 +27,10 @@ function addToCart(prodId){
     })
     
     
-}
-function changeQuantity(cartId,prodId,count){
+} 
+
+// change Quantity of in cart page 
+function changeQuantity(cartId,prodId,userId,count){
   event.preventDefault();
 
   quantity=parseInt(document.getElementById(prodId).innerHTML)
@@ -37,12 +40,14 @@ function changeQuantity(cartId,prodId,count){
       data:{
         cart: cartId,
         product:prodId,
+        user:userId,
         count:count
       },
       method:'post',
       success:(response)=>{
         document.getElementById(prodId).innerHTML=quantity+count
-    }
+        document.getElementById("totalValue").innerHTML=response.total[0].total
+      }
     })
   }
   else if(count==1){
@@ -51,15 +56,52 @@ function changeQuantity(cartId,prodId,count){
       data:{
         cart: cartId,
         product:prodId,
+        user:userId,
         count:count
       },
       method:'post',
       success:(response)=>{
+        console.log(response)
         document.getElementById(prodId).innerHTML=quantity+count
+        document.getElementById("totalValue").innerHTML=response.total[0].total
+       
     }
     })
 
   }
 }
 
-  
+$("#placeOrder").submit((event) => {
+  event.preventDefault();
+  alert('order Placed')
+  $.ajax({
+    url: "/placeOrder",
+    method: "post",
+    data: $("#placeOrder").serialize(),
+    success: (response) => {
+    
+    alert('hai')
+   window.location.href = '/orderHistory'
+    },
+  });
+});
+
+
+// delete product from cart 
+function deleteProduct(prodId,userId){
+  $.ajax({
+     
+    url:'/deleteOneCarProduct',
+    data:{
+      prodId:prodId,
+      userId:userId
+    },
+    method:'post',
+    success:(response)=>{
+        console.log(response.status)
+        if(response.status){
+
+}
+}
+})
+}

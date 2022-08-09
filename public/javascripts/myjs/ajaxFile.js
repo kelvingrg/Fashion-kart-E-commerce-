@@ -36,7 +36,7 @@ $("#personalDataUpdate").submit((event) => {
     },
   });
 });
-
+//
 function callSubCatagory() {
   var cata = document.getElementById("mainCatagory").value;
   $.ajax({
@@ -48,7 +48,7 @@ function callSubCatagory() {
     success: (response) => {
     //  let temporary=document.querySelectorAll("#subCatagory")
     //   temporary.removeChild("temporarySubCat")
-    $("#subCatagory option[id='temporarySubCat']").remove();
+    $("#subCatagory option[id='temporarySubCat']").remove(); // to delete existing subcatagories
       let select = document.querySelector("#subCatagory");
       for (let i = 0; i < response.length; i++) {
         var opt = document.createElement("option");
@@ -60,7 +60,7 @@ function callSubCatagory() {
     }
   });
 }
-
+// to add subcatagories
   function addSubCatagories() {
     event.preventDefault();
   
@@ -89,3 +89,55 @@ console.log(cata);
 
 })
 }
+
+function moreDetails(orderId,userId){
+
+ 
+  event.preventDefault();
+console.log(orderId,userId);
+  $.ajax({
+    url: "/admin/orderDepthDetails",
+    data: {
+      orderId:orderId,
+      userId:userId
+    },
+    method: "post",
+
+    success: (response) => {
+ 
+
+      window.location.href = '/admin/viewMoreOrderDetails'
+      
+    }
+
+})
+}
+
+
+
+// cancel order 
+
+function cancelOrder(orderId){
+
+ 
+  event.preventDefault();
+console.log(orderId)
+alert('are you sure to cancel this Order')
+  $.ajax({
+    url: "/admin/cancelOrder",
+    data: {
+      orderId:orderId,
+    },
+    method: "post",
+
+    success: (response) => {
+      window.location.reload();
+ 
+
+     
+      
+    }
+
+})
+}
+

@@ -94,5 +94,71 @@ getBannerOne: () => {
 
       })
         
+},
+getOrderDetails:()=>{
+  return new Promise(async(resolve,reject)=>{
+    await db.get().collection(collection.ORDER_COLLECTION).find().toArray().then((response)=>{
+      resolve(response)
+    })
+  })
+},
+getAllOrderDetails:(orderId,userId)=>{
+  let response={}
+ 
+  return new Promise(async(resolve,reject)=>{
+   
+response.userData=await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
+
+ response.productData= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+      {
+        $match:{_id:objectId(orderId)}
+      }, 
+      {
+        $unwind: '$products'
+    },
+    {
+      $project: {
+          item: '$products.item',
+          quantity: '$products.quantity'
+         
+
+
+      }
+  }, {
+    $lookup: {
+        from: collection.PRODUCT_COLLECTION,
+        localField: 'item',
+        foreignField: '_id',
+        as: 'product'
+
+    }
+},
+
+    
+    ]).toArray()
+
+      response.orderData= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+        {
+          $match:{_id:objectId(orderId)}
+        },{
+          $project:{deliveryDetails:1, paymnetMethod:1,totalAmount:1,status:1,date:1}
+        }
+      ]).toArray()
+
+
+      resolve( response)
+    })
+},
+cancelOrder:(orderId)=>{
+  return new Promise(async(resolve,reject)=>{
+    console.log(orderId,'reached at helpers ');
+    db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId.orderId)},{$set:{status:'cancelled',cancellation:true}})
+      
+  
+  })
+  
 }
+
+
 }
+

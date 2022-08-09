@@ -1,0 +1,124 @@
+
+    <!-- DataTables -->
+    <link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Order Management</h4>
+                    </div>
+                    
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+
+                            
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Order Id</th>
+                                    <th>Total Quantity</th>
+                                    <th>Total Amount</th>
+                                    <td>Payment Method</td>
+                                    <th>Status</th>
+                                    <th>wesd</th>
+                                    <th>Salary</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    {{#each orderDetails}}
+                                <tr>
+                                  
+                                    <td>{{this.date}}</td>
+                                    <td>{{this._id}}</td>
+                                    <td>{{this.products.length}}</td>
+                                    <td>{{this.totalAmount}}</td>
+                                    <td>{{this.paymnetMethod}}</td>
+                                    <td>{{this.status}}
+                                    </td>
+                                    <td><button type="button" class="btn btn-default btn-sm" onclick="moreDetails('{{this._id}}','{{this.userId}}')">
+          <span class="glyphicon glyphicon-arrow-right"></span> More Details
+        </button></a> </td>
+                                   {{#if this.cancellation}}
+                                    <td><button class="btn btn-dark" >Cancelled</button></td>
+                                   {{else}}
+                                    <td><button class="btn btn-danger" onclick="cancelOrder('{{this._id}}')">Cancel</button></td>
+                                 {{/if}}
+                                </tr>
+                                {{/each}}
+                               
+                                </tbody>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+           
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->  
+
+        </div>
+        <!-- end container-fluid -->
+    </div>
+    <!-- end wrapper -->
+
+
+   
+    <!-- End Footer -->
+
+    <!-- jQuery  -->
+    <script src="/public/javascripts/myjs/ajaxFile.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/jquery.slimscroll.js"></script>
+    <script src="/assets/js/waves.min.js"></script>
+
+    <!-- Required datatable js -->
+    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons amples -->
+    <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables/jszip.min.js"></script>
+    <script src="/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsi examples -->
+    <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="/assets/pages/datatables.init.js"></script>  
+
+    <!-- App js -->
+    <script src="/assets/js/app.js"></script>
+
+</body>
+
+</html>
