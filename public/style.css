@@ -3036,6 +3036,32 @@ h3.widget-title-modal {
   text-align: center;
   width: 100%;
 }
+.orderViewheader{
+  background: #333333 none repeat scroll 0 0;
+  color: #fff;
+  margin: 50Px 0 0;
+  padding: 13px 10px;
+  text-overflow: ellipsis;
+}
+.orderViewheader label{
+  margin-left: 2%;
+}
+.orderViewheader button {
+  margin-inline: 2%;
+}
+.shipaddress{
+
+  text-align: end;
+  line-height:normal,
+  
+}
+.shipaddress p{
+  margin : 0 0 0px !important;
+}
+.billaddress p{
+  margin : 0 0 0px !important; 
+}
+
 .table-content thead {
   background: #333333 none repeat scroll 0 0;
   color: #fff;
@@ -3184,16 +3210,28 @@ h3.widget-title-modal {
 }
 .wishlist-table .product-add-to-cart {
   width: 180px;
+  opacity: 20;
 }
 .wishlist-table .product-add-to-cart a {
-  background: #000 none repeat scroll 0 0;
+  background: rgb(226, 243, 99) ;
   color: #fff;
   display: inline-block;
   font-weight: 700;
   padding: 10px 20px;
 }
+  .wishlist-table .orderViewMore button {
+    background: rgb(125, 126, 121) ;
+    color: #fff;
+    display: inline-block;
+    font-weight: 700;
+    padding: 10px 20px;
+
+}
 .wishlist-table .product-add-to-cart a:hover {
   background: #f6416c none repeat scroll 0 0;
+}
+  .wishlist-table .orderViewMore button:hover {
+    background: #f6416c none repeat scroll 0 0;
 }
 .shopping-cart-area.wishlist-area {
   margin-bottom: 30px;

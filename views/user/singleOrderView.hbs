@@ -1,0 +1,65 @@
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+            <div class="orderViewheader ">
+                <label for="ordrerId" class="">Order Id: {{singleOrderData.orderData.[0]._id}}
+                </label> <label for=""><p>Total Billed Amount:   {{singleOrderData.orderData.[0].totalAmount}}</p></label>
+                </label> <label for="">payment method:  {{singleOrderData.orderData.[0].paymnetMethod}}</label>
+                {{#if singleOrderData.orderData.[0].cancellation}}
+                <span class="btn btn-warning">Cancelled</span>
+                {{else}}
+                 <button class="btn btn-default navbar-right"  >cancel</button>
+               
+                <label for="invoice" class="navbar-right" style="" >
+                    
+                    <a href="" style="color: blue;">invoice</a>
+                </label>
+                {{/if}}
+               </div>
+               <div class="row">
+                
+                <div class="col-md-6 billaddress">
+<label for="">Billing Address</label>
+<p>{{user.firstName}} {{user.lastName}}</p>
+<p>{{user.address}}</p>
+<p>{{user.city}}</p>
+<p>{{user.country}}</p>
+<p>{{user.pinCodee}}</p>
+                </div>
+                <div class="col-md-6   shipaddress">
+<label for="">Shipping address</label>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.address}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.city}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.state}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.country}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.pin}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.mobileNumber}}</p>
+<p>{{singleOrderData.productData.[0].quantity}}</p>
+                </div>
+                
+               </div>
+            </div>
+
+            <table class="table table-striped">
+
+                <tbody>
+                    {{#each singleOrderData.productData}}
+                    <tr>
+                        
+                        <td style="width: 20rem;height:20rem"><img style="width: 15rem;height:15rem" src="/{{this.product.[0].images.[0]}}" alt=""></td>
+                        <td style="vertical-align:middle ;"> <p >{{this.product.[0].productTitle}}</p></td>
+                         <td class="tableView" style="vertical-align:middle ;"> <p>{{this.product.[0].catagory}}</p></td>
+                        <td style="vertical-align:middle ;" ><p  class="">Quantity : {{this.quantity}}</p> </td>
+                        <td style="vertical-align:middle ;">₹ {{this.product.[0].offerPrice}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>

@@ -47,6 +47,8 @@ function changeQuantity(cartId,prodId,userId,count){
       success:(response)=>{
         document.getElementById(prodId).innerHTML=quantity+count
         document.getElementById("totalValue").innerHTML=response.total[0].total
+        
+        
       }
     })
   }
@@ -70,18 +72,17 @@ function changeQuantity(cartId,prodId,userId,count){
 
   }
 }
-
+// place an order from cx
 $("#placeOrder").submit((event) => {
   event.preventDefault();
-  alert('order Placed')
+  alert('hahhah')
   $.ajax({
     url: "/placeOrder",
     method: "post",
     data: $("#placeOrder").serialize(),
     success: (response) => {
-    
-    alert('hai')
-   window.location.href = '/orderHistory'
+   window.location.href = '/orderPlacementSuccess/'+response.insertedId;
+   
     },
   });
 });
@@ -89,19 +90,40 @@ $("#placeOrder").submit((event) => {
 
 // delete product from cart 
 function deleteProduct(prodId,userId){
-  $.ajax({
+  
+  swal({
+    title: "Are you sure?",
+    text: "The Item will be removed from the cart",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      swal("the Item has been removed from cart!", {
+        icon: "success",
+      })
+      
+      $.ajax({
      
-    url:'/deleteOneCarProduct',
-    data:{
-      prodId:prodId,
-      userId:userId
-    },
-    method:'post',
-    success:(response)=>{
-        console.log(response.status)
-        if(response.status){
+        url:'/deleteOneCarProduct',
+        data:{
+          prodId:prodId,
+          userId:userId
+        },
+        method:'post',
+        success:(response)=>{
+            console.log(response.status)
+            if(response.status){}}
+    })
+    
+      
+    } else {
+      swal("action cancelled");
+    }
+  });
+  
+ 
 
 }
-}
-})
-}
+

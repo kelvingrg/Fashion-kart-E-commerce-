@@ -266,7 +266,7 @@ router.post('/placeOrder', async (req, res) => {
     let totalCost = await userHelpers.getTotalAmount(req.session.user._id)
     console.log(products, totalCost)
     userHelpers.placeOrder(req.body, products, totalCost).then((response) => {
-        res.json({response})
+        res.json(response)
 
     })
 })
@@ -278,10 +278,39 @@ router.post('/deleteOneCarProduct', (req, res) => {
 
 // order history
 router.get('/orderHistory', verifyLoggedIn, (req, res) => {
+    console.log('reacheed at routes ');
     userHelpers.orderHistory(user._id).then((orderHistoryData) => {
         res.render('user/orderHistory', {user, orderHistoryData})
+
     })
+
 })
+
+// view more order details from order history 
+
+router.get('/viewOrderDetails/:id',(req,res)=>{
+    console.log(req.params.id)
+ userHelpers.viewOrderDetails(req.params.id).then((singleOrderData)=>{
+   res.render('user/singleOrderView',{user,singleOrderData})
+   console.log(user);
+ })
+
+})
+router.get('/orderPlacementSuccess/:id',async(req,res)=>{
+   
+ userHelpers.viewOrderDetails(req.params.id).then((singleOrderData)=>{
+console.log(singleOrderData)
+console.log(singleOrderData.orderData[0].deliveryDetails.name,'totoal amounrt');
+        res.render('user/orderPlacementSuccess',{user,singleOrderData})
+
+    })
+   
+  })
+
+   
+
+
+
 
 
 module.exports = router;

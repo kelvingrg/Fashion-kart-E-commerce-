@@ -9,7 +9,8 @@ $("#passwordReset").submit((event) => {
     success: (response) => {
       if (response.updatepass) {
         location.href = "/myAccount";
-        alert("password has been  successfully changed");
+        swal("The password has been updated !", {
+          icon: "success"})
       } else {
         alert("Please enter the correct passsword ");
       }
@@ -89,7 +90,7 @@ console.log(cata);
 
 })
 }
-
+// order more details @ admin side 
 function moreDetails(orderId,userId){
 
  
@@ -122,22 +123,45 @@ function cancelOrder(orderId){
  
   event.preventDefault();
 console.log(orderId)
-alert('are you sure to cancel this Order')
-  $.ajax({
-    url: "/admin/cancelOrder",
-    data: {
-      orderId:orderId,
-    },
-    method: "post",
-
-    success: (response) => {
-      window.location.reload();
- 
-
+swal({
+  title: "Are you sure?",
+  text: "Once Cancelled, you will not be able to recover this Order!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("The orfer has been Cancelled!", {
+      icon: "success"
+    })
+      $.ajax(
+        {
+        url: "/admin/cancelOrder",
+        data: {
+          orderId:orderId,
+        },
+        method: "post",
+    
+        success: (response) => {
+          location.reload();
+           }
+    
+    }) 
      
-      
     }
-
+   else
+   {
+    swal("action has been cancelled ");
+  }
 })
 }
+
+   
+
+
+ 
+
+ 
+
 

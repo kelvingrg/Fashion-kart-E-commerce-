@@ -1,4 +1,4 @@
-
+<section>
 			<!-- WISHLIST-AREA START -->
             <br><br>
 			<div class="shopping-cart-area wishlist-area ">
@@ -10,24 +10,27 @@
 									<table>
 										<thead>
 											<tr>
-												<th class="product-thumbnail">Image</th>
-												<th class="product-name">Name</th>
-												<th class="product-edit">Edit</th>
-												<th class="product-price">price</th>
-												<th class="product-quantity">Quantity</th>
-												<th class="product-add-to-cart">Add to Cart</th>
+												<a href=""><th class="product-thumbnail">Order Date</th>
+												<th class="product-name">Order Id</th>
+												<th class="product-edit">Total Amount</th>
+												<th class="product-price">status</th>
+												<th class="product-quantity">View More Details</th>
+									
 											</tr>
 										</thead>
 										<tbody>
+											{{#each  orderHistoryData}}
 											<tr>
 											
-												<td class="product-thumbnail"><a href="#"><img src="img/cart/1.jpg" alt="" /></a></td>
-												<td class="product-name"><a href="#">BABY NEW STYLE JACKETS</a></td>
-												<td class="product-edit"><a href="#">Edit</a></td>
-												<td class="product-price"><span class="amount">$350.00</span></td>
-												<td class="product-quantity"><input type="text" value="1" /></td>
-												<td class="product-add-to-cart"><a href="#">Add to Cart</a></td>
+											<td class="product-thumbnail">{{this.date}}</td>
+												<td class="product-name">{{this._id}}</td>
+												<td class="product-price"><span class="amount">₹ {{this.totalAmount}}</span></td>
+												<td class="product-edit">{{this.status}}</td>
+												<td class="orderViewMore"><a href="/viewOrderDetails/{{this._id}}"> View more >></a></td>
+										
+												
 											</tr>
+											{{/each}}
 										</tbody>
 										
 										
@@ -79,34 +82,5 @@
 		<!-- PAGE-CONTENT END -->
 		
 		
+	
 		
-		<!-- all js here -->
-		<!-- jquery latest version -->
-        <script src="/js/vendor/jquery-1.12.0.min.js"></script>
-		<!-- bootstrap js -->
-        <script src="/js/bootstrap.min.js"></script>
-		<!-- jquery.nivo.slider js -->
-        <script src="/lib/js/jquery.nivo.slider.js"></script>
-        <script src="/lib/home.js"></script>
-		<!-- owl.carousel js -->
-        <script src="/js/owl.carousel.min.js"></script>
-		<!-- meanmenu js -->
-        <script src="/js/jquery.meanmenu.js"></script>
-		<!-- jquery-ui js -->
-        <script src="/js/jquery-ui.min.js"></script>
-		<!-- lightbox.min js -->
-        <script src="/js/lightbox.min.js"></script>
-		<!-- countdon.min js -->
-        <script src="/js/countdon.min.js"></script>
-		<!-- wow js -->
-        <script src="/js/wow.min.js"></script>
-		<script type="text/javascript">
-			new WOW().init();
-		</script>
-		<!-- plugins js -->
-        <script src="/js/plugins.js"></script>
-		<!-- main js -->
-        <script src="/js/main.js"></script>
-    
-    </body>
-</html>
