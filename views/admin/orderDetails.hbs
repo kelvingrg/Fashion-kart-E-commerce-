@@ -41,8 +41,8 @@
                                     <th>Total Amount</th>
                                     <td>Payment Method</td>
                                     <th>Status</th>
-                                    <th>wesd</th>
-                                    <th>Salary</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -56,7 +56,19 @@
                                     <td>{{this.products.length}}</td>
                                     <td>{{this.totalAmount}}</td>
                                     <td>{{this.paymnetMethod}}</td>
-                                    <td>{{this.status}}
+                                    <td><select name="" id="{{this._id}}" onchange="orderStatus('{{this._id}}')" class="form-control">
+                                        <option value="{{this.status}}">{{this.status}}</option>
+                                        {{#if this.cancellation}}
+                                        
+                                         {{else}}
+                                         <option value="Cancelled">Cancelled</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Dispatched">Dispatched</option>
+                                        <option value="Shipped">Shipped</option>
+                                         <option value="Pending">Pending</option>  
+                                         <option value="placed">placed</option>
+                                           {{/if}}
+                                    </select>
                                     </td>
                                     <td><button type="button" class="btn btn-default btn-sm" onclick="moreDetails('{{this._id}}','{{this.userId}}')">
           <span class="glyphicon glyphicon-arrow-right"></span> More Details

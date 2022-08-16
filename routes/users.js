@@ -1,17 +1,16 @@
 var express = require("express");
-const {Db} = require("mongodb");
-const {response} = require("../app");
-// const {response} = require('../app');
-const app = require("../app");
 const adminHelpers = require("../helpers/adminHelpers");
 const productHelpers = require("../helpers/productHelpers");
 var router = express.Router();
 var userHelpers = require("../helpers/userHelpers");
 require('dotenv').config()
+const paypal = require("paypal-rest-sdk");
 const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
 let user;
 let otp = false;
+let insertedIds = null
+let convertedRate = 0
 // middle ware to check the session
 verifyLoggedIn = (req, res, next) => {
     if (req.session.user) {
@@ -35,7 +34,7 @@ router.get("/", async function (req, res, next) {
 
     } else {
         adminHelpers.getBannerOne().then((bannerData) => {
-            res.render("index", {bannerData,user});
+            res.render("index", {bannerData, user});
         })
     }
 });
@@ -118,6 +117,7 @@ router.get("/singleProduct/:id", function (req, res, next) {
     } else 
         res.redirect("/login");
     
+
 });
 // product view
 router.get("/productsVeiw", (req, res) => {
@@ -128,6 +128,7 @@ router.get("/productsVeiw", (req, res) => {
     } else 
         res.redirect("/login");
     
+
 });
 // otp login
 router.get("/loginWithOtp", (req, res) => {
@@ -145,9 +146,12 @@ router.get("/loginWithOtp", (req, res) => {
 router.post("/mobileNumber", (req, res) => {
     userHelpers.doMobileNumber(req.body).then((number) => {
         if (number) {
-            client.verify.services(process.env.SERVICE_SID).verifications.create({to: `+91${
+            client.verify.services(process.env.SERVICE_SID).verifications.create({
+                    to: `+91${
                     req.body.mobileNumber
-                }`, channel: "sms"}).then((resolve) => {
+                }`,
+                channel: "sms"
+            }).then((resolve) => {
                 console.log(resolve);
             });
             otp = true;
@@ -157,9 +161,12 @@ router.post("/mobileNumber", (req, res) => {
     });
 });
 router.post("/otpLogin", (req, res) => {
-    client.verify.services(process.env.SERVICE_SID).verificationChecks.create({to: `+91${
+    client.verify.services(process.env.SERVICE_SID).verificationChecks.create({
+            to: `+91${
             req.body.mobileNumber
-        }`, code: req.body.otp}).then((response) => {
+        }`,
+        code: req.body.otp
+    }).then((response) => {
         if (response.valid == true) {
             userHelpers.doMobileNumber(req.body).then((user) => {
                 if (user.state == true) {
@@ -262,14 +269,52 @@ router.get("/checkOut", verifyLoggedIn, async (req, res, next) => {
 })
 // place order post
 router.post('/placeOrder', async (req, res) => {
+    console.log(req.body, 'place order ')
     let products = await userHelpers.getCartProductList(req.session.user._id)
     let totalCost = await userHelpers.getTotalAmount(req.session.user._id)
     console.log(products, totalCost)
     userHelpers.placeOrder(req.body, products, totalCost).then((response) => {
-        res.json(response)
+        let orderId = response.insertedId
+        insertedIds = response.insertedId
+        let totalPrice = totalCost[0].total
+
+        if (req.body['paymentMethod'] == 'COD') {
+            response.cod = true; // to check whether is cod order is placed or not
+            res.json(response)
+        } else if (req.body['paymentMethod'] === 'RAZORPAY') {
+            userHelpers.generateRazorPay(orderId, totalPrice).then((response) => {
+                console.log(response)
+                response.razorPay = true;
+                res.json(response)
+                console.log(response, "place order after raor pay")
+
+            })
+        } else if (req.body["paymentMethod"] == "PAYPAL") {
+            console.log(totalCost[0].total, orderId);
+            userHelpers.test(totalCost[0].total).then((data) => { // converting inr to usd
+                convertedRate = data;
+                console.log(convertedRate, 'converted rate')
+
+                userHelpers.generatePayPal(orderId.toString(), convertedRate).then((response) => {
+                    console.log('reached at pay pal user js stp....3');
+                    console.log(response);
+                    response.insertedId = orderId
+                    response.payPal = true;
+                    res.json(response);
+
+                });
+            })
+
+        } else {
+            console.log('something happened to error ');
+        }
+
 
     })
+
 })
+
+
 // delete one product from cart
 router.post('/deleteOneCarProduct', (req, res) => {
     console.log(req.body, "reaches at delete one product routes");
@@ -286,31 +331,75 @@ router.get('/orderHistory', verifyLoggedIn, (req, res) => {
 
 })
 
-// view more order details from order history 
+// view more order details from order history
 
-router.get('/viewOrderDetails/:id',(req,res)=>{
+router.get('/viewOrderDetails/:id', (req, res) => {
     console.log(req.params.id)
- userHelpers.viewOrderDetails(req.params.id).then((singleOrderData)=>{
-   res.render('user/singleOrderView',{user,singleOrderData})
-   console.log(user);
- })
+    userHelpers.viewOrderDetails(req.params.id).then((singleOrderData) => {
+        res.render('user/singleOrderView', {user, singleOrderData})
+        console.log(user);
+    })
 
 })
-router.get('/orderPlacementSuccess/:id',async(req,res)=>{
-   
- userHelpers.viewOrderDetails(req.params.id).then((singleOrderData)=>{
-console.log(singleOrderData)
-console.log(singleOrderData.orderData[0].deliveryDetails.name,'totoal amounrt');
-        res.render('user/orderPlacementSuccess',{user,singleOrderData})
+// success router from paypal
+
+
+router.get('/success', async (req, res) => {
+    console.log('reached at last step of [ay [a[l succes page ')
+   await userHelpers.changePaymentStatus(insertedIds).then(() =>{
+    userHelpers.viewOrderDetails(insertedIds).then((singleOrderData) => {
+        console.log(singleOrderData)
+        console.log(singleOrderData.orderData[0].deliveryDetails.name, 'totoal amounrt');
+        res.render('user/orderPlacementSuccess', {user, singleOrderData})
+
+   })
 
     })
-   
-  })
-
-   
+})
 
 
+// order plcaement successfull page
+router.get('/orderPlacementSuccess/:id', async (req, res) => {
 
+    userHelpers.viewOrderDetails(req.params.id).then((singleOrderData) => {
+        console.log(singleOrderData)
+        console.log(singleOrderData.orderData[0].deliveryDetails.name, 'totoal amounrt');
+        res.render('user/orderPlacementSuccess', {user, singleOrderData})
+
+    })
+
+})
+
+
+router.post('/verifyPayments', (req, res) => {
+    console.log(req.body, 'reached at verify payment')
+    userHelpers.verifyPayment(req.body).then(() => {
+        console.log('verify payment completed'),
+        console.log(req.body, 'req.bosy')
+        userHelpers.changePaymentStatus(req.body["order[receipt]"]).then(() => {
+            console.log(' payment success', insertedIds)
+            let response = {};
+            response.status = true
+            response.insertedId = insertedIds
+            res.json(response)
+        }).catch((err) => {
+            console.log(err)
+            res.json({status: false})
+        })
+
+    })
+
+
+})
+
+
+router.get('/test', (req, res) => {
+    userHelpers.test(2000).then((data) => {
+        console.log(data, 'data at user tesst router')
+
+    })
+    res.render('user/test')
+})
 
 
 module.exports = router;

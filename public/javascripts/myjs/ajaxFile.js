@@ -122,7 +122,6 @@ function cancelOrder(orderId){
 
  
   event.preventDefault();
-console.log(orderId)
 swal({
   title: "Are you sure?",
   text: "Once Cancelled, you will not be able to recover this Order!",
@@ -157,11 +156,26 @@ swal({
 })
 }
 
+function orderStatus(orderId){
+
+  let status=document.getElementById(orderId).value
+  swal({
+    title: "Are you sure?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,})
+  $.ajax({
+    url: "/admin/orderStatusUpdate",
+    data: {
+      orderId,
+      status
+      
+    },
+    method: "post",
+
+    success: (response) => {}
+  })
+}
+ 
+
    
-
-
- 
-
- 
-
-

@@ -1,5 +1,7 @@
 
 
+
+
 // adding to cart 
 function addToCart(prodId){
     
@@ -72,6 +74,8 @@ function changeQuantity(cartId,prodId,userId,count){
 
   }
 }
+
+
 // place an order from cx
 $("#placeOrder").submit((event) => {
   event.preventDefault();
@@ -81,11 +85,104 @@ $("#placeOrder").submit((event) => {
     method: "post",
     data: $("#placeOrder").serialize(),
     success: (response) => {
-   window.location.href = '/orderPlacementSuccess/'+response.insertedId;
+      if(response.cod){
+        window.location.href = '/orderPlacementSuccess/'+response.insertedId;
+
+      }else if(response.razorPay) 
+       {
+        razorpayPayment(response)
+      }
+      else if(response.payPal) {
+        for (let i = 0; i < response.links.length; i++) {
+          if (response.links[i].rel === "approval_url") {
+            location.href = response.links[i].href;
+          }
+        }
+      } 
+   else{
+    swal("action cancelled");
+   }
+    
+   
    
     },
   });
 });
+
+function verifyPayment(payment,order){
+  console.log(payment,order)
+  $.ajax({
+    url:'/verifyPayments',
+    data:{payment,order},
+    method:'post',
+    success : (response)=>{
+       if(response.status){
+        window.location.href = '/orderPlacementSuccess/'+response.insertedId;
+       }else
+       {
+        swal('Payment Failed ')
+       }
+
+
+    }
+
+  })
+}
+
+
+// razor pay fnunction
+function razorpayPayment(order) {
+console.log('razor pay reached at 2nd fn usesrside ajax 109')
+
+var options = {
+  "key": "rzp_test_0V5jZIcqZdR0p8", // Enter the Key ID generated from the Dashboard
+  "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+  "currency": "INR",
+  "name": "Fashion Kart",
+  "description": "Test Transaction",
+  "image": "https://example.com/your_logo",
+  "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+  "handler": function (response){
+      
+    verifyPayment(response,order);
+  },
+  "prefill": {
+      "name": "Fashion Kart",
+      "email": "support@fk.com",
+      "contact": "9999999999"
+  },
+  "notes": {
+      "address": "Razorpay Corporate Office"
+  },
+  "theme": {
+      "color": "#3399cc"
+  }
+};
+
+var rzp1 = new Razorpay(options); /// for pop up 
+    rzp1.open();
+  
+
+
+}
+
+// function verifyPayment(payment,order){
+  
+//   console.log(payment,order)
+//   $.ajax({
+//     url:"/verifyPayments",
+//     // data:{
+//     //   payment,
+//     //   order
+//     // },
+//     method: "get",
+//     success: (response) => {
+
+//     }
+//   })
+// }
+
+
 
 
 // delete product from cart 
@@ -114,12 +211,15 @@ function deleteProduct(prodId,userId){
         method:'post',
         success:(response)=>{
             console.log(response.status)
-            if(response.status){}}
+            if(response.status){
+             
+
+            }}
     })
     
       
     } else {
-      swal("action cancelled");
+      swal("Payment Failed");
     }
   });
   

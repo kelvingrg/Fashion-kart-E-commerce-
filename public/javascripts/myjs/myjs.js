@@ -142,7 +142,3 @@ function otpPage(){
     }
 
 }
-
-
-
-       

@@ -1,13 +1,10 @@
-const {response} = require("express");
-const e = require("express");
+
 var express = require("express");
 var router = express.Router();
 var adminHelpers = require("../helpers/adminHelpers");
 var userHelpers = require("../helpers/userHelpers");
 var productHelpers = require("../helpers/productHelpers");
 const multer = require("multer");
-const env = require('dotenv');
-const {Db} = require("mongodb");
 let detailedOrder
 
 const fileStorageEngine = multer.diskStorage({
@@ -57,7 +54,7 @@ router.post("/login", (req, res) => {
     }
 });
 
-router.get("/dashbord", verifyLoggedIn, (req, res) => {
+router.get("/dashbord",verifyLoggedIn, (req, res) => {
     res.render("admin/index", {admin: true});
 });
 
@@ -317,5 +314,66 @@ router.post('/cancelOrder', (req, res) => {
 
 })
 
+// order status update 
+router.post('/orderStatusUpdate', (req, res) => {
+    console.log(req.body,'+++++++++++++++++++++++++++++++++');
+    adminHelpers.orderStatusUpdate(req.body.orderId,req.body.status).then((response) => {
+        console.log(response)
+        res.json(response)
+    })
+
+})
+
+// load line chart data 
+router.post('/getLineChartData',(req,res)=>{
+    console.log(req.body,'linedata.........2');
+    adminHelpers.getLineChartData(req.body).then((response)=>{
+        console.log('line data ......4')
+    })
+})
+//get total revenue 
+router.post('/getRevenueData',(req,res)=>{
+    adminHelpers.getRevenueData(req.body.day).then((response)=>{
+        res.json(response)
+    })
+})
+// get new users data 
+router.post('/newUsersData',(req,res)=>{
+    adminHelpers.newUsersData(req.body.day).then((response)=>{
+        res.json(response)
+    })
+})
+// get cancelled order data getCancelledOrderData
+router.post('/getCancelledOrderData',(req,res)=>{
+    console.log(req.body.day,'++++++++++++++++++++++++++++')
+    adminHelpers.getCancelledOrderData(req.body.day).then((response)=>{
+        res.json(response)
+    })
+})
+// order count orderCount
+router.post('/orderCount',(req,res)=>{
+    console.log(req.body.day,'++++++++++++++++++++++++++++')
+    adminHelpers.orderCount(req.body.day).then((response)=>{
+        console.log(response)
+        res.json(response)
+    })
+})
+router.post('/test',async(req,res)=>{
+
+let resp= await adminHelpers.test()
+        console.log(resp,'adminroutes test')
+res.json(resp)
+    
+})
+
+//dotNutChartData
+//
+router.post('/loadDonutChart',async(req,res)=>{
+    console.log(req.body.day,'++++++++++++++++++++++++++++')
+   let data= await adminHelpers.dotNutChartData()
+   console.log('response.djhxcn',data)
+     res.json(data)
+   
+})
 
 module.exports = router;

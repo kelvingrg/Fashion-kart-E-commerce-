@@ -1,14 +1,22 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
-const {response} = require("../app");
-const {PRODUCT_COLLECTION, ORDER_COLLECTION} = require("../config/collections");
-const {ObjectID} = require("bson");
-const {OrderedBulkOperation} = require("mongodb");
-const collections = require("../config/collections");
-// const { response } = require('../app')
-let respond = {};
 var objectId = require("mongodb").ObjectId;
+const Razorpay = require('razorpay');
+const CC = require("currency-converter-lt");
+require("dotenv").config();
+
+let respond = {};
+// / razor pay configaration
+var instance = new Razorpay({key_id: process.env.KEY_ID, key_secret: process.env.KEY_SECRET});
+
+
+// paypal configuration
+const paypal = require('paypal-rest-sdk');
+const {response} = require("express");
+paypal.configure({mode: "sandbox", client_id: 'ATVfUdlaEds_REEqb851ftHbOZRfYuSJrVBTxI1iUWCU2my_lpNjwkEfx82dpwe5T5m_NoMSCV1Vbdbq', client_secret: 'EBWuUe0r61_vNU4N2kK3EykHQR7xhx7nfC_YS4x472Lwr2Exay0a14Uly2DWPl8P18l6njI8FSRYOnmf'});
+
+
 module.exports = {
     doSignup: (userData) => {
         console.log(userData);
@@ -287,7 +295,9 @@ module.exports = {
             } else 
                 resolve(0)
 
+
             
+
 
         })
     },
@@ -311,6 +321,7 @@ module.exports = {
         })
 
     },
+    // cart total amount
     getTotalAmount: (userId) => {
         return new Promise(async (resolve, reject) => {
 
@@ -371,13 +382,13 @@ module.exports = {
     },
     getCartProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
-            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({user: ObjectID(userId)})
+            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({user: objectId(userId)})
             console.log(cart, 'carttttttttttttt')
             resolve(cart.products)
         })
     },
 
-    // oerer place
+    // order place
     placeOrder: (order, products, total) => {
         return new Promise((resolve, reject) => {
             console.log(order, products, total)
@@ -390,13 +401,14 @@ module.exports = {
                     state: order.state,
                     country: order.country,
                     pin: order.pin,
-                    mobileNumber: order.mobileNumber  
+                    mobileNumber: order.mobileNumber
                 },
                 userId: objectId(order.userId),
                 paymnetMethod: order.paymentMethod,
                 products: products,
                 totalAmount: total[0].total,
-                date: new Date().toUTCString(),
+                date:new Date().toDateString(),
+                timeStamp: new Date(),
                 status: status,
                 cancellation: false
             }
@@ -409,6 +421,73 @@ module.exports = {
         })
     },
 
+    // razor pay integration
+
+    generateRazorPay: (orderId, total) => {
+        console.log(orderId, total)
+        return new Promise((resolve, reject) => {
+            var options = {
+                amount: total, // amount in the smallest currency unit
+                currency: "INR",
+                receipt: "" + orderId
+            };
+            instance.orders.create(options, function (err, order) {
+                console.log(order, "order at userhelpers")
+                resolve(order)
+            })
+
+        })
+    },
+
+    // paypal integration
+
+
+    generatePayPal: (orderId, totalPrice) => {
+        console.log('paypal  at us.help step........... 2 ');
+        return new Promise((resolve, reject) => {
+            const create_payment_json = {
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"
+                },
+                "redirect_urls": {
+                    return_url: "http://localhost:3000/success",
+                    cancel_url: "http://localhost:3000/cancel"
+                },
+                "transactions": [
+                    {
+                        "item_list": {
+                            "items": [
+                                {
+                                    "name": "Red Sox Hat",
+                                    "sku": "001",
+                                    "price": totalPrice,
+                                    "currency": "USD",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        "amount": {
+                            "currency": "USD",
+                            "total": totalPrice
+                        },
+                        "description": "Hat for the best team ever"
+                    }
+                ]
+            };
+
+            paypal.payment.create(create_payment_json, function (error, payment) {
+                if (error) {
+                    console.log("paypal int. err stp ...4", error);
+                    throw error;
+
+                } else {
+                    resolve(payment);
+                }
+            });
+        });
+    },
+
     // delete one product from cart
 
     deleteOneCarProduct: (prodData) => {
@@ -416,11 +495,11 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.CART_COLLECTION).updateOne({
                 user: objectId(prodData.userId)
-            },
-             {
-                $pull:
-                 {
-                   products:{item: objectId(prodData.prodId)}
+            }, {
+                $pull: {
+                    products: {
+                        item: objectId(prodData.prodId)
+                    }
                 }
             }).then((response) => {
                 resolve({status: true})
@@ -428,99 +507,115 @@ module.exports = {
 
         })
     },
-    // order history for  cx 
-    orderHistory:(userId)=>{
-        return new Promise(async(resolve,reject)=>{
-      await db.get().collection(collection.ORDER_COLLECTION).find({userId:objectId(userId)}).toArray().then((response)=>{
-        resolve(response)
-        console.log(response)
-      })
-      })
+    // order history for  cx
+    orderHistory: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).find({userId: objectId(userId)}).toArray().then((response) => {
+                resolve(response)
+                console.log(response)
+            })
+        })
 
     },
-    // view order details after order history 
-    viewOrderDetails:(orderId,)=>{
+    // view order details after order history
+    viewOrderDetails: (orderId,) => {
         console.log(('reached at view order detaisls fn at helpers '));
-        let response={}
- 
-  return new Promise(async(resolve,reject)=>{ 
- response.productData= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-      {
-        $match:{_id:objectId(orderId)}
-      }, 
-      {
-        $unwind: '$products'
+        let response = {}
+
+        return new Promise(async (resolve, reject) => {
+            response.productData = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(orderId)
+                    }
+                }, {
+                    $unwind: '$products'
+                }, {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+
+
+                    }
+                }, {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+
+                    }
+                },
+
+
+            ]).toArray()
+
+            response.orderData = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(orderId)
+                    }
+                }, {
+                    $project: {
+                        deliveryDetails: 1,
+                        paymnetMethod: 1,
+                        totalAmount: 1,
+                        status: 1,
+                        date: 1
+                    }
+                }
+            ]).toArray()
+
+            resolve(response)
+        })
+
+
     },
-    {
-      $project: {
-          item: '$products.item',
-          quantity: '$products.quantity'
-         
+    verifyPayment: (details) => {
+        return new Promise((resolve, reject) => {
+            const crypto = require("crypto");
+            let hmac = crypto.createHmac('sha256', process.env.KEY_SECRET)
+
+            hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
+            hmac = hmac.digest('hex')
+
+            if (hmac == details['payment[razorpay_signature]']) {
+                resolve()
+
+            } else {
+                reject()
+
+            }
+        })
+    },
+    changePaymentStatus: (orderId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({
+                _id: objectId(orderId)
+            }, {
+                $set: {
+                    status: 'Placed'
+                }
+            }).then(() => {
+                resolve()
+            })
+        })
+    },
+    test: (totalinr) => {
+
+        let fromCurrency = "INR";
+        let toCurrency = "USD";
+        let amountToConvert = totalinr;
+        let currencyConverter = new CC({from: fromCurrency, to: toCurrency, amount: amountToConvert});
+        return new Promise(async (resolve, reject) => {
+            await currencyConverter.convert().then((response) => {
+                resolve(response)
+            });
 
 
-      }
-  }, {
-    $lookup: {
-        from: collection.PRODUCT_COLLECTION,
-        localField: 'item',
-        foreignField: '_id',
-        as: 'product'
+        })
+
 
     }
-},
 
-    
-    ]).toArray()
-
-      response.orderData= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-        {
-          $match:{_id:objectId(orderId)}
-        },{
-          $project:{deliveryDetails:1, paymnetMethod:1,totalAmount:1,status:1,date:1}
-        }
-      ]).toArray()
-
-      resolve(response)
-    })
-
-
-},
-viewOrderDetail2:(orderId,)=>{
-    console.log(('reached at view order detaisls fn at helpers '));
-    let response={}
-
-return new Promise(async(resolve,reject)=>{ 
-response.productData= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-  {
-    $match:orderId
-  }, 
-  {
-    $unwind: '$products'
-},
-{
-  $project: {
-      item: '$products.item',
-      quantity: '$products.quantity'
-     
-
-
-  }
-}, {
-$lookup: {
-    from: collection.PRODUCT_COLLECTION,
-    localField: 'item',
-    foreignField: '_id',
-    as: 'product'
-
-}
-},
-
-
-]).toArray()
-
-console.log(response)
-})
-
-
-}
 }
