@@ -63,21 +63,21 @@
 								<nav>
 									<ul>
 										<li><a href="/">home</a></li>
-										<li><a href="/productsVeiw">mens</a></li>
-										<li><a href="/productsVeiw">womens</a></li>
-										<li><a href="/productsVeiw">kids</a></li>
-										<li><a href="blog.html">blog</a>
+										{{#each categoryData}}
+										<li><a>{{this.catagory}}</a>
 											<ul class="submenu">
-												<li class="submenu-title"><a href="#">Blog pages</a></li>
-												<li><a href="blog.html">Blog</a></li>
-												<li><a href="single-blog.html">Single-blog</a></li>
+												{{#each this.subCatagory}}
+												<li onclick="productsVeiwSubCata('{{this}}')"><a>{{this}}</a></li>
+								
+												{{/each}}
 											</ul>
-										</li><!-- 
-										<li><a href="about.html">about</a></li> -->
+										</li>
+										{{/each}}
+										
 										<li><a href="#">Pages</a>
 											<ul class="submenu">
 												<li class="submenu-title"><a href="#">All pages</a></li>
-												<li><a href="shop.html">Shop</a></li>
+												<li><a href="shop.html">{{this}}</a></li>
 												<li><a href="single-product.html">Single Product</a></li>
 												<li><a href="cart.html">Shopping Cart</a></li>
 												<li><a href="wishlist.html">Wishlist</a></li>

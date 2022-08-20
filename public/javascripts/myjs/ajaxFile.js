@@ -1,5 +1,9 @@
 //  password reset
 
+
+
+
+
 $("#passwordReset").submit((event) => {
   event.preventDefault();
   $.ajax({
@@ -37,7 +41,7 @@ $("#personalDataUpdate").submit((event) => {
     },
   });
 });
-//
+//  fetch subcatagory from data base to add option 
 function callSubCatagory() {
   var cata = document.getElementById("mainCatagory").value;
   $.ajax({
@@ -61,12 +65,12 @@ function callSubCatagory() {
     }
   });
 }
-// to add subcatagories
+// to add subcatagories input option 
   function addSubCatagories() {
     event.preventDefault();
   
       let select = document.querySelector("#subCatagory")
-      var new_input="<input type='text' id='subCatagory' name='subCatagory'class='custom-form'>";
+      var new_input="<input type='text' id='subCatagory' name='subCatagory'class='custom-form subCatagory'>";
       $('#addSubCatagory').append(new_input);
     
       
@@ -90,6 +94,9 @@ console.log(cata);
 
 })
 }
+// delete subcategory option 
+
+
 // order more details @ admin side 
 function moreDetails(orderId,userId){
 
@@ -156,6 +163,8 @@ swal({
 })
 }
 
+
+// order status update 
 function orderStatus(orderId){
 
   let status=document.getElementById(orderId).value
@@ -176,6 +185,130 @@ function orderStatus(orderId){
     success: (response) => {}
   })
 }
- 
 
+// delete catagory -- check product listed or not 
+function deleteCategory(cataId){
+  
+  let cataName=document.getElementById(cataId).innerHTML
+  swal({
+    title:"are you sure " ,
+    text:  " will delete the catagory ",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true})
+
+  $.ajax({
+    url:'/admin/deleteCatagory',
+    data:{cataId,cataName},
+    method:'post',
+    success:(response)=>{
+      if(response){
+        swal({
+          title:"There are '"+response+"' Products were listed under "+cataName,
+          text:  " Clicking 'Ok' will delete the products as well as "+cataName+" Category ",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+         }).then((willDelete)=>{
+          if(willDelete)
+          deleteCatagoryWithProd(cataId,cataName);
+          
+        })   
+      }
+      else if(response==0){
+        swal({
+          title:"are you sure " ,
+          text:  " will delete the catagory ",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true}).then((willDelete)=>{
+            if(willDelete)
+            deleteCatagoryWithProd(cataId,cataName)
+
+          })
+      
+       
+      }
+      else{ 
+        swal("something went wrong")
+      }
+    }
+  })
+}
+
+// delete catagory with products 
+
+function deleteCatagoryWithProd(cataId,cataName){
+ 
+  $.ajax({
+    
+    url:'/admin/deleteCatagoryWithProd',
+    data:{cataId,cataName},
+    method:'post',
+     success:(response)=>{
+       console.log(response)
+       location.reload()
+   }
+})
+}
    
+function removeSubCatagories(){
+  event.preventDefault();
+
+  var select = document.getElementById('addSubCatagory');
+  select.removeChild(select.lastChild);
+}
+
+// enable catagoory edit 
+function subCatachangeInput(cataName){
+  event.preventDefault()
+
+  let classname='.'+cataName
+  let btnId=cataName+'btn'
+  console.log(classname,'........name',cataName)
+  console.log('reched at function ',cataName)
+  document.querySelector(classname).removeAttribute('readonly')
+  document.getElementById(cataName).style.visibility="hidden"
+ 
+  document.getElementById(btnId).style.visibility="visible"
+}
+
+function subCatachangeUpdate(cataName,cataId){
+  event.preventDefault()
+  swal({
+    title:"Are you sure to Change",
+    text:  " Clicking 'Ok' will also update the products belogs to "+cataName,
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+   }).then((willDelete)=>{
+    if(willDelete){
+      let btnId=cataName+'btn'
+      let classname='.'+cataName
+      console.log(classname,'class name ')
+      document.getElementById(cataName).style.visibility="visible"
+      //document.querySelectorAll(classname).removeAttribute('readonly') 
+      $(classname).prop('readonly', true);
+      document.getElementById(btnId).style.visibility="hidden"
+      newCataName=document.querySelector(classname).value
+      
+      $.ajax({
+        url:'/admin/updateSubCata',
+        data:{
+          cataName,cataId,newCataName
+        },
+    method:'post',
+    success:(response)=>{
+    
+    }
+      })
+    }
+   })
+
+
+  
+}
+
+function testadmin(){
+  swal('test success')
+}

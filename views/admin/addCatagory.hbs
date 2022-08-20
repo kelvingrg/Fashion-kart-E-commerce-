@@ -1,27 +1,66 @@
 <body>
-  <div class=" w-25 " style="margin-left:38% ;margin-top:13% ">
-    <form action="/admin/addCatagory" method="POST">
-      <div class="new-customers">
-        <h2 class="login-title text-center">ADD CATAGORY</h2>
-        <div class="row">
-          <div class="col-sm-12">
-            <label for="mobileNumber" id="labelMobile" >Add Catagoty</label>
-            <input type="text" class="custom-form" name="catagory" id="catagory"/>
-          </div>
+    <div class="container">
+        <div class="row" style="margin-top:18% ">
+            <div class="col-md-6" >
+              <table class="table">
+  <thead class="thead-dark text-center">
+    <tr>
+
+      <th scope="col">Main Catagory</th>
+      <th scope="col">SubCatagory</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody class=" text-center">
+   {{#each cataData}}
+    <tr>
+      <td id={{this._id}}>{{this.catagory}}</td>
+      <td>
+        <ul>
+          {{#each this.subCatagory}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </td>
+      <td><button  class="btn btn-dark" ><a href="/admin/editCatagory/{{this._id}}" class="text-white">Edit</a></button> <button class="ml-2 btn btn-danger" type="submit"  value="Delete" onclick="deleteCategory('{{this._id}}')">Delete</button> </td>
+    </tr>
+    {{/each}}
+
+  </tbody>
+</table>
+
+
+
+            </div>
+            <div class="col-md-6">
+                <div class=" w-75 mx-5 " >
+                    <form action="/admin/addCatagory" method="POST">
+                        <div class="new-customers">
+                          <div class="bg-dark"> <h3 class="login-title text-center text-white" style="margin:0">ADD CATAGORY</h3></div> 
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="heading">Add Catagoty</label>
+                                    <input type="text" class="custom-form" name="catagory" id="catagory"/>
+                                </div>
+                            </div>
+                            <button class="float-right btn btn-success" onclick="addSubCatagories()">+</button>
+                            <button class="float-right btn btn-danger ml-2" onclick="removeSubCatagories()">-</button>
+                            <label for="subCatagories" id="labelMobile">Sub Catagory
+                            </label>
+                            <div class="row">
+                                <div class="col-sm-12" id="addSubCatagory">
+                                    <input type="text" class="custom-form subCatagory" name="subCatagory" id="subCatagory"/>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input type="submit" class="custom-form custom-submit no-margin text-center" value="Add Catagory"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button class="float-right btn btn-success" onclick="addSubCatagories()">+</button>
-        <label for="mobileNumber" id="labelMobile" >Sub Catagory </label>
-        <div class="row">
-          <div class="col-sm-12" id="addSubCatagory">
-            <input type="text" class="custom-form" name="subCatagory" id="subCatagory"/>
-            
-          </div>
-        </div>
-        <div class="row">
-          <input type="submit" class="custom-form custom-submit no-margin text-center" value="Add Catagory"/>
-        </div>
-      </div>
-    </form>
-  </div>
-  <script src="/javascripts/myjs/ajaxFile.js"></script>
+    </div>
+  
 </body>

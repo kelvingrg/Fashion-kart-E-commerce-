@@ -77,9 +77,8 @@ function changeQuantity(cartId,prodId,userId,count){
 
 
 // place an order from cx
-$("#placeOrder").submit((event) => {
+$("#placeOrder").submit((event) =>{
   event.preventDefault();
-  alert('hahhah')
   $.ajax({
     url: "/placeOrder",
     method: "post",
@@ -225,5 +224,57 @@ function deleteProduct(prodId,userId){
   
  
 
+}
+function checkCouponCode(userId,totalValue){
+
+
+ let couponCode=document.getElementById("couponCodeInput").value
+ console.log(couponCode,userId,totalValue,'..................ihf')
+ $.ajax({
+  url:'/couponCodeCheck',
+  data:{userId,couponCode},
+  method:'post',
+success:(couponData)=>{
+ 
+
+  if(couponData.usage)
+ {
+    swal("this coupon code is Already used")
+
+    document.getElementById('couponDiscount').innerHTML="not available"
+    document.getElementById('finalTotal').innerHTML=totalValue
+
+   }
+   else if(couponData.notAvailable){
+     swal("invalid coupon code")
+   document.getElementById('couponDiscount').innerHTML="not available"
+    document.getElementById('finalTotal').innerHTML=totalValue
+  }
+  else if(couponData.finalAmount){
+    swal(" coupon code is applied")
+ 
+     document.getElementById('finalTotal').innerHTML=couponData.finalAmount
+     document.getElementById('couponDiscount').innerHTML=couponData.offerAmountAvailable
+
+      console.log(couponData.offerAmountAvailable,couponData.offerAmountActual,couponData.finalAmount,'..............1');
+     }
+   else{
+    swal('something went wrong')
+    document.getElementById('couponDiscount').innerHTML="not available"
+        document.getElementById('finalTotal').innerHTML=totalValue
+   }
+  
+}
+ 
+})
+ 
+}
+
+function productsVeiwSubCata(subcata){
+  swal(subcata,'kijiofjiskkkkkkk')
+  $.ajax({
+    url:'/productsVeiwSubCata/'+subcata,
+    method:'get'
+  })
 }
 

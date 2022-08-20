@@ -3,7 +3,6 @@
 
 
 function loadLineChart(){
-swal('loadlinechart')
      $.ajax({
         url:'/admin/test',
        
@@ -139,7 +138,7 @@ function orderCount(day=7){
 
   // donut chart
 function loadDonutChart(){
-swal('haahhuudk')
+
 $.ajax({
   url:"/admin/loadDonutChart",
   method:'post',

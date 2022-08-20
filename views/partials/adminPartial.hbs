@@ -24,6 +24,7 @@
 {{!-- chart  --}}
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
     </head>
 
@@ -156,26 +157,11 @@
                                         Products<i class="mdi mdi-chevron-down mdi-drop"></i>
                                     </a>
                                     <ul class="submenu">
-
                                         <li class="has-submenu">
-                                            <button onclick="navProductDetails()" id="navbarCatagory" value="Men">Men     ></button>
+                                            <a  id="navbarCatagory" onclick="navProductDetails()">Men</a>
                                             <ul class="submenu">
                                                 <li>
-                                                    <a href="email-inbox.html">Pants</a>
-                                                </li>
-                                                <li>
-                                                    <a href="email-read.html">Shirts</a>
-                                                </li>
-                                                <li>
-                                                    <a href="email-compose.html">Casuals</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="has-submenu">
-                                            <a href="#" id="navbarCatagory" onclick="navProductDetails()">Women</a>
-                                            <ul class="submenu">
-                                                <li>
-                                                    <a href="email-inbox.html">Pants</a>
+                                                    <a><button onclick="testadmin()"> Pants</button></a>
                                                 </li>
                                                 <li>
                                                     <a href="email-read.html">Froks</a>
@@ -185,24 +171,33 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="has-submenu">
-                                            <a href="#">Kids</a>
-                                            <ul class="submenu">
-                                                <li>
-                                                    <a href="email-inbox.html">Pants</a>
-                                                </li>
-                                                <li>
-                                                    <a href="email-read.html">Shirts</a>
-                                                </li>
-                                                <li>
-                                                    <a href="email-compose.html">Jeans</a>
-                                                </li>
+                                       </ul>
+                                 
+                                </li>
+                                  <li class="has-submenu">
+                                    <a href="#">
+                                        <i class="icon-pencil-ruler"></i>
+                                       Product Management
+                                        <i class="mdi mdi-chevron-down mdi-drop"></i>
+                                    </a>
+                                    <ul class="submenu megamenu">
+                                        <li>
+                                            <ul>
+                                                <li><a href="">Catagory</a></li>
+                                                <li><a href="/admin/orderDetails">Orders</a></li>
+                                                <li><a href="/admin/couponMangement">Coupons</a></li>
+                                                <li><a href="ui-buttons.html">Buttons</a></li>
+                                                <li><a href="ui-cards.html">Cards</a></li>
+                                                <li><a href="ui-dropdowns.html">Dropdowns</a></li>
+                                                <li><a href="ui-navs.html">Navs</a></li>
                                             </ul>
                                         </li>
+                                       
 
-
+                                      
                                     </ul>
                                 </li>
+
 
 
                                 <li class="has-submenu">

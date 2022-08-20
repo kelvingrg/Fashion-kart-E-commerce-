@@ -1,0 +1,90 @@
+<div class="container-fluid m-5">
+    <div class="row justify-content-between" style="margin-top:12% ">
+        <div class="col-md-8" >
+            <table class="table">
+                <thead class="thead-dark text-center">
+                    <tr>
+
+                        <th scope="col">Coupon Code</th>
+                        <th scope="col">Offer Percentage</th>
+                        <th scope="col">Offer Cap</th>
+                        <th scope="col">Start Date </th>
+                        <th scope="col">End Date</th>
+                         <th scope="col">Status</th>
+                         <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class=" text-center">
+                    {{#each couponData}}
+                        <tr>
+                            <td>{{ this.couponCode}}</td>
+                            <td>{{ this.offerPercentage}}</td>
+                            <td>{{ this.offerCap }}</td>
+                            <td>{{ this.startDate }}</td>
+                            <td>{{ this.endDate }}</td>
+                            <td>{{#if this.status}} <button class="btn btn-success" onclick="holdCoupon('{{this._id}}')">Active</button>{{else}}<button class="btn btn-dark" onclick="unHoldCoupon('{{this_id}}')">Disabled</button>{{/if}}
+                            </td>
+
+                            <td>
+                                <button class="btn btn-dark">
+                                    <a href="" class="text-white">Edit</a>
+                                </button>
+                                <button class="ml-2 btn btn-danger"value="Delete" onclick="">X</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-3 ml-5">
+            <div class="form-group">
+                <form action="/admin/addCouponCode" method="POST">
+                    <div class="col-md-12 bg-dark text-center mb-5">
+                        <label class="text-white">Add New Coupon Code</label>
+                    </div>
+
+                    <div class="row mt-5">
+                        <label for="">Coupon Code :
+                        </label>
+                        <input type="text" class="form-control  " required placeholder="Min value is 2" name="couponCode" id="couponCode"/>
+                    </div>
+                    <div class="row mt-2">
+                        <label for="">Offer Percentage :</label>
+                        <input type="number" class="form-control  " required placeholder="Min value is 2" name="offerPercentage" id="offerPercentage"/>
+                    </div>
+                    <div class="row mt-2">
+                        <label for=" ">Offer Amount Cap :</label>
+                        <input type="number" class="form-control  " required placeholder="Min value is 2" name="offerCap" id="offerCap"/>
+                    </div>
+                    <div class="row mt-2">
+                        <label for="">Start Date:
+                        </label>
+                        <input type="date" class="form-control  " required placeholder="Min value is 2" name="startDate" id="startDate"/>
+                    </div>
+
+                    <div class="row mt-2">
+                        <label for="">Expiry Date :
+                        </label>
+                        <input type="date" class="form-control  " required placeholder="Min value is 2" name="endDate" id="endDate"/>
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group m-b-0 d-flex justify-content-center align-items-cente">
+                    <div>
+                        <button type="submit" class="btn btn-dark waves-effect waves-light">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div></div><script src="/plugins/parsleyjs/parsley.min.js"></script><!-- App js --><script src="/assets/js/app.js"></script><script>
+$(document).ready(function () {
+    $('form').parsley();
+});</script>

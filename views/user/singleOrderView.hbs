@@ -6,7 +6,7 @@
             <div class="row">
             <div class="orderViewheader ">
                 <label for="ordrerId" class="">Order Id: {{singleOrderData.orderData.[0]._id}}
-                </label> <label for=""><p>Total Billed Amount:   {{singleOrderData.orderData.[0].totalAmount}}</p></label>
+                </label> <label for=""><p>Total Billed Amount:   {{singleOrderData.orderData.[0].finalAmount}}</p></label>
                 </label> <label for="">payment method:  {{singleOrderData.orderData.[0].paymnetMethod}}</label>
                 {{#if singleOrderData.orderData.[0].cancellation}}
                 <span class="btn btn-warning">Cancelled</span>

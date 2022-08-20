@@ -91,6 +91,36 @@ module.exports = {
         });
     });
   },
+
+  // delete category
+  deleteCatagory:(cataData)=>{
+    console.log(cataData)
+    return new Promise(async(resolve,reject)=>{
+      db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:cataData.cataName}).toArray().then((data)=>{
+        resolve(data.length)
+      })
+    })
+
+
+  },
+  // delete catagory with products 
+  deleteCatagoryWithProd:(data)=>{
+    return new Promise(async(resolve,reject)=>{
+     await db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:data.cataName}).toArray().then((response)=>{
+      console.log(data,".............45")
+        if(data.length==0){
+          db.get().collection(collection.CATAGORY_COLLECTION).remove({catagory:data.cataName})
+        }else{
+           db.get().collection(collection.PRODUCT_COLLECTION).remove({catagory:data.cataName})
+           db.get().collection(collection.CATAGORY_COLLECTION).remove({catagory:data.cataName})
+        }
+        resolve(response)
+        console.log(response);
+      }) 
+    })
+
+  },
+
   getSubCatagory: (subCata) => {
     return new Promise(async (resolve, reject) => {
       let data = await db
@@ -142,5 +172,15 @@ module.exports = {
 //     resolve();
 //   });
 //}
+updateSubCata:async(cataData)=>{
+  db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(cataData.cataId)},{$pull:{subCatagory:cataData.cataName}})
+  db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(cataData.cataId)},{$push:{subCatagory:cataData.newCataName}})
+await db.get().collection(collection.PRODUCT_COLLECTION).updateMany({subCatagory:cataData.cataName},{$set:{subCatagory:cataData.newCataName}}).then((response)=>{
+  return(response)
+})
+ 
 
+  
+  
+}
 }

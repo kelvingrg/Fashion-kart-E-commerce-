@@ -5,6 +5,7 @@ var adminHelpers = require("../helpers/adminHelpers");
 var userHelpers = require("../helpers/userHelpers");
 var productHelpers = require("../helpers/productHelpers");
 const multer = require("multer");
+const moment = require("moment");
 let detailedOrder
 
 const fileStorageEngine = multer.diskStorage({
@@ -179,12 +180,13 @@ router.post("/updateProduct/:id", upload.array("images", 4), (req, res) => {
         });
     }
 });
-
+// delete product 
 router.get("/deleteProduct/:id", verifyLoggedIn, (req, res) => {
     productHelpers.deleteProduct(req.params.id).then((response) => {
         res.redirect("/admin/productDetails");
     });
 });
+// delete user 
 router.get("/deleteUser/:id", verifyLoggedIn, (req, res) => {
     userHelpers.deleteUser(req.params.id).then((response) => {
         res.redirect("/admin/userDetails");
@@ -204,16 +206,36 @@ router.get("/unbanUser/:id", verifyLoggedIn, (req, res) => {
 
 // add catagory
 router.get("/addCatagory", verifyLoggedIn, (req, res) => {
-    res.render("admin/addCatagory", {admin: true});
+
+ productHelpers.getCatagory().then((cataData)=>{
+
+    console.log('catagory data at admin js,',cataData)
+    res.render("admin/addCatagory", {admin: true,cataData});
+ })
+})
+ // delete catagory 
+ router.post("/deleteCatagory",(req,res)=>{
+    console.log(req.body)
+    productHelpers.deleteCatagory(req.body).then((response)=>{
+        console.log(response)
+        res.json(response)
+
+    })
+})
+// delete catagory with listed products deleteCatagoryWithProd
+
+router.post("/deleteCatagoryWithProd",(req,res)=>{
+    console.log(req.body)
+    productHelpers.deleteCatagoryWithProd(req.body).then((response)=>{
+        console.log(response)
+        res.json(response)
+    })    
 });
 router.post("/addCatagory", (req, res) => {
     productHelpers.addCatagory(req.body).then((response) => {
-        res.render("admin/addCatagory", {admin: true});
+        res.redirect("/admin/addCatagory");
     })
-    res.render("admin/addCatagory", {admin: true});
-    productHelpers.getCatagory().then((catData) => {
-        console.log(catData)
-    })
+    
 });
 // get subcatagory
 router.post('/getSubCatagory', (req, res) => {
@@ -369,11 +391,48 @@ res.json(resp)
 //dotNutChartData
 //
 router.post('/loadDonutChart',async(req,res)=>{
-    console.log(req.body.day,'++++++++++++++++++++++++++++')
+
    let data= await adminHelpers.dotNutChartData()
    console.log('response.djhxcn',data)
      res.json(data)
    
 })
+// edit catagory 
+router.get('/editCatagory/:id', (req, res) => {                 // ned vrifyloggedin 
+       adminHelpers.getOneCatagory(req.params.id).then((oneCataData)=>{
+        res.render('admin/editCatagory', {admin: true,oneCataData})
+       })                    
+})
+
+// edit sub catagory updateSubCata
+router.post('/updateSubCata',async(req,res)=>{
+ let data= await productHelpers.updateSubCata(req.body)
+      res.json(data)
+})
+// coupon management page 
+router.get('/couponMangement',(req,res)=>{
+
+    adminHelpers.getCouponCodes().then((couponData)=>{
+        console.log('reached at couponMangement routesz after admin helpers',couponData);
+        couponData.map((data)=>{
+            console.log(data.startDate,'dta---------------')
+            data.startDate=data.startDate.toDateString()
+            data.endDate= data.endDate.toDateString()
+        })
+       
+
+        console.log(couponData)
+        res.render('admin/couponMangement',{admin:true,couponData})
+    })
+   
+})
+//add coupon code 
+router.post('/addCouponCode',async(req,res)=>{
+    req.body.offerPercentage=parseInt(req.body.offerPercentage)
+    req.body.offerCap=parseInt(req.body.offerCap)
+      await adminHelpers.addCouponCode(req.body)
+        console.log('reached back at  coupon routes ')
+       res.redirect('/admin/couponMangement')
+   })
 
 module.exports = router;

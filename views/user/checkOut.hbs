@@ -11,19 +11,19 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="coupon-accordion">
-									<!-- ACCORDION START -->
+				
 									
 							
 									<!-- ACCORDION START -->
 									<h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
 									<div id="checkout_coupon" class="coupon-checkout-content">
 										<div class="coupon-info">
-											<form action="#" id="checkOutForm">
+											
 												<p class="checkout-coupon">
-													<input type="text" placeholder="Coupon code" />
-													<input type="submit" value="Apply Coupon" />
+													<input type="text" placeholder="Coupon code" id="couponCodeInput"/>
+													<input type="submit" value="Apply Coupon" onclick="checkCouponCode('{{user._id}}','{{totalCost.[0].total}}')" />
 												</p>
-											</form>
+											
 										</div>
 									</div>
 									<!-- ACCORDION END -->						
@@ -110,24 +110,23 @@
 										<h3 class="title-7 margin-bottom-50">Your Order</h3>
 										<div class="your-order-table table-responsive">
 											<table>
-												<thead>
-													<tr>
-														<th class="product-name">Product</th>
-														<th class="product-total">Total</th>
-													</tr>
-												</thead>
+												
 												<tbody>
 													<tr>
-														<td class="product-name">Lorem Ipsum comes	(1)</td>
-														<td class="product-total">$499.00</td>
+														<td class="product-name">Total Cost</td>
+														<td class="product-total" id="totalValue">{{totalCost.[0].total}}</td>
+													</tr>
+													<tr>
+														<td class="product-name">Discount</td>
+														<td class="product-total" id="couponDiscount" name="couponDisount">00</td>
 													</tr>
 												
 													
 													<tr>
 														<td class="product-name order-total">Order Total</td>
-														<td class="product-total order-total">{{totalCost.[0].total}}</td>
+														<td class="product-total order-total" id="finalTotal" name="finalTotal">{{totalCost.[0].total}}</td>
 													</tr>												
-												</tbody>
+												</tbody> 
 											</table>
 											<div class="payment-method">
 												<input type="radio" name="paymentMethod" value="COD">  <label for="cod">Cash On Dellivery</label><br>

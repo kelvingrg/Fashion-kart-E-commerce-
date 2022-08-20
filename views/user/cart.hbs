@@ -44,11 +44,11 @@
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<div class="coupon">
+										{{!-- <div class="coupon">
 											<input type="submit" value="update cart" />
 											<span>do you have coupon code</span>
-											<input type="text" />
-										</div>
+											<input type="text" id="couponCodeInput" onfocusout="checkCouponCode('{{user._id}}')"/>
+										</div> --}}
 									</div>
 								</div>
 								<div class="row">
@@ -58,21 +58,21 @@
 											<div class="table-cart table-responsive">
 												<table>
 													<tbody class="cart-totals-list">
-														<tr>
+														{{!-- <tr>
 															<th>Subtotal</th>
 															<td id="totalValue">{{totalCost.[0].total}}</td>
 														</tr>
 														<tr>
-															<th>Discount</th>
-															<td><span>no discount or coupon code</span></td>
-														</tr>
+															{{!-- <th>Discount</th>
+															<td><span>no discount or coupon code</span></td> --}} 
+														</tr>--}}
 														<tr>
-															<th>Shipping</th>
-															<td><p>free shipping</p></td>
+															{{!-- <th>Shipping</th>
+															<td><p>free shipping</p></td> --}}
 														</tr>
 														<tr class="cart-total">
 															<th>Total</th>
-															<td>$700.00</td>
+															<td id="totalValue">{{totalCost.[0].total}}</td>
 														</tr>
 													</tbody>
 												</table>

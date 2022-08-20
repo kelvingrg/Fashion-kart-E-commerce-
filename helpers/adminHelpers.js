@@ -335,6 +335,7 @@ orderCount:(days) => {
         })
     })
 },
+
 test:async()=>{
 let data =await db.get().collection(collection.ORDER_COLLECTION).aggregate( [
     {$match:{cancellation:false}},
@@ -419,5 +420,31 @@ let data=[['Payment Method','Numbers']]
 return(dotNut)
     
     
+},
+
+// single order data 
+getOneCatagory:(cataId)=>{
+    return new Promise(async(resolve,reject)=>{
+        db.get().collection(collection.CATAGORY_COLLECTION).find({_id:objectId(cataId)}).toArray().then((response)=>{
+            resolve(response)
+        })
+    })
+},
+
+// add coupons into collection 
+addCouponCode: async(couponData)=>{
+
+       let response= await db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData)
+       console.log(response)
+             db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:objectId(response.insertedId)},{$set:{startDate:new Date(couponData.startDate),endDate:new Date(couponData.endDate),status:true}})
+},
+
+getCouponCodes:()=>{
+    return new Promise(async(resolve,reject)=>{
+        await db.get().collection(collection.COUPON_COLLECTION).find().toArray().then((couponData)=>{
+            resolve(couponData)
+        })
+    })
 }
 }
+             

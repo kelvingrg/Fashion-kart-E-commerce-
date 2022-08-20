@@ -389,14 +389,14 @@ module.exports = {
     },
 
     // order place
-    placeOrder: (order, products, total) => {
+    placeOrder: (order, products, total,totalValue,couponApplied) => {
         return new Promise((resolve, reject) => {
-            console.log(order, products, total)
+            console.log(order, products, total,couponApplied,'....................................cuopon data appiled on place order usheplers')
             let status = order.paymentMethod == 'COD' ? 'placed' : 'pending'
             let orderObj = {
                 deliveryDetails: {
                     name: order.name,
-                    address: order.address,
+                    address: order.address,             
                     city: order.city,
                     state: order.state,
                     country: order.country,
@@ -406,21 +406,30 @@ module.exports = {
                 userId: objectId(order.userId),
                 paymnetMethod: order.paymentMethod,
                 products: products,
-                totalAmount: total[0].total,
-                date:new Date().toDateString(),
+                totalAmount:totalValue[0].total,
+                couponCodeApplied:couponApplied.couponData.couponCode,
+                couponId:couponApplied.couponData._id,
+                finalAmount:total,
+                date: new Date().toDateString(),
                 timeStamp: new Date(),
                 status: status,
                 cancellation: false
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                db.get().collection(collection.CART_COLLECTION).deleteOne({
-                    user: objectId(order.userId)
-                })
+                // db.get().collection(collection.CART_COLLECTION).deleteOne({
+                //     user: objectId(order.userId)
+                // })
                 resolve(response)
             })
         })
     },
-
+    // to delete cart items , which is called only after once  order get placed  
+    deleteCartItems:async(userId)=>{
+       await db.get().collection(collection.CART_COLLECTION).deleteOne({
+                user: objectId(userId)
+        })
+           
+        },
     // razor pay integration
 
     generateRazorPay: (orderId, total) => {
@@ -519,7 +528,7 @@ module.exports = {
     },
     // view order details after order history
     viewOrderDetails: (orderId,) => {
-        console.log(('reached at view order detaisls fn at helpers '));
+       
         let response = {}
 
         return new Promise(async (resolve, reject) => {
@@ -560,6 +569,7 @@ module.exports = {
                         deliveryDetails: 1,
                         paymnetMethod: 1,
                         totalAmount: 1,
+                        finalAmount:1,
                         status: 1,
                         date: 1
                     }
@@ -596,7 +606,9 @@ module.exports = {
                 $set: {
                     status: 'Placed'
                 }
-            }).then(() => {
+            }).then(async() => {
+
+                db.get
                 resolve()
             })
         })
@@ -614,6 +626,46 @@ module.exports = {
 
 
         })
+
+
+    },
+    validateCoupon:async(data,userId)=>{
+        let response={}
+        console.log('rexhed at fn checkCouponCode');
+        let couponData=await db.get().collection(collection.COUPON_COLLECTION).findOne({couponCode:data.couponCode})
+      
+      
+        if(couponData){
+
+        if(couponData.startDate <= new Date()&&couponData.endDate >= new Date()){
+            console.log('ifdata..1',userId,data.couponCode);
+           let userCouponAvailability= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{$match:{userId:objectId(userId),couponCodeApplied:data.couponCode}}]).toArray()  //,couponCodeApplied:data.couponCode
+          console.log('userCouponAvailability',userCouponAvailability);
+           if(userCouponAvailability.length){
+            console.log('ifdata..2',userCouponAvailability);
+            response.usage=true
+            return(response)
+            
+           }
+           else{
+            console.log('ifdata..3');
+            response.couponData=couponData
+            return(response)
+          }
+        }else{
+            console.log('ifdata..4');
+            response.notAvailable=true
+            return(response)
+        }}
+        else{
+            console.log('ifdata..5');
+            response.notAvailable=true
+            return(response)
+        }
+    },
+    getCatagory:async()=>{
+      let catagoryData=  await db.get().collection(collection.CATAGORY_COLLECTION).find().toArray()
+      return(catagoryData)
 
 
     }
