@@ -62,12 +62,12 @@
 							<div class="main-menu pull-right">
 								<nav>
 									<ul>
-										<li><a href="/">home</a></li>
+										<li><a href="/" style="cursor: pointer;">home</a></li>
 										{{#each categoryData}}
-										<li><a>{{this.catagory}}</a>
+										<li  onclick="productsVeiwMainCata('{{this.catagory}}')" style="cursor: pointer;"><a>{{this.catagory}}</a>
 											<ul class="submenu">
 												{{#each this.subCatagory}}
-												<li onclick="productsVeiwSubCata('{{this}}')"><a>{{this}}</a></li>
+												<li onclick="productsVeiwSubCata('{{this}}')" style="cursor: pointer;"><a>{{this}}</a></li>
 								
 												{{/each}}
 											</ul>

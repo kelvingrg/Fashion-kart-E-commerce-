@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 var objectId = require("mongodb").ObjectId;
 const Razorpay = require('razorpay');
 const CC = require("currency-converter-lt");
-require("dotenv").config();
+require("dotenv").config()
+const moment = require("moment");
 
 let respond = {};
 // / razor pay configaration
@@ -14,6 +15,7 @@ var instance = new Razorpay({key_id: process.env.KEY_ID, key_secret: process.env
 // paypal configuration
 const paypal = require('paypal-rest-sdk');
 const {response} = require("express");
+const { resolve } = require("path");
 paypal.configure({mode: "sandbox", client_id: 'ATVfUdlaEds_REEqb851ftHbOZRfYuSJrVBTxI1iUWCU2my_lpNjwkEfx82dpwe5T5m_NoMSCV1Vbdbq', client_secret: 'EBWuUe0r61_vNU4N2kK3EykHQR7xhx7nfC_YS4x472Lwr2Exay0a14Uly2DWPl8P18l6njI8FSRYOnmf'});
 
 
@@ -383,25 +385,32 @@ module.exports = {
     getCartProductList: (userId) => {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({user: objectId(userId)})
-            console.log(cart, 'carttttttttttttt')
+    
             resolve(cart.products)
         })
     },
 
     // order place
-    placeOrder: (order, products, total,totalValue,couponApplied) => {
+    placeOrder:async(order, products, total,totalValue,couponApplied) => {
+        console.log(order,'................adorder')
+        console.log(order.address,'................adorder')
+        
+        
+      let addressData= await db.get().collection(collection.ADDRESS_COLLECTION).aggregate([{$match:{userId:objectId(order.userId)}},{$unwind:"$address"},{$match:{"address._id":order.address}},{$project:{address:1}}]).toArray()
+      console.log(addressData,'................addressFata')
+      console.log(addressData[0].address.firstName,'................addressFata')
+      console.log(addressData[0].firstName,'................addressFata')
+      console.log(addressData[0].firstName,'................addressFata')
         return new Promise((resolve, reject) => {
-            console.log(order, products, total,couponApplied,'....................................cuopon data appiled on place order usheplers')
             let status = order.paymentMethod == 'COD' ? 'placed' : 'pending'
             let orderObj = {
                 deliveryDetails: {
-                    name: order.name,
-                    address: order.address,             
-                    city: order.city,
-                    state: order.state,
-                    country: order.country,
-                    pin: order.pin,
-                    mobileNumber: order.mobileNumber
+                    name: addressData[0].address.firstName+" "+addressData[0].address.lasttName,
+                    address: addressData[0].address.address,             
+                    city: addressData[0].address.city,
+                    country: addressData[0].address.country,
+                    pin: addressData[0].address.pinCode,              
+                    mobileNumber: addressData[0].address.mobileNumber,
                 },
                 userId: objectId(order.userId),
                 paymnetMethod: order.paymentMethod,
@@ -425,9 +434,9 @@ module.exports = {
     },
     // to delete cart items , which is called only after once  order get placed  
     deleteCartItems:async(userId)=>{
-       await db.get().collection(collection.CART_COLLECTION).deleteOne({
-                user: objectId(userId)
-        })
+    //    await db.get().collection(collection.CART_COLLECTION).deleteOne({
+    //             user: objectId(userId)
+    //     })
            
         },
     // razor pay integration
@@ -668,6 +677,26 @@ module.exports = {
       return(catagoryData)
 
 
+    },
+    addNewAddress:async(addressData,userId)=>{
+     let tempId = moment().format()   .toString()
+    tempId.replace(/ /g,'')
+    addressData._id=tempId
+    await db.get().collection(collection.ADDRESS_COLLECTION).updateOne({userId:objectId(userId)},{$push:{address:addressData}},{upsert:true})
+
+    },
+    getAddress:(userId)=>{
+       
+        return new Promise(async(resolve,reject)=>{
+       await db.get().collection(collection.ADDRESS_COLLECTION).find({userId:objectId(userId)}).toArray().then((addressData)=>{
+        resolve(addressData)
+        
+       })
+          
+           
+        })
+       
+       
     }
 
 }

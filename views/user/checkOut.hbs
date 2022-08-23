@@ -1,192 +1,331 @@
+<script src="/javascripts/myjs/userSideAjasx.js"></script>
 <section>
-			<!-- CHECKOUT-AREA START -->
-			<div class="checkout-area margin-bottom-80 mt-3">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<br><h3 class="title-6 margin-bottom-30 ">Checkout</h3>
-						</div>
-					</div>
-					<div class="coupon-area">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="coupon-accordion">
-				
-									
-							
-									<!-- ACCORDION START -->
-									<h3>Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
-									<div id="checkout_coupon" class="coupon-checkout-content">
-										<div class="coupon-info">
-											
-												<p class="checkout-coupon">
-													<input type="text" placeholder="Coupon code" id="couponCodeInput"/>
-													<input type="submit" value="Apply Coupon" onclick="checkCouponCode('{{user._id}}','{{totalCost.[0].total}}')" />
-												</p>
-											
-										</div>
-									</div>
-									<!-- ACCORDION END -->						
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Checkout-Billing-details and order start -->
-					<div class="checkout-bill-order">
-						<form id="placeOrder">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="checkout-bill">
-										<h3 class="title-7 margin-bottom-50">Billing Details</h3>
-									</div>
-									
-									<div class="row coupon-info">
-										<div class="col-md-12">
-											<p class="form-row-first">
-												<label> Name </label>
-												<input type="text" id="name" name="name"/>
-											</p>
-										</div>
-									</div>
-									<div class="row coupon-info">
-										<div class="col-md-6">
-											<p class="form-row-first">
-												<label>Email Address <span class="required">*</span></label>
-												<input type="text" />
-											</p>
-										</div>
-										<div class="col-md-6">
-											<p class="form-row-last">
-												<label>Phone  <span class="required">*</span></label>
-												<input type="text" id="mobileNumber" name="mobileNumber" />
-											</p>
-										</div>
-									</div>
-									<div class="row coupon-info">
-										<div class="col-md-12">
-											<p class="form-row-first">
-												<label>Country </label>
-												<input type="text" id="country" name="country" />
-											</p>
-										</div>
-									</div>
-									<div class="row coupon-info">
-										<div class="col-md-12">
-											<p class="form-row-first">
-												<label>Address </label>
-												<input type="text" placeholder="Street address" name="address" />
-											</p>
-										</div>
-									</div>
-									<div class="row coupon-info">
-										<div class="col-md-12">
-											<p class="form-row-first">
-												<label>Town / City </label>
-												<input type="text" placeholder="" id="city" name="city" />
-											</p>
-										</div>
-									</div>
-									<div class="row coupon-info">
-										<div class="col-md-6">
-											<p class="form-row-first">
-												<label>State <span class="required">*</span></label>
-												<input type="text" id="state" name="state" />
-											</p>
-										</div>
-										<div class="col-md-6">
-											<p class="form-row-last">
-												<label>PIN  <span class="required">*</span></label>
-												<input type="text" id="pin" name="pin" />
-											</p>
-										</div>
-									</div>
-								
-									<input type="text" id="userId"name="userId" value="{{user._id}}" hidden>
-									
-									
-								</div>
-								<div class="col-md-6">
-									<div class="your-order">
-										<h3 class="title-7 margin-bottom-50">Your Order</h3>
-										<div class="your-order-table table-responsive">
-											<table>
-												
-												<tbody>
-													<tr>
-														<td class="product-name">Total Cost</td>
-														<td class="product-total" id="totalValue">{{totalCost.[0].total}}</td>
-													</tr>
-													<tr>
-														<td class="product-name">Discount</td>
-														<td class="product-total" id="couponDiscount" name="couponDisount">00</td>
-													</tr>
-												
-													
-													<tr>
-														<td class="product-name order-total">Order Total</td>
-														<td class="product-total order-total" id="finalTotal" name="finalTotal">{{totalCost.[0].total}}</td>
-													</tr>												
-												</tbody> 
-											</table>
-											<div class="payment-method">
-												<input type="radio" name="paymentMethod" value="COD">  <label for="cod">Cash On Dellivery</label><br>
-                                                <input type="radio" name="paymentMethod" value="PAYPAL">  <label for="">PayPal</label>
-												<input type="radio" name="paymentMethod" value="RAZORPAY">  <label for="">RazorPay</label>                                      
-												</div>
-											<div class="order-button-payment">
-												<input type="submit" value="Place order" />
-											</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-					<!-- Checkout-Billing-details and order end -->
-				</div>
-			</div>
-			<!-- CHECKOUT-AREA END -->
-			<!-- BRAND-LOGO-AREA START -->
-			<div class="brand-logo-area margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-5 col-sm-12">
-							<div class="brand-brief">
-								<h2 class="border-left-right">they are with us</h2>
-								<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
-							</div>
-						</div>
-						<div class="col-md-7 col-sm-12">
-							<div class="brand-logo fix">
-								<div class="single-logo">
-									<img src="img/brand/1.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/2.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/3.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/4.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/5.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/6.png" alt="" />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- BRAND-LOGO-AREA END -->
-		</section>
-		<!-- PAGE-CONTENT END -->	
-		
-		
+    <script>
+        window.onload = couponAppliedSetNull
+    </script>
 
-		
-	
+    <!-- CHECKOUT-AREA START -->
+    <div class="checkout-area margin-bottom-80 mt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <br><h3 class="title-6 margin-bottom-30 ">Checkout</h3>
+                </div>
+            </div>
+            <div class="coupon-area">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div
+                            class="coupon-accordion">
+
+
+                            <!-- ACCORDION START -->
+                            <h3>Have a coupon?
+                                <span id="showcoupon">Click here to enter your code</span>
+                            </h3>
+                            <div id="checkout_coupon" class="coupon-checkout-content">
+                                <div class="coupon-info">
+
+                                    <p class="checkout-coupon">
+                                        <input type="text" placeholder="Coupon code" id="couponCodeInput"/>
+                                        <input type="submit" value="Apply Coupon" onclick="checkCouponCode('{{user._id}}','{{totalCost.[0].total}}')"/>
+                                    </p>
+
+                                </div>
+                            </div>
+                            <!-- ACCORDION END -->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- adrress start  --}}
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#shipping-info" aria-expanded="false">
+                            <i class="pe-7s-cart"></i>
+                            <span>Add New Address</span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="shipping-info" class="panel-collapse collapse" role="tabpanel">
+                    <div
+                        class="panel-body">
+                        <!-- CHECKOUT-AREA START -->
+                        <div class="checkout-area">
+
+                            <div
+                                class="row">
+                                <!-- Shipping-Address Start -->
+                                <div class="col-md-12">
+                                    <div class="shipping-address">
+                                        <form action="/updateNewAdressFromCheckOut" method="post">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input class="custom-form" type="text" placeholder="Frst Name" name="firstName"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="custom-form" type="text" placeholder="Last Name" name="lastName"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="text" class="custom-form" placeholder="Address" name="address"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="custom-form" placeholder="City" name="city"/>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="custom-form" placeholder="Country" name="country"/>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input class="custom-form" type="text" placeholder="Phone Number" name="mobileNumber"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="custom-form" type="text" placeholder="Postal Code" name="pinCode"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <input type="text" class="custom-form" placeholder="Email" name="email"/>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <input type="submit" class="custom-submit-2 save " value="Update"/>
+                                            </div>
+
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                                <!-- Shipping-Address End -->
+                            </div>
+
+                        </div>
+                        <!-- CHECKOUT-AREA END -->
+                    </div>
+                </div>
+            </div>
+            {{!-- address area ends  --}}
+
+            <form id="placeOrder">
+
+                <div class="row">
+                    <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-12">
+                        <div class="row space-16">&nbsp;</div>
+                        <div class="row">
+
+
+                            {{#each addressData.[0].address}}
+
+                                <div class="col-md-3">
+                                    <div class="thumbnail">
+                                        <div class="caption text-left ">
+                                            <input type="radio" name="address" value={{this._id}} checked>
+                                            <h4>{{this.firstName}}&nbsp;{{this.lastName}}
+                                            </h4>
+                                        </div>
+                                        <div class="caption card-footer ml-3 ">
+                                            <ul>
+                                                <li>{{this.address}}</li>
+                                                <li>{{this.city}}</li>
+                                                <li>{{this.country}}</li>
+                                                <li>{{this.pinCode}}</li>
+                                                <li>{{this.mobileNumber}}</li>
+                                                <li>{{this.email}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {{/each}}
+
+                        </div>
+                        <div class="col-md-2">&nbsp;</div>
+                    </div>
+                </div>
+
+                <!-- Checkout-Billing-details and order start -->
+                <div class="checkout-bill-order">
+                    {{!-- <form id="placeOrder"> --}}
+                    <div class="row">
+                        {{!-- <div class="col-md-6">
+                            <div class="checkout-bill">
+                                <h3 class="title-7 margin-bottom-50">Billing Details</h3>
+                            </div>
+
+                            <div class="row coupon-info">
+                                <div class="col-md-12">
+                                    <p class="form-row-first">
+                                        <label>
+                                            Name
+                                        </label>
+                                        <input type="text" id="name" name="name"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row coupon-info">
+                                <div class="col-md-6">
+                                    <p class="form-row-first">
+                                        <label>Email Address
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="form-row-last">
+                                        <label>Phone
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text" id="mobileNumber" name="mobileNumber"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row coupon-info">
+                                <div class="col-md-12">
+                                    <p class="form-row-first">
+                                        <label>Country
+                                        </label>
+                                        <input type="text" id="country" name="country"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row coupon-info">
+                                <div class="col-md-12">
+                                    <p class="form-row-first">
+                                        <label>Address
+                                        </label>
+                                        <input type="text" placeholder="Street address" name="address"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row coupon-info">
+                                <div class="col-md-12">
+                                    <p class="form-row-first">
+                                        <label>Town / City
+                                        </label>
+                                        <input type="text" placeholder="" id="city" name="city"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row coupon-info">
+                                <div class="col-md-6">
+                                    <p class="form-row-first">
+                                        <label>State
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text" id="state" name="state"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="form-row-last">
+                                        <label>PIN
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text" id="pin" name="pin"/>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <input type="text" id="userId" name="userId" value="{{user._id}}" hidden>
+
+
+                        </div> --}}
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="your-order ">
+                                <h3 class="title-7 margin-bottom-50 text-center">Your Order</h3>
+                                <div class="your-order-table table-responsive">
+                                    <table>
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="product-name">Total Cost</td>
+                                                <td class="product-total" id="totalValue">{{totalCost.[0].total}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="product-name">Discount</td>
+                                                <td class="product-total" id="couponDiscount" name="couponDisount">00</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="product-name order-total">Order Total</td>
+                                                <td class="product-total order-total" id="finalTotal" name="finalTotal">{{totalCost.[0].total}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="payment-method">
+                                        <input type="radio" name="paymentMethod" value="COD" checked>
+                                        <label for="cod">Cash On Dellivery</label><br>
+                                        <input type="radio" name="paymentMethod" value="PAYPAL">
+                                        <label for="">PayPal</label><br>
+                                        <input type="radio" name="paymentMethod" value="RAZORPAY">
+                                        <label for="">RazorPay</label>
+                                    </div>
+                                    <div class="order-button-payment text-center">
+                                        <input type="submit" value="Place order"/>
+											<input type="text" id="userId"name="userId" value="{{user._id}}" hidden>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			
+            </form>
+        </div>
+        <!-- Checkout-Billing-details and order end -->
+    </div>
+</div>
+<!-- CHECKOUT-AREA END -->
+<!-- BRAND-LOGO-AREA START -->
+<div class="brand-logo-area margin-bottom-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-12">
+                <div class="brand-brief">
+                    <h2 class="border-left-right">they are with us</h2>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-7 col-sm-12">
+                <div class="brand-logo fix">
+                    <div class="single-logo">
+                        <img src="img/brand/1.png" alt=""/>
+                    </div>
+                    <div class="single-logo">
+                        <img src="img/brand/2.png" alt=""/>
+                    </div>
+                    <div class="single-logo">
+                        <img src="img/brand/3.png" alt=""/>
+                    </div>
+                    <div class="single-logo">
+                        <img src="img/brand/4.png" alt=""/>
+                    </div>
+                    <div class="single-logo">
+                        <img src="img/brand/5.png" alt=""/>
+                    </div>
+                    <div class="single-logo">
+                        <img src="img/brand/6.png" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BRAND-LOGO-AREA END --></section><!-- PAGE-CONTENT END -->

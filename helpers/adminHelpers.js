@@ -1,9 +1,12 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
+const { response } = require("express");
+const moment = require("moment");
 
 // const { response } = require('../app')
 var objectId = require("mongodb").ObjectId;
+let reportData = []
 module.exports = {
     getAllUsers: () => {
         return new Promise(async (resolve, reject) => {
@@ -175,7 +178,11 @@ module.exports = {
                         status: status
                     }
                 })
+
+
             
+
+
         })
 
     },
@@ -193,7 +200,7 @@ module.exports = {
                                     )
                                 }
                             }, {
-                                cancellation:false
+                                cancellation: false
                             }
                         ]
                     }
@@ -216,235 +223,440 @@ module.exports = {
 
     getRevenueData: (days) => {
         let day = parseInt(days)
-            console.log(day, 'hhlj;l')
-            return new Promise(async (resolve, reject) => {
-                await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                        {
-                            $match: {
-                                $and: [
-                                    {
-                                        timeStamp: {
-                                            $gte: new Date(
-                                                (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
-                                            )
-                                        }
-                                    }, {
-                                        cancellation: false
-                                    }
-                                ]
-                            }
-                        }, {
-                            $group: {
-                                _id: null,
-                                totalAmounts: {
-                                    $sum: "$totalAmount"
-                                }
-                            }
-                        }
-                    ]
-            ).toArray().then((data) => {
-                resolve(data)
-                console.log(data, 'reached  at function .....3.5')
-            })}
-    )
-
-},
-newUsersData:(days) => {
-    let day = parseInt(days)
         console.log(day, 'hhlj;l')
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.USER_COLLECTION).
-            aggregate([
-                    {
-                        $match: {
-                            
-                                 timeStamp: {
-                                        $gte: new Date(
-                                            (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
-                                        )
-                                    }
-                                
-                        
+            await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [
+                            {
+                                timeStamp: {
+                                    $gte: new Date(
+                                        (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
+                                    )
+                                }
+                            }, {
+                                cancellation: false
+                            }
+                        ]
+                    }
+                }, {
+                    $group: {
+                        _id: null,
+                        totalAmounts: {
+                            $sum: "$totalAmount"
                         }
                     }
-                     , { $count:"usersCount" }
-                ]
-        )
-        .toArray().then((data) => {
-            resolve(data)
-            console.log(data, 'reached  at function .....3.5')
-        })}
-)
+                }
+            ]).toArray().then((data) => {
+                resolve(data)
+                console.log(data, 'reached  at function .....3.5')
+            })
+        })
 
-},
-// fnd cancelled order data 
-getCancelledOrderData:(days) => {
-    console.log(days,'reached at function..........3 ');
-    let day = parseInt(days)
-    return new Promise(async (resolve, reject) => {
-        await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+    },
+    newUsersData: (days) => {
+        let day = parseInt(days)
+        console.log(day, 'hhlj;l')
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match: {
+
+                        timeStamp: {
+                            $gte: new Date(
+                                (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
+                            )
+                        }
+
+
+                    }
+                }, {
+                    $count: "usersCount"
+                }
+            ]).toArray().then((data) => {
+                resolve(data)
+                console.log(data, 'reached  at function .....3.5')
+            })
+        })
+
+    },
+    // fnd cancelled order data
+    getCancelledOrderData: (days) => {
+        console.log(days, 'reached at function..........3 ');
+        let day = parseInt(days)
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [
+                            {
+                                timeStamp: {
+                                    $gte: new Date(
+                                        (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
+                                    )
+                                }
+                            }, {
+                                cancellation: true
+                            }
+                        ]
+                    }
+                }, {
+                    $count: "cancelledOrderCount"
+                }
+
+            ]).toArray().then((data) => {
+                resolve(data)
+
+            })
+        })
+    },
+    orderCount: (days) => {
+        let day = parseInt(days)
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        $and: [
+                            {
+                                timeStamp: {
+                                    $gte: new Date(
+                                        (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
+                                    )
+                                }
+                            }, {
+                                cancellation: false
+                            }
+                        ]
+                    }
+                }, {
+                    $count: "OrderCountData"
+                }
+
+            ]).toArray().then((data) => {
+                resolve(data)
+
+            })
+        })
+    },
+
+    test: async () => {
+        let data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
             {
                 $match: {
-                    $and: [
-                        {
-                            timeStamp: {
-                                $gte: new Date(
-                                    (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
-                                )
+                    cancellation: false
+                }
+            }, {
+
+                $group: {
+                    _id: {
+                        truncatedOrderDate: {
+                            $dateTrunc: {
+                                date: "$timeStamp",
+                                unit: "year",
+                                binSize: 1
                             }
                         }
-                        , {
-                           cancellation:true
-                         }
-                    ]
+                    },
+                    sumQuantity: {
+                        $sum: "$totalAmount"
+                    }
+                }
+            }, {
+                $project: {
+                    year: {
+                        $year: "$_id.truncatedOrderDate"
+                    },
+                    sumQuantity: 1
+                }
+            }, {
+                $sort: {
+                    year: 1
                 }
             }
-             , { $count:"cancelledOrderCount" }
-          
-        ]).toArray().then((data) => {
-            resolve(data)
-          
+        ]).toArray()
+
+        console.log(data, '++++++++++++test data ', data.length, data[0].year)
+        let len = data.length
+        baseyear = data[0].year
+        let linechartData = {}
+        for (let i = 0; i < data.length; i++) {
+            if (baseyear == data[len - 1].year) 
+                break;
+            
+
+
+            console.log(i)
+            if (baseyear == data[i].year) {
+                baseyear ++
+
+
+            } else {
+
+                let a = {
+                    sumQuantity: 0,
+                    year: baseyear
+                }
+                data.push(a)
+                baseyear ++
+                i--
+                if (i == len - 1) 
+                    break
+
+
+                
+
+
+                console.log(i)
+
+
+            }
+
+        }
+        data.sort(function (a, b) {
+            return a.year - b.year;
+        });
+        console.log(data, 'after forloop ')
+        let linechartYear = []
+        let linechartSum = []
+        data.forEach(element => {
+            let a = element.year
+            linechartYear.push(a)
         })
+        data.forEach(element => {
+            let a = element.sumQuantity
+            linechartSum.push(a)
+        })
+
+        linechartData.year = linechartYear
+        linechartData.sum = linechartSum
+        console.log(linechartData, 'after forloop......... ')
+        return(linechartData)
+    },
+
+
+    // donut chart
+    dotNutChartData: async () => {
+        let dotNut = await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
+                $group: {
+                    _id: "$paymnetMethod",
+                    count: {
+                        $sum: 1
+                    }
+                }
+            }]).toArray()
+        let data = [['Payment Method', 'Numbers']]
+
+        dotNut.forEach(element => {
+            let a = [element]
+            data.push(a)
+        });
+
+
+        return(dotNut)
+
+
+    },
+
+    // single order data
+    getOneCatagory: (cataId) => {
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collection.CATAGORY_COLLECTION).find({_id: objectId(cataId)}).toArray().then((response) => {
+                resolve(response)
+            })
+        })
+    },
+
+    // add coupons into collection
+    addCouponCode: async (couponData) => {
+
+        let response = await db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData)
+        console.log(response)
+        db.get().collection(collection.COUPON_COLLECTION).updateOne({
+            _id: objectId(response.insertedId)
+        }, {
+            $set: {
+                startDate: new Date(couponData.startDate),
+                endDate: new Date(couponData.endDate),
+                status: true
+            }
+        })
+    },
+
+    getCouponCodes: () => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.COUPON_COLLECTION).find().toArray().then((couponData) => {
+                resolve(couponData)
+            })
+        })
+    },
+
+
+    fetchMonthlyData: async () => {
+      reportData=[];
+     
+return new Promise(async(resolve,reject)=>{
+    await db.get().collection(collection.CATAGORY_COLLECTION).aggregate([{
+        $project: {
+            catagory: 1,
+            _id: 0
+        }
+    }]).toArray().then((catagory)=>{
+        resolve(catagory)
     })
-},
-orderCount:(days) => {
-    let day = parseInt(days)
-    return new Promise(async (resolve, reject) => {
+
+})   
+    },
+   
+ fetchData:async(catagory,selectedYear)=>{
+    selectedYear= parseInt(selectedYear)
+    console.log(selectedYear)
+
+   return new Promise(async(resolve,reject)=>{
+
+
+     await catagory.map(async(element) => {
+      
+        return new Promise(async(resolve,reject)=>{
         await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+            {
+                $project: {
+                    cancellation: 1,
+                    totalAmount: 1,
+                    products: 1,
+                    year: {
+                        $year: "$timeStamp"
+                    },
+                    timeStamp: 1
+
+
+                }
+            },
             {
                 $match: {
-                    $and: [
-                        {
-                            timeStamp: {
-                                $gte: new Date(
-                                    (new Date().getTime() - (day * 24 * 60 * 60 * 1000))
-                                )
-                            }
+                    cancellation: false,
+                    year: selectedYear
+                }
+            },
+            {
+                $unwind: "$products"
+            },
+            {
+                $project: {
+                    productId: "$products.item",
+                    productQuantity: "$products.quantity",
+                    totalAmount: 1,
+                    timeStamp: 1,
+                    year: 1,
+                    _id: 1
+
+                }
+            }, {
+                $lookup: {
+                    from: collection.PRODUCT_COLLECTION,
+                    localField: 'productId',
+                    foreignField: '_id',
+                    as: 'product'
+                }
+            }, {
+                $project: {
+                    catagory: "$product.catagory",
+                    subCatagory: "$product.subCatagory",
+                    month: {
+                        $month: "$timeStamp"
+                    },
+                    productQuantity: 1,
+                    totalAmount: 1,
+                    timeStamp: 1,
+                    year: 1
+                }
+            }, {
+                $match: {
+                    catagory: element.catagory
+                }
+            }, {
+                $group: {
+                    _id: {
+                        month: {
+                            $month: "$timeStamp"
                         }
-                        , {
-                           cancellation:false
-                         }
-                    ]
+                    },
+                    totalAmount: {
+                        $sum: "$totalAmount"
+                    },
+                    productQuantity: {
+                        $sum: "$productQuantity"
+                    }
+                }
+
+            }, {
+                $sort: {
+                    _id: 1
+                }
+            }, {
+                $project: {
+                    month: "$_id.month",
+                    totalAmount: 1,
+                    productQuantity: 1,
+                    _id: 0
                 }
             }
-             , { $count:"OrderCountData" }
-          
-        ]).toArray().then((data) => {
-            resolve(data)
-          
-        })
-    })
-},
-
-test:async()=>{
-let data =await db.get().collection(collection.ORDER_COLLECTION).aggregate( [
-    {$match:{cancellation:false}},
-    {
-
-        $group: {
-           _id: {
-              truncatedOrderDate: {
-                 $dateTrunc: {
-                    date: "$timeStamp", unit: "year", binSize: 1
-                 }
-              }
-           },
-           sumQuantity: { $sum: "$totalAmount" },
-        }}, {$project:{year:{$year:"$_id.truncatedOrderDate"},sumQuantity:1}},{$sort:{year:1}} 
- ] ).toArray()
-
- console.log(data,'++++++++++++test data ',data.length,data[0].year)
- let len=data.length
-baseyear= data[0].year
-let linechartData={}
-for(let i=0;i<data.length;i++){
-     if(baseyear==data[len-1].year)
-     break;
-    console.log(i)
-    if(baseyear==data[i].year){
-       baseyear++
-       
-
-    }else{
+        ]).toArray()
         
-        let a={sumQuantity:0,year:baseyear}
-data.push(a)
-   baseyear++
-   i--
-   if(i==len-1)
-   break
-  
-console.log(i)
        
 
+    .then((data)=>{
 
-    }
-    
-}
-data.sort(function (a, b) {
-    return a.year - b.year;
-  });
-console.log(data,'after forloop ')
-let linechartYear=[]
-let linechartSum=[]
-data.forEach(element => {
-    let a=element.year
-    linechartYear.push(a)
-})
-data.forEach(element => {
-    let a=element.sumQuantity
-    linechartSum.push(a)
-})
+        if (data.length < 12) {
 
-linechartData.year=linechartYear
-linechartData.sum=linechartSum
-console.log(linechartData,'after forloop......... ')
-return(linechartData)
-},
+            for (let i = 1; i <= 12; i++) {
+                let datain = true;
+                for (let j = 0; j < data.length; j++) {
+                    if (data[j].month === i) {
+                        datain = null;
+                    }
 
+                }
 
-// donut chart 
-dotNutChartData:async()=>{
-    let dotNut=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-        {$group : {_id:"$paymnetMethod", count:{$sum:1}}}
-    ]).toArray()
-let data=[['Payment Method','Numbers']]
+                if (datain) {
+                    data.push({totalAmount: 0, productQuantity: 0, month: i})
+                }
 
-    dotNut.forEach(element => {
-    let a=[element]
-    data.push(a)
-});
-
-
-
-return(dotNut)
-    
-    
-},
-
-// single order data 
-getOneCatagory:(cataId)=>{
-    return new Promise(async(resolve,reject)=>{
-        db.get().collection(collection.CATAGORY_COLLECTION).find({_id:objectId(cataId)}).toArray().then((response)=>{
-            resolve(response)
-        })
-    })
-},
-
-// add coupons into collection 
-addCouponCode: async(couponData)=>{
-
-       let response= await db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData)
-       console.log(response)
-             db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:objectId(response.insertedId)},{$set:{startDate:new Date(couponData.startDate),endDate:new Date(couponData.endDate),status:true}})
-},
-
-getCouponCodes:()=>{
-    return new Promise(async(resolve,reject)=>{
-        await db.get().collection(collection.COUPON_COLLECTION).find().toArray().then((couponData)=>{
-            resolve(couponData)
-        })
-    })
-}
-}
+            }
+        }
+       return data
+    }).then(async(data)=>{
+   
+        await data.sort(function (a, b) {
+            return a.month - b.month
+         });
+         return data
+    }).then(async(data)=>{
+console.log(data)
+             reportData.push({catagory: element.catagory, data: data})
              
+         return(reportData)
+
+    })
+
+})
+
+})
+ setTimeout(() =>{resolve(reportData)
+ console.log(reportData,".........tes")
+}, 500); //
+//  await resolve(reportData)
+// console.log(reportData,".........tes")
+// resolve(reportData)
+})
+    
+
+},
+fetchYears:async()=>{
+  let year= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{$group:{_id:{year:{$year:"$timeStamp"}}}},{$project:{year:"$_id.year",_id:0}},{$sort:{year:-1}}]).toArray()
+ return year
+
+}
+
+}

@@ -22,7 +22,7 @@
           {{/each}}
         </ul>
       </td>
-      <td><button  class="btn btn-dark" ><a href="/admin/editCatagory/{{this._id}}" class="text-white">Edit</a></button> <button class="ml-2 btn btn-danger" type="submit"  value="Delete" onclick="deleteCategory('{{this._id}}')">Delete</button> </td>
+      <td><button  class="btn btn-dark" ><a href="/admin/editCatagory/{{this._id}}" class="text-white"><i class="bi bi-pencil-square"></i></a></button> <button class="ml-2 btn btn-danger" type="submit"  value="Delete" onclick="deleteCategory('{{this._id}}')"><i class="bi bi-trash"></i></button> </td>
     </tr>
     {{/each}}
 
@@ -43,10 +43,9 @@
                                     <input type="text" class="custom-form" name="catagory" id="catagory"/>
                                 </div>
                             </div>
-                            <button class="float-right btn btn-success" onclick="addSubCatagories()">+</button>
+                            <button class="float-right btn btn-success ml-2" onclick="addSubCatagories()">+</button>
                             <button class="float-right btn btn-danger ml-2" onclick="removeSubCatagories()">-</button>
-                            <label for="subCatagories" id="labelMobile">Sub Catagory
-                            </label>
+                            <label for="subCatagories" id="labelMobile">Sub Catagory</label>
                             <div class="row">
                                 <div class="col-sm-12" id="addSubCatagory">
                                     <input type="text" class="custom-form subCatagory" name="subCatagory" id="subCatagory"/>

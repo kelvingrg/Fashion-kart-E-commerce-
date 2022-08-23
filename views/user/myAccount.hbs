@@ -35,11 +35,7 @@
 
 										
 										
-									</div>
-                                                            
-
-
-									                           
+									</div>   
 															<div class="row">
 																<div class="col-md-12">
 																	<input type="text" class="custom-form"  name="address"value="{{user.address}}" />
@@ -111,36 +107,28 @@
 										<div class="panel-body">
 											<!-- CHECKOUT-AREA START -->
 											<div class="checkout-area">
-												<form action="#">
+												<form action="/addNewAddress" method="post">
 													<div class="row">
 														<!-- Shipping-Address Start -->
 														<div class="col-md-12">
 															<div class="shipping-address">
-																<div class="row">
-																	<div class="col-md-12">
-																		<select class="custom-select custom-form">
-																			<option>Select Delivery Method</option>
-																			<option>Select Delivery Method</option>
-																			<option>Select Delivery Method</option>
-																		</select>
-																	</div>
-																</div>
+																
 																<div class="row">
 																	<div class="col-md-6">
-																		<input class="custom-form" type="text" placeholder="Subash" name="firstname"/>
+																		<input class="custom-form" type="text" placeholder="Frst Name" name="firstName"/>
 																	</div>
 																	<div class="col-md-6">
-																		<input class="custom-form" type="text" placeholder="Chandra" name="lastname"/>
+																		<input class="custom-form" type="text" placeholder="Last Name" name="lastName"/>
 																	</div>
 																</div>
 																<div class="row">
 																	<div class="col-md-12">
-																		<input type="text" class="custom-form" placeholder="Address" />
+																		<input type="text" class="custom-form" placeholder="Address" name="address" />
 																	</div>
 																</div>
 																<div class="row">
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form">
+																		<select class="custom-select custom-form" name="city">
 																			<option>City</option>
 																			<option>Dhaka</option>
 																			<option>New York</option>
@@ -149,7 +137,7 @@
 																		</select>
 																	</div>
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form">
+																		<select class="custom-select custom-form" name="country">
 																			<option>Country</option>
 																			<option>Bangladesh</option>
 																			<option>United States</option>
@@ -160,10 +148,10 @@
 																</div>
 																<div class="row">
 																	<div class="col-md-6">
-																		<input class="custom-form" type="text" placeholder="Phone Number" />
+																		<input class="custom-form" type="text" placeholder="Phone Number" name="mobileNumber" />
 																	</div>
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form">
+																		<select class="custom-select custom-form" name="pinCode">
 																			<option>Post Code</option>
 																			<option>012345</option>
 																			<option>0123456</option>
@@ -177,10 +165,13 @@
 																		<input type="text" class="custom-form" placeholder="Email" name="email" />
 																	</div>
 																</div>
-																<div class="row">
-																	<div class="col-md-12">
-																		<textarea class="custom-form" placeholder="Order Note"></textarea>
-																	</div>
+																
+																<div class="col-md-12 float-left">
+																	<input type="submit" class="custom-submit-2 save" value="Update"/>
+																 <a href="/viewSavedAddresses"style="color: white; margin-left:20px " class="custom-submit-2 save text-center">View Saved Address</a>
+																</div>
+																<div class="col-md-12 float-right">
+																	
 																</div>
 															</div>
 														</div>

@@ -269,12 +269,29 @@ success:(couponData)=>{
 })
  
 }
+// to set coupon code stored as global variable into null on each refresh
+function couponAppliedSetNull(){
+$.ajax({
+  url:"/couponAppliedSetNull",
+  method:'post'
 
-function productsVeiwSubCata(subcata){
-  swal(subcata,'kijiofjiskkkkkkk')
-  $.ajax({
-    url:'/productsVeiwSubCata/'+subcata,
-    method:'get'
-  })
+})
 }
 
+
+//
+
+
+function productsVeiwSubCata(subcata){
+  event.stopPropagation(); // to avoid event bubbling  idt prvents from parent event
+  window.location.href='/productsVeiwSubCata/'+subcata
+
+}
+function productsVeiwMainCata(maincata){
+  window.location.href='/productsVeiwMainCata/'+maincata
+}
+
+function viewSavedAddresses(){
+  event.preventDefault()
+  window.location.href="/viewSavedAddresses";
+}

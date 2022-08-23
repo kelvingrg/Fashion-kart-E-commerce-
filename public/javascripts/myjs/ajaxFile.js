@@ -4,6 +4,7 @@
 
 
 
+
 $("#passwordReset").submit((event) => {
   event.preventDefault();
   $.ajax({
@@ -68,7 +69,7 @@ function callSubCatagory() {
 // to add subcatagories input option 
   function addSubCatagories() {
     event.preventDefault();
-  
+
       let select = document.querySelector("#subCatagory")
       var new_input="<input type='text' id='subCatagory' name='subCatagory'class='custom-form subCatagory'>";
       $('#addSubCatagory').append(new_input);
@@ -308,7 +309,102 @@ function subCatachangeUpdate(cataName,cataId){
 
   
 }
+function mainCatachangeInput(cataName){
+  event.preventDefault()
 
-function testadmin(){
-  swal('test success')
+  let classname='.'+cataName
+  let btnId=cataName+'btn'
+  console.log(classname,'........name',cataName)
+ 
+  document.querySelector(classname).removeAttribute('readonly')
+  document.getElementById(cataName).style.visibility="hidden"
+ 
+  document.getElementById(btnId).style.visibility="visible"
+}
+
+
+function mainCatachangeUpdate(cataName,cataId){
+  event.preventDefault()
+  swal({
+    title:"Are you sure to Change",
+    text:  " Clicking 'Ok' will also update the products belogs to "+cataName,
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+   }).then((willDelete)=>{
+    if(willDelete){
+      let btnId=cataName+'btn'
+      let classname='.'+cataName
+      document.getElementById(cataName).style.visibility="visible"
+      $(classname).prop('readonly', true);
+      document.getElementById(btnId).style.visibility="hidden"
+      newCataName=document.querySelector(classname).value
+      
+      $.ajax({
+        url:'/admin/updateMainCata',
+        data:{
+          cataName,cataId,newCataName
+        },
+    method:'post',
+    success:(response)=>{
+    
+    }
+      })
+    }
+   })
+
+  }
+
+  function addSubCatagoriesAtEdit() {
+    event.preventDefault();
+      let select = document.querySelector("#subCatagory")
+      var new_input="<input type='text' id='subCatagory' name='subCatagory' class='form-control w-75 mt-2'>";
+      $('#addSubCatagory').append(new_input);
+      document.getElementById("submit").style.visibility="visible"
+    
+      
+   
+  }
+
+
+// function generateRevenueReport(){
+//   let selectedYear=document.getElementById("yearSelected").value
+//   swal("djbcxkmsl,",selectedYear)
+//   $.ajax({
+//     url:"/admin/revenueSalesReport/",
+//     method:"post",
+//     data:{selectedYear},
+//     success:(data)=>{
+//       console.log(data)
+//      window.location.href="/admin/revenueSalesReport/"+data
+   
+//     }
+//   })
+
+// }
+
+function addNewCatagoryOffer(catagory){
+ 
+  swal.fire({
+title: 'add offer Percentage',
+html: `<input type="number" id="offerPercentage" class="swal2-input" placeholder="Offer Percentage">`,
+confirmButtonText: 'Add Offer',
+focusConfirm: false,
+preConfirm: () => {
+const offer = Swal.getPopup().querySelector('#offerPercentage').value
+
+if (!offer) {
+Swal.showValidationMessage(`Please enter valild percentage`)
+}
+return { offerPercentage: offerPercentage }
+}
+}).then((result) => {
+console.log("going to upfdate offer",catagory)
+$.ajax({
+  url:'/admin/addCatagoryOffer',
+  data:{catagory},
+method:'post'
+})
+})
+
 }

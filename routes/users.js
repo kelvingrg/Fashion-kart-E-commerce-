@@ -5,6 +5,7 @@ var router = express.Router();
 var userHelpers = require("../helpers/userHelpers");
 require('dotenv').config()
 const paypal = require("paypal-rest-sdk");
+const { Db } = require("mongodb");
 
 
 const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
@@ -147,12 +148,27 @@ router.get("/productsVeiw", (req, res) => {
 });
 router.get("/productsVeiwSubCata/:subcata", async(req, res) => {
    console.log(req.params,'reched at routes with subacta',req.url)
-        await productHelpers.getProducts().then(async(productsData) => {
+        await productHelpers.getProducts(req.params.subcata).then(async(productsData) => {
             console.log(productsData)
-            res.send('haiiiiii')
-            // res.render("user/productsView", {user, productsData,categoryData:await k()});
+          
+            res.render("user/productsView", {user, productsData,categoryData:await k()});
         });
+        
 });
+// get product details of main catagory 
+router.get("/productsVeiwMainCata/:maincata", async(req, res) => {
+    console.log(req.params.maincata,'reched at routes with mainacta',req.url)
+         await productHelpers.productsVeiwMainCata(req.params.maincata).then(async(productsData) => {
+             console.log(productsData)
+           
+             res.render("user/productsView", {user, productsData,categoryData:await k()});
+         });
+         
+ });
+ 
+
+
+
 // otp login
 router.get("/loginWithOtp", async(req, res) => {
     if (req.session.loggedIn) {
@@ -288,10 +304,12 @@ router.post('/changeProductQuantity',verifyLoggedIn, (req, res, next) => {
 // check out page
 
 router.get("/checkOut",verifyLoggedIn, async (req, res, next) => {
+   let addressData= await userHelpers.getAddress(req.session.user._id)
     let totalCost = await userHelpers.getTotalAmount(req.session.user._id)
-    res.render('user/checkOut', {user, totalCost,categoryData:await k()})
+    res.render('user/checkOut', {user, totalCost,categoryData:await k(),addressData})
 
 })
+
 
 
 // coupon code check 
@@ -332,19 +350,21 @@ router.post('/couponCodeCheck',verifyLoggedIn,async(req,res)=>{
   
      
 })
+// routeer to set coupon code as null with each refresh 
+router.post('/couponAppliedSetNull',(req,res)=>{
+    console.log('reached at the cpoupon set null ')
+    couponApplied=null
+})
 
 
 
 
 // place order post
 router.post('/placeOrder',verifyLoggedIn, async (req, res) => {
-    console.log(req.body, 'place order ')
 
     let products = await userHelpers.getCartProductList(req.session.user._id)
      let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-    console.log(products, totalCost,couponApplied)
-    
-    
+
     if(!couponApplied){
         couponApplied={couponData: {         
             _id:null,   
@@ -368,10 +388,9 @@ router.post('/placeOrder',verifyLoggedIn, async (req, res) => {
             res.json(response)
         } else if (req.body['paymentMethod'] === 'RAZORPAY') {
             userHelpers.generateRazorPay(orderId, totalPrice).then((response) => {
-                console.log(response)
                 response.razorPay = true;
                 res.json(response)
-                console.log(response, "place order after raor pay")
+            
 
             })
         } else if (req.body["paymentMethod"] == "PAYPAL") {
@@ -482,6 +501,26 @@ router.get('/test', (req, res) => {
     })
     res.render('user/test')
 })
+router.post('/addNewAddress',verifyLoggedIn,async(req,res)=>{
+     await userHelpers.addNewAddress(req.body,req.session.user._id)
+    console.log(req.body)
+    res.redirect('/myaccount')
+})                
+router.get('/viewSavedAddresses',verifyLoggedIn,async(req,res)=>{
+       userHelpers.getAddress(req.session.user._id).then(async(addressData)=>{
+        console.log(addressData[0])
+        res.render('user/viewSavedAddresses',{user,categoryData:await k(),addressData})
+       })
+          
+    
+})
+router.post('/updateNewAdressFromCheckOut',async(req,res)=>{
+    console.log(req.body)
+    await userHelpers.addNewAddress(req.body,req.session.user._id)
+    res.redirect("/checkOut")
+
+})
+
 
 
 module.exports = router;

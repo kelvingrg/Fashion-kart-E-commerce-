@@ -1,0 +1,28 @@
+    <div class="container">
+        <div class="row" style="margin-top:18% ">
+            <div class="col-md-6" >
+              <table class="table">
+  <thead class="thead-dark text-center">
+    <tr>
+
+      <th scope="col">Main Catagory</th>
+      <th scope="col">SubCatagory</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody class=" text-center">
+   {{#each cataData}}
+    <tr>
+      <td id={{this._id}}>{{this.catagory}}</td>
+      <td>
+        <ul>
+          {{#each this.subCatagory}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </td>
+      <td><button  class="btn btn-dark text-white" onclick="addNewCatagoryOffer('{{this.catagory}}')">New Offer</button> <button class="ml-2 btn btn-danger" type="submit"  value="Delete" onclick="deleteCategory('{{this._id}}')">Delete offer</button> </td>
+    </tr>
+    {{/each}}
+
+   <script>

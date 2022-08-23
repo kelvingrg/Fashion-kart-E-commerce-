@@ -1,0 +1,115 @@
+
+<link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+   
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6 ">
+                      
+                    </div>
+                 
+                    </div>
+                </div>
+                <!-- end row -->
+           
+
+            
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+
+                            <h4 class="mt-0 header-title mb-5 text-center">Product Quantity sales Report-{{selectedYear}}</h4>
+
+                         
+                            
+
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Catagory</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sept</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody id="revenueTable">
+                                    {{#each reportData}}
+                                <tr id="revenueTableRow">
+                                    <td>{{this.catagory}}</td>
+                                    {{#each this.data}}
+                                    <td>{{this.productQuantity}}</td>
+                                    {{/each}}
+                                    
+                                </tr>
+                                {{/each}}
+                                </tbody>
+                                
+                            </table>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->  
+            
+            </div> <!-- end row -->  
+
+        </div>
+        <!-- end container-fluid -->
+    </div>
+    <!-- end wrapper -->
+
+
+
+    <!-- End Footer -->
+
+    <!-- Required datatable js -->
+    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons amples -->
+    <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/plugins/datatables/jszip.min.js"></script>
+    <script src="/plugins/datatables/pdfmake.min.js"></script>
+    <script src="/plugins/datatables/vfs_fonts.js"></script>
+    <script src="/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsi examples -->
+    <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="/assets/pages/datatables.init.js"></script>  
+
+    <!-- App js -->
+    <script src="/assets/js/app.js"></script>
+</body>
+
+</html>

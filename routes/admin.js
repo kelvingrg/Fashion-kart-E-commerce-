@@ -6,7 +6,11 @@ var userHelpers = require("../helpers/userHelpers");
 var productHelpers = require("../helpers/productHelpers");
 const multer = require("multer");
 const moment = require("moment");
+
+
 let detailedOrder
+let year
+
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,10 +37,11 @@ verifyLoggedIn = (req, res, next) => {
     }
 };
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
     if (req.session.admin) {
         res.redirect("/admin/dashbord");
     } else {
+         year= await adminHelpers.fetchYears()
         res.render("admin/loginPage", {
             adminlogin: true,
             logerr: req.session.logerr
@@ -56,7 +61,7 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/dashbord",verifyLoggedIn, (req, res) => {
-    res.render("admin/index", {admin: true});
+    res.render("admin/index", {admin: true,year});
 });
 
 router.get("/logout", (req, res) => {
@@ -110,7 +115,8 @@ router.get("/updateUser/:id", verifyLoggedIn, (req, res) => {
             admin: true,
             userData,
             logerr: false,
-            emailerr: false
+            emailerr: false,
+            year
         });
     });
 });
@@ -121,10 +127,12 @@ router.post("/updateUser/:id", (req, res) => {
 });
 
 router.get("/productDetails", verifyLoggedIn, (req, res) => {
-    productHelpers.getProducts().then((productData) => {
+    productHelpers.getProductss().then((productData) => {
+        console.log(productData," console.log(productData)")
         res.render("admin/ProductDetails", {
+           
             admin: true,
-            productData
+            productData,year
         });
     });
 });
@@ -409,6 +417,20 @@ router.post('/updateSubCata',async(req,res)=>{
  let data= await productHelpers.updateSubCata(req.body)
       res.json(data)
 })
+// edit main catagory updateSubCata
+router.post('/updateMainCata',async(req,res)=>{
+    let data= await productHelpers.updateMainCata(req.body)
+         res.json(data)
+   })
+
+   router.post('/updateNewSubCatagory/:cataId',(req,res)=>{
+    console.log(req.params.cataId,"updateNewSubCatagory",req.body)
+    productHelpers.updateNewSubCatagory(req.body,req.params.cataId).then(()=>{
+        res.redirect('admin/addCatagory')
+    })
+
+   })
+
 // coupon management page 
 router.get('/couponMangement',(req,res)=>{
 
@@ -422,7 +444,7 @@ router.get('/couponMangement',(req,res)=>{
        
 
         console.log(couponData)
-        res.render('admin/couponMangement',{admin:true,couponData})
+        res.render('admin/couponMangement',{admin:true,couponData,year})
     })
    
 })
@@ -436,3 +458,84 @@ router.post('/addCouponCode',async(req,res)=>{
    })
 
 module.exports = router;
+
+// sales report 
+router.get('/revenueSalesReport',async(req,res)=>{
+ 
+  let year= await adminHelpers.fetchYears()
+    await adminHelpers.fetchMonthlyData().then(async(catagory)=>{
+await adminHelpers.fetchData(catagory).then((reportData)=>{
+    console.log(reportData,'reportData at admin routes')
+    console.log(year)
+    res.render('admin/salesReport',{admin:true,reportData,year})
+})
+    })
+   
+
+})
+router.get('/revenueSalesReport/:selectedYear',async(req,res)=>{
+    console.log(req.params.selectedYear,"req.params.selectedYear")
+    selectedYear=req.params.selectedYear
+  let year= await adminHelpers.fetchYears()
+    await adminHelpers.fetchMonthlyData().then(async(catagory)=>{
+await adminHelpers.fetchData(catagory,selectedYear).then((reportData)=>{
+   
+    res.render('admin/salesReport',{admin:true,reportData,year,selectedYear})
+
+    
+})
+    })
+
+})
+
+//s
+router.get('/quantitySalesReport/:selectedYear',async(req,res)=>{
+    console.log(req.params.selectedYear,"req.params.selectedYear")
+    selectedYear=req.params.selectedYear
+  let year= await adminHelpers.fetchYears()
+    await adminHelpers.fetchMonthlyData().then(async(catagory)=>{
+await adminHelpers.fetchData(catagory,selectedYear).then((reportData)=>{
+   
+    res.render('admin/quantitySalesReport',{admin:true,reportData,year,selectedYear})
+
+    
+})
+    })
+
+})
+
+router.get('/combinedSalesReport/:selectedYear',async(req,res)=>{
+    console.log(req.params.selectedYear,"req.params.selectedYear")
+    selectedYear=req.params.selectedYear
+  let year= await adminHelpers.fetchYears()
+    await adminHelpers.fetchMonthlyData().then(async(catagory)=>{
+await adminHelpers.fetchData(catagory,selectedYear).then((reportData)=>{
+   
+    res.render('admin/combinedSalesReport',{admin:true,reportData,year,selectedYear})
+
+    
+})
+    })
+
+})
+
+// catagoey offers 
+
+router.get("/catagoryOfferManagement",(req,res)=>{
+    productHelpers.getCatagory().then((cataData)=>{
+        console.log(cataData)
+        res.render("admin/catagoryOfferManagement",{admin:true,cataData})
+    })
+
+})
+ 
+ // add catatgory offern
+ router.post('/addCatagoryOffer',(req,res)=>{
+    productHelpers.addCatagoryOffer(req.body).then(()=>{
+
+    })
+ })      
+
+
+
+            

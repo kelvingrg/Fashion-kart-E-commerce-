@@ -1,5 +1,6 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
+const { ObjectID } = require("bson");
 var objectId = require("mongodb").ObjectId;
 module.exports = {
   addProduct: (prodDetails) => {
@@ -13,7 +14,9 @@ module.exports = {
         });
     });
   },
-  getProducts: () => {
+
+  // get all products 
+    getProductss: () => {
     return new Promise(async (resolve, reject) => {
       let productsData = await db
         .get()
@@ -23,6 +26,30 @@ module.exports = {
       resolve(productsData);
     });
   },
+  // get all products which is listed under particular subcatagory 
+  getProducts: (subcata) => {
+    return new Promise(async (resolve, reject) => {
+      let productsData = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .find({subCatagory:subcata})
+        .toArray();
+      resolve(productsData);
+    });
+  },
+
+  //productsVeiwMainCata
+  productsVeiwMainCata: (maincata) => {
+    return new Promise(async (resolve, reject) => {
+      let productsData = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .find({catagory:maincata})
+        .toArray();
+      resolve(productsData);
+    });
+  },
+
   getProduct: (prodId) => {
     return new Promise(async (resolve, reject) => {
       let productData = await db
@@ -182,5 +209,34 @@ await db.get().collection(collection.PRODUCT_COLLECTION).updateMany({subCatagory
 
   
   
+},
+updateMainCata:async(cataData)=>{
+  console.log("reached at main cata function")
+  db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(cataData.cataId)},{$set:{catagory:cataData.newCataName}})
+await db.get().collection(collection.PRODUCT_COLLECTION).updateMany({catagory:cataData.cataName},{$set:{catagory:cataData.newCataName}}).then((response)=>{
+  return(response)
+})
+ 
+
+  
+  
+},
+
+// add catagory offer 
+addCatagoryOffer:(catagory)=>{
+  return new Promise(async(resolve,response)=>{
+    db.get().collection(collection.PRODUCT_COLLECTION).updateMany({catagory:catagory},{$set:{offerPrice:{}}})
+  })
+  
+
+},
+updateNewSubCatagory:(cataData,cataId)=>{
+  console.log(cataData);
+  return new Promise(async(resolve,reject)=>{
+   await db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:ObjectID(cataId)},{$set:{subCatagory:cataData.subCatagory}})
+    resolve()
+  })
+
 }
 }
+

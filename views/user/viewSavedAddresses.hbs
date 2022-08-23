@@ -1,0 +1,50 @@
+{{!-- <div class="cotainer">
+    <div class="row">
+        <div class="col-sl-12 " style="height:100px">
+           <div class="col-md-3">haiiiii</div>
+           <div class="col-md-3">haiiiii</div>
+           <div class="col-md-3">haiiiii</div>
+        </div> 
+    </div>
+</div> --}}
+
+<div class="row">
+  <div class="col-md-2">&nbsp;</div>
+  <div class="col-md-8">
+    <div class="row space-16">&nbsp;</div>
+    <div class="row">
+
+
+    {{#each addressData.[0].address}} 
+
+<div class="col-sm-4">
+        <div class="thumbnail ">
+          <div class="caption text-left ml-3">
+            <h4>{{this.firstName}}&nbsp;{{this.lastName}} </h4>
+          </div>
+          <div class="caption card-footer ml-3 ">
+            <ul >
+              <li>{{this.address}}</li>
+              <li>{{this.city}}</li>
+              <li>{{this.country}}</li>
+               <li>{{this.pinCode}}</li>
+              <li>{{this.mobileNumber}}</li>
+              <li>{{this.email}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+{{/each}}
+
+    </div>
+    <div class="col-md-2">&nbsp;</div>
+  </div>
+</div>
+
+
+
+
+
+
+>
