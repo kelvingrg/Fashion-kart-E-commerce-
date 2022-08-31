@@ -1,4 +1,4 @@
-<div class="container">
+{{!-- <div class="container">
     <div class="row">
       
         <div class="col-md-4"></div>
@@ -18,10 +18,65 @@
 <p>{{singleOrderData.orderData.[0].deliveryDetails.mobileNumber}}</p>
 <p style="color: red;">{{singleOrderData.orderData.[0].finalAmount}}</p>
                
-                      <div class="billaddress align-center"  >
-                        <button class="btn btn-default"><a href="/orderHistory">Go to orders</a></button>  <button class="btn btn-default"><a href="/">Continue shopping</a></button>
-                      </div>
+                      
    
     </div>
     </div>
+</div> --}}
+
+  <div class="row">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-12 ">
+      <div class="row space-16">&nbsp;</div>
+      <div class="row">
+
+
+<div class="orderSuccess">
+  <div class="col-sm-4 ">
+          <div class="thumbnail ">
+            <div class="caption text-center ml-3">
+               <h4 style="color: green;">Your Order has been placed successfully..!</h4><br>
+            </div>
+           
+            <div class="caption card-footer ml-3 ">
+               <h5>Payment Method :<strong>{{singleOrderData.orderData.[0].paymnetMethod}}</strong> </h5>
+
+<h5>Order Status : <strong >{{singleOrderData.orderData.[0].status}}</strong> </h5>
+
+              <label for="" style="margin-top:3rem  ;">Shipping address : </label>
+<br><br>  
+<p>{{singleOrderData.orderData.[0].deliveryDetails.name}}</p>
+            <p>{{singleOrderData.orderData.[0].deliveryDetails.address}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.city}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.state}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.country}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.pin}}</p>
+<p>{{singleOrderData.orderData.[0].deliveryDetails.mobileNumber}}</p>
+<p style="color: red;">Total Amount : Rs {{singleOrderData.orderData.[0].finalAmount}}</p>
+            </div>
+
+            <div class="billaddress orderSuccess"  >
+                        <button class="btn btn-default"><a href="/orderHistory">Go to orders </a> </button>&nbsp; 
+                         <button class="btn btn-default"><a href="/">Continue shopping</a></button>
+                      </div>
+          </div>
+        </div>
 </div>
+
+
+      </div>
+      <div class="col-md-2">&nbsp;</div>
+    </div>
+  </div>
+<style>
+  .orderSuccess{
+display: flex;
+  justify-content: center;
+  align-items: center;
+
+  }
+  .orderSuccess p{
+    line-height:50%;
+  }
+
+</style>

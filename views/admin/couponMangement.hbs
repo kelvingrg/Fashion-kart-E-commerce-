@@ -1,35 +1,42 @@
-<div class="container-fluid m-5">
+
+<style>
+    .couponButtton button:hover{
+      transform: scale(1.5);
+      color:rgb(74, 36, 240)
+    }
+</style><div class="container-fluid m-5">
     <div class="row justify-content-between" style="margin-top:12% ">
         <div class="col-md-8" >
             <table class="table">
                 <thead class="thead-dark text-center">
                     <tr>
-
+<th>Sl.No</th>
                         <th scope="col">Coupon Code</th>
                         <th scope="col">Offer Percentage</th>
                         <th scope="col">Offer Cap</th>
                         <th scope="col">Start Date </th>
                         <th scope="col">End Date</th>
-                         <th scope="col">Status</th>
                          <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody class=" text-center">
+                <tbody class=" text-center align-center">
+
                     {{#each couponData}}
-                        <tr>
-                            <td>{{ this.couponCode}}</td>
+                        <tr><td>{{inc @index}}</td>
+                            <td><h4>{{ this.couponCode}}</h4></td>
                             <td>{{ this.offerPercentage}}</td>
                             <td>{{ this.offerCap }}</td>
                             <td>{{ this.startDate }}</td>
                             <td>{{ this.endDate }}</td>
-                            <td>{{#if this.status}} <button class="btn btn-success" onclick="holdCoupon('{{this._id}}')">Active</button>{{else}}<button class="btn btn-dark" onclick="unHoldCoupon('{{this_id}}')">Disabled</button>{{/if}}
-                            </td>
+                            
 
-                            <td>
-                                <button class="btn btn-dark">
-                                    <a href="" class="text-white">Edit</a>
+                            <td class="couponButtton">
+                                <button class="rounded-circle"><a href="/admin/singleCouponHistory/{{this._id}}" ><h4><i class="bi bi-box-arrow-in-right"></i></h4></a> </button>
+                                <button class="rounded-circle" ><a href="/admin/editSingleCoupon/{{this._id}}" ><h4><i class="bi bi-pencil-square"></i></h4></a>
+                              
                                 </button>
-                                <button class="ml-2 btn btn-danger"value="Delete" onclick="">X</button>
+                                <button class="ml-2 rounded-circle"value="Delete" onclick=""><h4><i class="bi bi-trash"></i></h4></button>
+
                             </td>
                         </tr>
                     {{/each}}

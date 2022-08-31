@@ -1,8 +1,10 @@
 var db = require("../config/connection");
 var collection = require("../config/collections");
 const bcrypt = require("bcrypt");
-const { response } = require("express");
 const moment = require("moment");
+var objectId = require("mongodb").ObjectId;
+var ObjectId = require("mongodb").ObjectId;
+const { order } = require("paypal-rest-sdk");
 
 // const { response } = require('../app')
 var objectId = require("mongodb").ObjectId;
@@ -58,6 +60,7 @@ module.exports = {
     addBanner: (bannerDetails) => {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.BANNER_COLLECTION).insertOne(bannerDetails).then((data) => {
+                db.get().collection(collection.BANNER_COLLECTION).updateOne({_id:data.insertedId},{$set:{active:false}})
                 resolve(data);
             });
         });
@@ -74,7 +77,7 @@ module.exports = {
     },
     getBannerOne: () => {
         return new Promise(async (resolve, reject) => {
-            let data = await db.get().collection(collection.BANNER_COLLECTION).find().toArray()
+            let data = await db.get().collection(collection.BANNER_COLLECTION).find({active:true}).toArray()
 
             resolve(data)
 
@@ -142,16 +145,28 @@ module.exports = {
             resolve(response)
         })
     },
-    cancelOrder: (orderId) => {
+    cancelOrder: async(orderId) => {
         return new Promise(async (resolve, reject) => {
-            console.log(orderId, 'reached at helpers ');
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({
+
+          await  db.get().collection(collection.ORDER_COLLECTION).updateOne({
                 _id: objectId(orderId.orderId)
             }, {
                 $set: {
-                    status: 'cancelled',
+                    status: 'Cancelled',
                     cancellation: true
                 }
+            }).then(async(response)=>{
+                let orderData=await db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId.orderId)})
+                console.log('paymentmethodjhvsdb',orderData);
+                if(orderData.paymnetMethod!='COD'){
+                    console.log('jkhghfdkjhsac resched inside out ');
+                    await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(orderData.userId)},{$inc:{wallet:orderData.finalAmount}})
+                     
+                    orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId.orderId)})
+                    console.log(orderData); 
+
+                }
+                resolve(response)
             })
 
 
@@ -244,7 +259,7 @@ module.exports = {
                     $group: {
                         _id: null,
                         totalAmounts: {
-                            $sum: "$totalAmount"
+                            $sum: "$finalAmount"
                         }
                     }
                 }
@@ -376,7 +391,7 @@ module.exports = {
             }
         ]).toArray()
 
-        console.log(data, '++++++++++++test data ', data.length, data[0].year)
+       
         let len = data.length
         baseyear = data[0].year
         let linechartData = {}
@@ -416,7 +431,7 @@ module.exports = {
         data.sort(function (a, b) {
             return a.year - b.year;
         });
-        console.log(data, 'after forloop ')
+     
         let linechartYear = []
         let linechartSum = []
         data.forEach(element => {
@@ -471,7 +486,7 @@ module.exports = {
     addCouponCode: async (couponData) => {
 
         let response = await db.get().collection(collection.COUPON_COLLECTION).insertOne(couponData)
-        console.log(response)
+       
         db.get().collection(collection.COUPON_COLLECTION).updateOne({
             _id: objectId(response.insertedId)
         }, {
@@ -523,7 +538,7 @@ return new Promise(async(resolve,reject)=>{
             {
                 $project: {
                     cancellation: 1,
-                    totalAmount: 1,
+                    finalAmount: 1,
                     products: 1,
                     year: {
                         $year: "$timeStamp"
@@ -546,7 +561,7 @@ return new Promise(async(resolve,reject)=>{
                 $project: {
                     productId: "$products.item",
                     productQuantity: "$products.quantity",
-                    totalAmount: 1,
+                    finalAmount: 1,
                     timeStamp: 1,
                     year: 1,
                     _id: 1
@@ -567,7 +582,7 @@ return new Promise(async(resolve,reject)=>{
                         $month: "$timeStamp"
                     },
                     productQuantity: 1,
-                    totalAmount: 1,
+                    finalAmount: 1,
                     timeStamp: 1,
                     year: 1
                 }
@@ -582,8 +597,8 @@ return new Promise(async(resolve,reject)=>{
                             $month: "$timeStamp"
                         }
                     },
-                    totalAmount: {
-                        $sum: "$totalAmount"
+                    finalAmount: {
+                        $sum: "$finalAmount"
                     },
                     productQuantity: {
                         $sum: "$productQuantity"
@@ -597,7 +612,7 @@ return new Promise(async(resolve,reject)=>{
             }, {
                 $project: {
                     month: "$_id.month",
-                    totalAmount: 1,
+                    finalAmount: 1,
                     productQuantity: 1,
                     _id: 0
                 }
@@ -620,7 +635,7 @@ return new Promise(async(resolve,reject)=>{
                 }
 
                 if (datain) {
-                    data.push({totalAmount: 0, productQuantity: 0, month: i})
+                    data.push({finalAmount: 0, productQuantity: 0, month: i})
                 }
 
             }
@@ -633,7 +648,7 @@ return new Promise(async(resolve,reject)=>{
          });
          return data
     }).then(async(data)=>{
-console.log(data)
+
              reportData.push({catagory: element.catagory, data: data})
              
          return(reportData)
@@ -656,6 +671,257 @@ console.log(data)
 fetchYears:async()=>{
   let year= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{$group:{_id:{year:{$year:"$timeStamp"}}}},{$project:{year:"$_id.year",_id:0}},{$sort:{year:-1}}]).toArray()
  return year
+
+},
+
+// to apply catagory offer 
+applyCatagoryOffer:async(cataData)=>{ 
+    cataData.offerPercentageEntered=parseInt(cataData.offerPercentageEntered)
+let productData=  await db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:cataData.cataName}).toArray() 
+   productData.map(async(data)=>{
+    data.catagoryOfferApplied=true
+    data.offerPercentage=cataData.offerPercentageEntered
+    data.offerPrice=Math.round((1-cataData.offerPercentageEntered/100)*data.regularPrice)
+    data.discountedPrice=cataData.offerPercentageEntered/100*data.regularPrice
+    await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(data._id)},  
+            {$set:
+                {
+                    catagoryOfferApplied: data.catagoryOfferApplied,
+                    offerPercentage:data.offerPercentage,
+                    offerPrice:data.offerPrice,
+                    discountedPrice:data.discountedPrice
+                
+                }},{upsert:true})
+})
+   let response=      await db.get().collection(collection.CATAGORY_COLLECTION).updateOne({catagory:cataData.cataName},{$set:{catagoryOfferApplied:true,offerPercentage:cataData.offerPercentageEntered}},{upsert:true})
+return(response)
+
+},
+removeCatagoryOffer:async(cataData)=>{
+    let productData=  await db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:cataData.cataName}).toArray()
+    productData.map(async(data)=>{
+
+        data.offerPercentage=data.productOfferPercentage
+        data.offerPrice=(1-data.offerPercentage/100)*data.regularPrice
+        data.discountedPrice=(data.offerPercentage/100)*data.regularPrice
+        console.log(data)
+        await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(data._id)},  
+        {$set:
+            {
+                catagoryOfferApplied: false,
+                offerPercentage:data.offerPercentage,
+                offerPrice:data.offerPrice,
+                discountedPrice:data.discountedPrice
+            
+            }},{upsert:true})
+
+    })
+    let response=await db.get().collection(collection.CATAGORY_COLLECTION).updateOne({catagory:cataData.cataName},{$set:{catagoryOfferApplied:false,offerPercentage:null}},{upsert:true})
+return(response)
+
+},
+approveRefund:(orderId)=>{         
+    return new Promise(async(resolve,reject)=>{
+     let orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId)})
+        console.log(orderData);
+        await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(orderData.userId)},{$inc:{wallet:orderData.finalAmount}})
+     await  db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{$unset:{refundWait:true},$set:{status:"Refunded",refund:true}},{upsert:true}) 
+     orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId)})
+     console.log(orderData);            
+    })                            
+     
+    },
+    singleCouponHistory:(couponId)=>{
+        return new Promise(async(resolve,reject)=>{
+          await  db.get().collection(collection.ORDER_COLLECTION).aggregate([{$match:{couponId:objectId(couponId)}},{$project:{userId:1,paymnetMethod:1,totalAmount:1,finalAmount:1,timeStamp:1,couponId:1,status:1}}]).toArray().then((response)=>{
+resolve(response)
+            })
+        
+        })
+        
+    },
+    getCouponData:(couponId)=>{
+        console.log('reached at admin helpersd singleCouponHistory',couponId);
+        return new Promise((resolve,reject)=>{
+         db.get().collection(collection.COUPON_COLLECTION).findOne({_id:ObjectId(couponId)}).then((singleCouponData)=>{
+            console.log(singleCouponData);
+            resolve(singleCouponData)
+        })
+        })
+    },
+    editSingleCoupon:async(couponId,couponData)=>{
+        await db.get().collection(collection.COUPON_COLLECTION).updateOne({_id:ObjectId(couponId)},{$set:{
+           
+            couponCode:couponData.couponCode,
+            offerPercentage:couponData.offerPercentage,
+            offerCap:couponData.offerCap,
+
+            startDate: new Date(couponData.startDate),
+                endDate: new Date(couponData.endDate),
+                status: true
+        }})
+        return
+    },
+    getProductDataHome:async()=>{
+       
+        let getProductDataHome={}
+
+        var latest = new Promise(async(resolve,reject)=>{
+            var latests=  await db.get().collection(collection.PRODUCT_COLLECTION).find({readyForSale:true}).limit(30).toArray()
+                resolve(latests)
+            })
+            var menData = new Promise(async(resolve,reject)=>{
+                var menDatas = await db.get().collection(collection.PRODUCT_COLLECTION).find({$and:[{catagory:"Men"},{readyForSale:true}]}).limit(9).toArray()
+         resolve(menDatas)
+        })
+            var womenData = new Promise(async(resolve,reject)=>{
+                var womenDatas =    await db.get().collection(collection.PRODUCT_COLLECTION).find({$and:[{catagory:"Women"},{readyForSale:true}]}).limit(9).toArray()
+                    resolve(womenDatas)
+                 })
+             
+                var kidsData = new Promise(async(resolve,reject)=>{
+                    var kidsDatas =  await  db.get().collection(collection.PRODUCT_COLLECTION).find({$and:[{catagory:"Kids"},{readyForSale:true}]}).limit(9).toArray()
+                        resolve(kidsDatas)
+                     })
+                 [menData,womenData,kidsData,latest]= await Promise.allSettled([menData,womenData,kidsData,latest]).then((data)=>{
+                    getProductDataHome.men=data[0].value
+                    getProductDataHome.women=data[1].value
+                    getProductDataHome.kids=data[2].value
+                    getProductDataHome.new=data[3].value
+
+                    
+                 })
+             
+                 return getProductDataHome
+    },
+    setBanneractive:async(bannerId)=>{
+        console.log('reache at active ')
+       await db.get().collection(collection.BANNER_COLLECTION).updateMany({},{$set:{active:false}},{multi:true})
+     let response =  await db.get().collection(collection.BANNER_COLLECTION).updateOne({_id:objectId(bannerId)},{$set:{active:true}})
+       return response
+    },
+    deleteBanner:async(bannerId)=>{
+        await db.get().collection(collection.BANNER_COLLECTION).deleteOne({_id:objectId(bannerId)}).then((response)=>{
+            return response
+        })
+    },
+    getReportData:async()=>{
+     let reportData=[]
+        let year= await db.get().collection(collection.ORDER_COLLECTION).aggregate([{$group:{_id:{year:{$year:"$timeStamp"}}}},{$project:{year:"$_id.year",_id:0}},{$sort:{year:-1}}]).toArray()
+  async function getData (){
+        for(i=0;i<year.length;i++) {
+    let  data=   await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+            {
+                $project: {
+                    cancellation: 1,
+                    finalAmount: 1,
+                    products: 1,
+                    year: {
+                        $year: "$timeStamp"
+                    },
+                    timeStamp: 1
+
+
+                }
+            },
+            {
+                $match: {
+                    cancellation: false,
+                    year:year[i].year
+                }
+            },
+            {
+                $unwind: "$products"
+            },
+            {
+                $project: {
+                    productId: "$products.item",
+                    productQuantity: "$products.quantity",
+                    finalAmount: 1,
+                    timeStamp: 1,
+                    year: 1,
+                    _id: 1
+
+                }
+            }, {
+                $lookup: {
+                    from: collection.PRODUCT_COLLECTION,
+                    localField: 'productId',
+                    foreignField: '_id',
+                    as: 'product'
+                }
+            }, {
+                $project: {
+                    catagory: "$product.catagory",
+                    subCatagory: "$product.subCatagory",
+                    month: {
+                        $month: "$timeStamp"
+                    },
+                    productQuantity: 1,
+                    finalAmount: 1,
+                    timeStamp: 1,
+                    year: 1
+                }
+            }, {
+                $group: {
+                    _id: {
+                        month: {
+                            $month: "$timeStamp"
+                        }
+                    },
+                    finalAmount: {
+                        $sum: "$finalAmount"
+                    },
+                    productQuantity: {
+                        $sum: "$productQuantity"
+                    }
+                }
+
+            }, {
+                $sort: {
+                    _id: 1
+                }
+            }, {
+                $project: {
+                    month: "$_id.month",
+                    finalAmount: 1,
+                    productQuantity: 1,
+                    _id: 0
+                }
+            }
+        ]).toArray()
+       
+
+
+if (data.length < 12) {
+
+    for (let i = 1; i <= 12; i++) {
+        let datain = true;
+        for (let j = 0; j < data.length; j++) {
+            if (data[j].month === i) {
+                datain = null;
+            }
+
+        }
+
+        if (datain) {
+            data.push({finalAmount: 0, productQuantity: 0, month: i})
+        }
+
+    }
+}
+await data.sort(function (a, b) {
+    return a.month - b.month
+ });
+ reportData.push({year: year[i].year, data: data})
+}}
+await getData();
+console.log(reportData[0],"reportDatareportData");
+return reportData
+
+
+
 
 }
 

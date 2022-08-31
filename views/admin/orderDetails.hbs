@@ -42,7 +42,8 @@
                                     <td>Payment Method</td>
                                     <th>Status</th>
                                     <th></th>
-                                    <th></th>
+                                     <th></th>
+                                    
                                 </tr>
                                 </thead>
 
@@ -54,29 +55,36 @@
                                     <td>{{this.date}}</td>
                                     <td>{{this._id}}</td>
                                     <td>{{this.products.length}}</td>
-                                    <td>{{this.totalAmount}}</td>
+                                    <td>{{this.finalAmount}}</td>
                                     <td>{{this.paymnetMethod}}</td>
-                                    <td><select name="" id="{{this._id}}" onchange="orderStatus('{{this._id}}')" class="form-control">
+                                  
+                                   
+                                    <td><select name="" id={{this._id}} onchange="orderStatus('{{this._id}}')" class="form-control">
                                         <option value="{{this.status}}">{{this.status}}</option>
                                         {{#if this.cancellation}}
                                         
                                          {{else}}
+                                         {{#if this.refundWait}}
+                                        {{else}}
+                                        {{#if this.refund}}
+                                        {{else}}
                                          <option value="Cancelled">Cancelled</option>
                                         <option value="Delivered">Delivered</option>
                                         <option value="Dispatched">Dispatched</option>
                                         <option value="Shipped">Shipped</option>
                                          <option value="Pending">Pending</option>  
                                          <option value="placed">placed</option>
-                                           {{/if}}
+                                           {{/if}} {{/if}}{{/if}}
                                     </select>
                                     </td>
                                     <td><button type="button" class="btn btn-default btn-sm" onclick="moreDetails('{{this._id}}','{{this.userId}}')">
           <span class="glyphicon glyphicon-arrow-right"></span> More Details
         </button></a> </td>
-                                   {{#if this.cancellation}}
-                                    <td><button class="btn btn-dark" >Cancelled</button></td>
+                                   {{#if this.refundWait}}
+                                    <td><button class="btn btn-warning" onclick="approveRefund('{{this._id}}')">Approve Refund</button></td>
                                    {{else}}
-                                    <td><button class="btn btn-danger" onclick="cancelOrder('{{this._id}}')">Cancel</button></td>
+                                   <td></td>
+                                    {{!-- <td><button class="btn btn-danger" onclick="cancelOrder('{{this._id}}')">Cancel</button></td> --}}
                                  {{/if}}
                                 </tr>
                                 {{/each}}

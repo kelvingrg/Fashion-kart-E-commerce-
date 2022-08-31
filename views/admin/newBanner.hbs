@@ -1,44 +1,18 @@
+
+<style>
+    .banner button:hover{
+      transform: scale(1.5);
+      color:rgb(74, 36, 240)
+    }
+</style>
+
 <body>
 	<div class="container-fluid "  style="margin-top:13% ">
    <div class="row">
    <div class="col-md-9">
    <div class="col-sm-9" >
      
-        {{!-- <div class="new-customers">
-             <h2 class="login-title text-center">CURRENT BANNER</h2>
-            <div class="row">
-               <div class="col-sm-12">
-                  <label for="fisrtName" id="labelname" > Banner Title : 1</label>
-                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
-               </div>
-            </div>
-			<div class="row">
-               <div class="col-sm-12">
-                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
-                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
-               </div>
-            </div>
-			<div class="row">
-               <div class="col-sm-12">
-                  <label for="fisrtName" id="labelname" > Banner Title : 2</label>
-                  <input type="text" class="custom-form" value="" name="bannerTitle1"  id="bannerTitle1" />
-               </div>
-            </div>
-           
-           <div class="row">
-			<div class="col-md-4">
-				<img src="" alt="sd">
-			</div>
-			<div class="col-md-4">
-				<img src="" alt="sds">
-			</div>
-			<div class="col-md-4">
-				<img src="" alt="sdS">
-			</div>
-		   </div>
-           
-            
-         </div>--}}
+        
 		<table class="table">
   <thead class="thead-dark">
     <tr>
@@ -50,19 +24,24 @@
 	 <th scope="col">Image 3</th>
 		
 		 <th scope="col">status </th>
+       <th scope="col">Action </th>
     </tr>
   </thead>
   <tbody>
 	{{#each bannerData}}
-    <tr>
+    <tr class="banner" id={{this._id}}>
       <td>{{this.bannerTitle1}}</td>
 	   <td>{{this.bannerTitle2}}</td>
 	    <td>{{this.bannerTitle2}}</td>
 		 <td><img src="/{{this.images.[0]}}" alt=""></td>
 		  <td><img src="/{{this.images.[1]}}" alt=""></td>
 		   <td><img src="/{{this.images.[2]}}" alt=""></td>
-
-    
+         {{#if this.active}}
+         <td style="color:green"><i class="bi bi-caret-right-square-fill"></i></td>
+         {{else}}
+          <td><button onclick="setBannerActive('{{this._id}}')" style="color:rgb(8, 8, 8)"><i class="bi bi-caret-right-square-fill"></i></button></td>
+{{/if}}
+    <td><button onclick="deleteBanner('{{this._id}}')"><i class="bi bi-trash"></i></button></td>
     </tr>
    {{/each}}
    

@@ -8,16 +8,49 @@
                 <label for="ordrerId" class="">Order Id: {{singleOrderData.orderData.[0]._id}}
                 </label> <label for=""><p>Total Billed Amount:   {{singleOrderData.orderData.[0].finalAmount}}</p></label>
                 </label> <label for="">payment method:  {{singleOrderData.orderData.[0].paymnetMethod}}</label>
-                {{#if singleOrderData.orderData.[0].cancellation}}
-                <span class="btn btn-warning">Cancelled</span>
+               
+                <label for="invoice" class="float-right" style="" >
+                  <a href="/invoice/{{singleOrderData.orderData.[0]._id}}" style="color: blue;">invoice</a>
+                </label>
+                {{#if singleOrderData.orderData.[0].delivered }}
+               
+                <button class="btn btn-default navbar-right" onclick="returnOrder('{{singleOrderData.orderData.[0]._id}}','{{user._id}}')">Return</button>
                 {{else}}
-                 <button class="btn btn-default navbar-right"  >cancel</button>
+                {{#if singleOrderData.orderData.[0].refundWait}}
+                  <span class="btn btn-warning ">Refund Initiated</span>
+                  {{else}}
+                  {{#if singleOrderData.orderData.[0].refund}}
+                <span class="btn btn-warning ">Product Returned</span>
+                 {{else}}
+                  {{#if singleOrderData.productData.[0].cancellation}}
+                <span class="btn btn-warning ">Cancelled</span>
+                
+                {{else}}
+                  <button class="btn btn-default navbar-right" onclick="cancelOrder('{{singleOrderData.orderData.[0]._id}}')" >cancel</button>
+               
+                
+
+                  {{/if}}
+                  {{/if}}
+
+                  {{/if}}
+                 {{/if}}
+                 
+                 
+                 
+
+                {{!-- {{#if singleOrderData.productData.[0].cancellation}}
+                <span class="btn btn-warning ">Cancelled</span>
+                {{else}}
+                 <button class="btn btn-default navbar-right" onclick="cancelOrder('{{singleOrderData.orderData.[0]._id}}')" >cancel</button>
                
                 <label for="invoice" class="navbar-right" style="" >
                     
                     <a href="" style="color: blue;">invoice</a>
                 </label>
                 {{/if}}
+                 {{/if}} --}}
+
                </div>
                <div class="row">
                 

@@ -3650,3 +3650,8 @@ table.focus-on tbody tr.focused td {
   padding-left: 20px;
 }
 /*# sourceMappingURL=style.css.map */
+
+.editButtton i:hover{
+  transform: scale(1.5);
+  color:rgb(74, 36, 240)
+}

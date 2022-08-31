@@ -853,6 +853,7 @@ select {
   margin-top: 38px;
 }
 .single-product {
+  margin-top: 10%;
   overflow: hidden;
 }
 .product-photo {
@@ -916,7 +917,7 @@ select {
 .product-photo > a {
 }
 .single-product:hover .product-photo > a::before {
-    opacity: 0.5;
+    opacity: 0.3;
     z-index: 99;
 }
 .product-photo img {
@@ -1607,7 +1608,7 @@ select {
 	16. Footer-Area
 ======================================== */
 .footer-top {
-  background: rgba(0, 0, 0, 0) url("img/bg/footer-bg.jpg") no-repeat scroll center center / cover ;
+  background: rgba(0, 0, 0, 0) url("https://template.hasthemes.com/shopick-v1/shopick/img/bg/testimonial-bg.jpg") no-repeat scroll center center / cover ;
   position: relative;
 }
 .footer-top::before {

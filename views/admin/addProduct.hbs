@@ -1,94 +1,99 @@
 <div class="lognin-area" style="margin-top: 11%; margin-left:29%">
-				<div class="container">
-					<div class="row">
-						<!-- Registered-Customers Start -->
-						<div class="col-md-6">
-							<form action="/admin/addProduct" method="post" enctype="multipart/form-data">
-								<div class="registered-customers">
-									<h2 class="login-title text-center">Add Product</h2>
-			
-									<div class="registered">
-										<div class="row">
-											<div class="col-md-12">
-												<input type="text" class="custom-form" name="productTitle" placeholder="Product Title" id="productTitle" />
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<input type="text" class="custom-form" placeholder="Regular Price" name="regularPrice" id="regularPrice"/>
-                    
-											</div>
-                                        
-											<div class="col-md-6">
-												<input type="text" class="custom-form " name="offerPrice" placeholder="Offer Price" id="offerPrice" />
-											</div>
-										</div>
+    <div class="container">
+        <div
+            class="row">
+            <!-- Registered-Customers Start -->
+            <div class="col-md-6">
+                <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                    <div class="registered-customers">
+                        <h2 class="login-title text-center">Add Product</h2>
 
-										<div class="row">
-											
-										<div class="col-sm-6">
-											<label for="subCatagory">Catagory</label>
-											<select class=" custom-form" id="mainCatagory" name="catagory" onchange="callSubCatagory()">
-												<option value="" select disabled>select       ⧨ </option>
-												{{#each catData}}
-												<option>{{this.catagory}}</option>
-												{{/each}}
-											</select>
-										</div>
-										<div class="col-sm-6">
-															<label for="subCatagory">Sub-Catagory</label>
-															
-											<select class=" custom-form" id="subCatagory" name="subCatagory">
-												
-												
-												<option value="" id="temporarySubCat">select       ⧨ </option>
-												
+                        <div class="registered">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="">Product Title</label>
+                                    <input type="text" class="custom-form" name="productTitle" placeholder="Product Title" id="productTitle"/>
+                                </div>
+                            </div>
+                            <div class="row">
 
-																	
-											</select>
-										</div>
-									</div>
+                                <div class="col-md-6">
+                                    <label for="">Regular Price</label>
+                                    <input type="text" class="custom-form" placeholder="Regular Price" name="regularPrice" id="regularPrice"/>
 
+                                </div>
 
+                                <div class="col-md-6">
+                                    <label for="">Offer Percenatge</label>
+                                    <input type="text" class="custom-form " name="productOfferPercentage" placeholder="Offer Percentage" id="offerPercentage"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="">Product Quantity</label>
+                                    <input type="text" class="custom-form" name="quantity" placeholder="Product available Quantity" id="quantity"/>
+                                </div>
+                            </div>
+                        
+                        <div class="row">
 
-													
-												
+                            <div class="col-sm-6">
+                                <label for="subCatagory">Catagory</label>
+                                <select class=" custom-form" id="mainCatagory" name="catagory" onchange="callSubCatagory()">
+                                    <option value="" select disabled>select       ⧨
+                                    </option>
+                                    {{#each catData}}
+                                        <option>{{ this.catagory }}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="subCatagory">Sub-Catagory</label>
+
+                                <select class=" custom-form" id="subCatagory" name="subCatagory">
 
 
+                                    <option value="" id="temporarySubCat">select       ⧨
+                                    </option>
 
 
-							
-                                      	{{!--  <div class="row">
-											<div class="col-md-12">
-												<input type="text" class="custom-form" name="email" placeholder="Email Address" id="email" />
-											</div>
-										</div> --}}
-										<div class="row">
-											<div class="col-md-12">
-												<input  type="text" class="custom-form" placeholder="Description" name="productDescription" id="description" style="height:13rem"/>
-                    
-											</div>
-                                            
-										</div>
-										<div class="row">
-											<div class="col-md-12">
-												<input  type="file" class="custom-form" placeholder="Images" name="images" id="images" multiple/>
-                    
-											</div>
-                                            
-										</div>
-										
-									
-										<input type="submit" class="custom-submit-2 col-md-12" value="Add Product" />
-									</div>
-								</div>
-							</form>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="Description">Description</label>
+                                <input type="text" class="custom-form" placeholder="Description" name="productDescription" id="description" style="height:13rem"/>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="file" class="custom-form" placeholder="Images" name="images" id="images" multiple/>
+
+                            </div>
+
+                        </div>
+						<div class="row">
+                            <div class="col-md-6">
+                                <input type="radio"  name="readyForSale" value="readyForSale" checked/>Ready For Sale
+                            </div>
+							<div class="col-md-6">
+                                <input type="radio"  name="readyForSale" value="notReadyForSale
+								eadyForSale"/> Not Ready For Sale
+
+                            </div>
+
+                        </div>
+
+
+                        <input type="submit" class="custom-submit-2 col-md-12" value="Add Product"/>
 						</div>
-						
-					</div>
-				</div>
-			</div>
-			<script src="/javascripts/myjs/ajaxFile.js"></script>
-			<script defer src="https://cdn.crop.guide/loader/l.js?c=FNKPND"></script>
-			<!-- LOGIN-AREA END -->
-		
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div></div><script src="/javascripts/myjs/ajaxFile.js"></script><script defer src="https://cdn.crop.guide/loader/l.js?c=FNKPND"></script><!-- LOGIN-AREA END -->

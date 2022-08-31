@@ -2,7 +2,7 @@
 			<!-- MY-ACCOUNT-AREA START -->
             <!-- CSS only -->
 <!-- MY-ACCOUNT-AREA START -->
-			<div class="my-account-area">
+			<div class="my-account-area"> 
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-6">
@@ -43,22 +43,12 @@
 															</div>
 															<div class="row">
 										<div class="col-sm-6">
-											<select class="custom-select custom-form" name="city" >
-												<option>{{user.city}}</option>
-												<option>Dhaka</option>
-												<option>New York</option>
-												<option>London</option>
-												<option>Melbourne</option>
-											</select>
+											
+											<input class="custom-form" type="text" placeholder="City" name="city" value="{{user.city}}" />
 										</div>
 										<div class="col-sm-6">
-											<select class="custom-select custom-form" name='country'>
-												<option>{{user.city}}</option>
-												<option>Bangladesh</option>
-												<option>United States</option>
-												<option>United Kingdom</option>
-												<option>Australia</option>
-											</select>
+											
+											<input class="custom-form" type="text" placeholder="Country" name="country" value="{{user.country}}" />
 										</div>
 									</div>
 															<div class="row">
@@ -128,22 +118,10 @@
 																</div>
 																<div class="row">
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form" name="city">
-																			<option>City</option>
-																			<option>Dhaka</option>
-																			<option>New York</option>
-																			<option>London</option>
-																			<option>Melbourne</option>
-																		</select>
+																		<input class="custom-form" type="text" placeholder="City" name="city" />
 																	</div>
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form" name="country">
-																			<option>Country</option>
-																			<option>Bangladesh</option>
-																			<option>United States</option>
-																			<option>United Kingdom</option>
-																			<option>Australia</option>
-																		</select>
+																		<input class="custom-form" type="text" placeholder="Country" name="country" />
 																	</div>
 																</div>
 																<div class="row">
@@ -151,13 +129,7 @@
 																		<input class="custom-form" type="text" placeholder="Phone Number" name="mobileNumber" />
 																	</div>
 																	<div class="col-md-6">
-																		<select class="custom-select custom-form" name="pinCode">
-																			<option>Post Code</option>
-																			<option>012345</option>
-																			<option>0123456</option>
-																			<option>01234567</option>
-																			<option>012345678</option>
-																		</select>
+																		<input class="custom-form" type="text" placeholder="Pin Code" name="pinCode" />
 																	</div>
 																</div>
 																<div class="row">
@@ -251,6 +223,18 @@
 										</h4>
 									</div>
 								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a onclick="generateRferalCode">
+											<i class="pe-7s-news-paper"></i>
+											<span> Referal code : {{user.referalCode}}</span>   <span style="float:right ;"> Wallet Balance: {{user.wallet}}</span>
+
+											
+											</a>
+										</h4>
+									</div>
+								</div>
 							</div>					
 						</div>
 					</div>
@@ -267,28 +251,7 @@
 								<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
 							</div>
 						</div>
-						<div class="col-md-7 col-sm-12">
-							<div class="brand-logo fix">
-								<div class="single-logo">
-									<img src="img/brand/1.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/2.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/3.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/4.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/5.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/6.png" alt="" />
-								</div>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>

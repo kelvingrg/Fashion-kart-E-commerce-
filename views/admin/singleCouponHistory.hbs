@@ -1,0 +1,134 @@
+<!-- DataTables -->
+<link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+<link
+href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+
+<!-- Responsive datatable examples -->
+<link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/icons.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Open modal
+                    </button>
+                    <div class="wrapper">
+                        <div
+                            class="container-fluid">
+                            <!-- Page-Title -->
+                            <div class="page-title-box">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6">
+                                        <h4 class="page-title">Coupon History</h4>
+                                     
+                                    </div>
+
+                                </div>
+                                <!-- end row -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+
+
+                                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>User Id</th>
+                                                        <th>Order Id</th>
+                                                        <th>Total Amount</th>
+                                                        <td>Coupon Discount</td>
+                                                        <th>Final Price</th>
+                                                        <th>Order Status</th>
+                                                    </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    {{#each singleCouponData}}
+                                                        <tr>
+                                                            <td>{{ this.date }}</td>
+                                                            <td>{{ this.userId }}</td>
+                                                            <td>{{ this._id }}</td>
+
+                                                            <td>{{ this.totalAmount }}</td>
+
+                                                            <td>{{ this.couponDiscount }}</td>
+                                                            <td>{{ this.finalAmount }}</td>
+                                                            <td>{{ this.status }}</td>
+                                                        </tr>
+
+                                                    {{/each}}
+                                                </tbody>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                </div>
+                                <!-- end row -->
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div>
+            <!-- end container-fluid -->
+        </div>
+        <!-- end wrapper -->
+
+        <!-- Large modal -->
+
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    sfdghfguhj...
+                </div>
+            </div>
+        </div>
+
+
+        <!-- End Footer -->
+
+        <!-- jQuery  -->
+        <script src="/public/javascripts/myjs/ajaxFile.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/js/jquery.slimscroll.js"></script>
+        <script src="/assets/js/waves.min.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons amples -->
+        <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/plugins/datatables/jszip.min.js"></script>
+        <script src="/plugins/datatables/pdfmake.min.js"></script>
+        <script src="/plugins/datatables/vfs_fonts.js"></script>
+        <script src="/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="/plugins/datatables/buttons.print.min.js"></script>
+        <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+        <!-- Responsi examples -->
+        <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+        <!-- Datatable init js -->
+        <script src="/assets/pages/datatables.init.js"></script>
+
+        <!-- App js -->
+        <script src="/assets/js/app.js"></script>

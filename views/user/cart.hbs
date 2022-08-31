@@ -9,6 +9,11 @@
 			<!-- SHOPPING-CART-AREA START -->
 			<div class="shopping-cart-area margin-bottom-80">
 				<div class="container">
+					{{#if user.productAvailable}}
+						
+					{{else}}
+					<h4 class="text-danger">Add some products to Cart to proceed.. </h4>
+					{{/if}}
 					<div class="row">
 						<div class="col-md-12">
 							<form action="#">
@@ -18,8 +23,10 @@
 											<tr>
 												<th class="product-thumbnail">Image</th>
 												<th class="product-name">Name</th>
-												<th class="product-edit">Edit</th>
-												<th class="product-price">price</th>
+												<th class="product-edit">MRP</th>
+												
+												<th class="product-edit">Off</th>
+												<th class="product-price">Offer Price</th>
 												<th class="product-quantity">Quantity</th>
 												<th class="product-subtotal">Subtotal</th>
 												<th class="product-remove">Remove</th>
@@ -27,14 +34,15 @@
 										</thead>
 										<tbody>
 											{{#each cartProducts}}
-											<tr>
+											<tr id="tr{{this.product._id}}">
 												
 												<td class="product-thumbnail"><a href="#"><img src="/{{this.product.images.[2]}}" alt="" /></a></td>
 												<td class="product-name"><a href="#">{{this.product.productTitle}}</a></td>
-												<td class="product-edit"><a href="#">Edit</a></td>
-												<td class="product-price"><span class="amount">{{this.product.offerPrice}}</span></td>
+												<td class="product-edit"><a href="#" id="uniqueMrp{{this.product._id}}">{{this.product.regularPrice}}</a></td>
+												<td class="product-edit"><a href="#">{{this.product.offerPercentage}}</a></td>
+												<td class="product-price"><span class="amount" id="offerPrice{{this.product._id}}" >{{this.product.offerPrice}}</span></td>
 												<td class="product-quantity product-remove"><button name="{{this.product._id}}" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)"><i class="pe-7s-less"></i></button> <button  id="{{this.product._id}}">{{this.quantity}}</button><button onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)"><i class="pe-7s-plus"></i></button></td>
-												<td class="product-subtotal">$350.00</td>
+												<td class="product-subtotal" id="subtotal{{this.product._id}}">{{this.uniqueTotalOfferPrice}}</td>
 												<td class="product-remove"><button onclick="deleteProduct('{{this.product._id}}','{{../user._id}}')"><i class="pe-7s-close"></i></button> </td>
 											</tr>
 											{{/each}}
@@ -58,20 +66,17 @@
 											<div class="table-cart table-responsive">
 												<table>
 													<tbody class="cart-totals-list">
-														{{!-- <tr>
-															<th>Subtotal</th>
-															<td id="totalValue">{{totalCost.[0].total}}</td>
+														<tr>
+															<th>Total Mrp </th>
+															<td id="totalMrp">{{totalCost.[0].mrp}}</td>
 														</tr>
+														
 														<tr>
-															{{!-- <th>Discount</th>
-															<td><span>no discount or coupon code</span></td> --}} 
-														</tr>--}}
-														<tr>
-															{{!-- <th>Shipping</th>
-															<td><p>free shipping</p></td> --}}
+														<th>Shipping</th>
+															<td><p>free shipping</p></td>
 														</tr>
 														<tr class="cart-total">
-															<th>Total</th>
+															<th>Total Price</th>
 															<td id="totalValue">{{totalCost.[0].total}}</td>
 														</tr>
 													</tbody>
@@ -89,41 +94,6 @@
 				</div>
 			</div>
 			<!-- SHOPPING-CART-AREA END -->
-			<!-- BRAND-LOGO-AREA START -->
-			<div class="brand-logo-area margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-5 col-sm-12">
-							<div class="brand-brief">
-								<h2 class="border-left-right">they are with us</h2>
-								<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
-							</div>
-						</div>
-						<div class="col-md-7 col-sm-12">
-							<div class="brand-logo fix">
-								<div class="single-logo">
-									<img src="img/brand/1.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/2.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/3.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/4.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/5.png" alt="" />
-								</div>
-								<div class="single-logo">
-									<img src="img/brand/6.png" alt="" />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- BRAND-LOGO-AREA END -->
+			
+		
 		</section>
-		<

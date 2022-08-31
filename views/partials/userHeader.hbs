@@ -26,8 +26,8 @@
 									<li><a href="#">{{#if user}} {{user.firstName}} {{else}}Account{{/if}} <span><i class="sp-gear"></i></span></a>
 										<ul class="submenu">
 											<li><a href="/myAccount">My Account</a></li>
-											<li><a href="#">Wishlist</a></li>
-											<li><a href="#">Checkout</a></li>
+											{{!-- <li><a href="#">Wishlist</a></li> --}}
+											<li><a href="/checkOut">Checkout</a></li>
 											{{#if user}}
 											<li><a href="/logout">Logout</a></li>
 											
@@ -63,6 +63,7 @@
 								<nav>
 									<ul>
 										<li><a href="/" style="cursor: pointer;">home</a></li>
+										<li><a href="/allProducts" style="cursor: pointer;">All</a></li>
 										{{#each categoryData}}
 										<li  onclick="productsVeiwMainCata('{{this.catagory}}')" style="cursor: pointer;"><a>{{this.catagory}}</a>
 											<ul class="submenu">
@@ -74,23 +75,7 @@
 										</li>
 										{{/each}}
 										
-										<li><a href="#">Pages</a>
-											<ul class="submenu">
-												<li class="submenu-title"><a href="#">All pages</a></li>
-												<li><a href="shop.html">{{this}}</a></li>
-												<li><a href="single-product.html">Single Product</a></li>
-												<li><a href="cart.html">Shopping Cart</a></li>
-												<li><a href="wishlist.html">Wishlist</a></li>
-												<li><a href="checkout.html">Checkout</a></li>
-												<li><a href="login.html">Login</a></li>
-												<li><a href="my-account.html">My Account</a></li>
-												<li><a href="blog.html">Blog</a></li>
-												<li><a href="single-blog.html">Single-Blog</a></li>
-												<li><a href="about.html">About</a></li>
-												<li><a href="404.html">404</a></li>
-												<li><a href="contact.html">Contact Us</a></li>
-											</ul>
-										</li>
+										
 										<li><a href="contact.html">contact</a></li>
 									</ul>
 								</nav>

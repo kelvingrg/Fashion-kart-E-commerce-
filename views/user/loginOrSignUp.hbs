@@ -15,12 +15,12 @@
 										<p>If you have an account with us, Please log in.</p>
 										<div class="row">
 											<div class="col-md-12">
-												<input type="text" class="custom-form" name="email" placeholder="Email Address"  value="aswin@gmail.com" />
+												<input type="text" class="custom-form" name="email" placeholder="Email Address"   />
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<input type="password" class="custom-form" placeholder="Password" name="password" value="123"/>
+												<input type="password" class="custom-form" placeholder="Password" name="password" />
 											</div>
 											{{#if logerr}}<label for="mobileNumber" style="color: red;">invalid credentials</label>{{/if}}
 												{{#if blocked}}<label for="mobileNumber" style="color: red;">You have been blocked please contact Customer Care</label>{{/if}}
@@ -68,22 +68,10 @@
 									</div>
 									<div class="row">
 										<div class="col-sm-6">
-											<select class="custom-select custom-form" name="city">
-												<option>City</option>
-												<option>Dhaka</option>
-												<option>New York</option>
-												<option>London</option>
-												<option>Melbourne</option>
-											</select>
+											<input type="text" class="custom-form" placeholder="City" name="city" />
 										</div>
 										<div class="col-sm-6">
-											<select class="custom-select custom-form" name='country'>
-												<option>Country</option>
-												<option>Bangladesh</option>
-												<option>United States</option>
-												<option>United Kingdom</option>
-												<option>Australia</option>
-											</select>
+											<input type="text" class="custom-form" placeholder="country" name="country" />
 										</div>
 									</div>
 									<div class="row">
@@ -113,6 +101,13 @@
 											<label for="text" id="labelPassword" ></label>
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<label for="text" id="labelPassword" >Enter Referal code here and fill Your wallet</label>
+											<input class="custom-form" type="text" placeholder="Referal Code" id="referalCode" name="referalCode" />
+											
+										</div>
+									</div>
 									<div class="checkbox">
 										<label>
 											<input type="checkbox" checked="checked" name="create-account"/>
@@ -130,6 +125,7 @@
 											{{#if phoneerr}}<label for="mobileNumber" style="color: red;">Mobile Number Already exists</label>{{/if}}
 											{{#if emailerr}}<label for="email" style="color: red;">Email Already exists</label>{{/if}}
 										</div>
+
 										<div class="col-sm-6">
 											<input type="submit" class="custom-form custom-submit no-margin" value="clear" />
 										</div>

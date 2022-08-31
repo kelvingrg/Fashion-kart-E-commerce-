@@ -1,0 +1,55 @@
+ <style>
+    .editCoupon{
+        margin-top: 15%;
+          display: flex;
+  justify-content: center;
+  align-items: center;
+    }
+ </style>
+ <div class="editCoupon">
+ <div class="col-md-4">
+            <div class="form-group">
+                <form action="/admin/editSingleCoupon/{{singleCouponData._id}}" method="POST">
+                    <div class="col-md-12 bg-dark text-center mb-5">
+                        <label class="text-white">Edit Coupon </label>
+                    </div>
+
+                    <div class="row mt-5">
+                        <label for="">Coupon Code :
+                        </label>
+                        <input type="text" class="form-control  " required placeholder="Min value is 2" name="couponCode" id="couponCode" value="{{singleCouponData.couponCode}}"/>
+                    </div>
+                    <div class="row mt-2">
+                        <label for="">Offer Percentage :</label>
+                        <input type="number" class="form-control  " required placeholder="Min value is 2" name="offerPercentage" id="offerPercentage"value="{{singleCouponData.offerPercentage}}" />
+                    </div>
+                    <div class="row mt-2">
+                        <label for=" ">Offer Amount Cap :</label>
+                        <input type="number" class="form-control  " required placeholder="Min value is 2" name="offerCap" id="offerCap" value="{{singleCouponData.offerCap}}" />
+                    </div>
+                    <div class="row mt-2">
+                        <label for="">Start Date:{{startDate}}
+                        </label>
+                        <input type="date" class="form-control  " required placeholder="Min value is 2" name="startDate" id="startDate" value={{startDate}}/>
+                    </div>
+
+                    <div class="row mt-2">
+                        <label for="">Expiry Date :
+                        </label>
+                        <input type="date" class="form-control  " required placeholder="Min value is 2" name="endDate" id="endDate" value={{singleCouponData.endDate}}/>
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group m-b-0 d-flex justify-content-center align-items-cente">
+                    <div>
+                        <button type="submit" class="btn btn-dark waves-effect waves-light">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ <script src='https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js'></script>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+    .invoice-title h2, .invoice-title h3 {
+    display: inline-block;
+}
+
+.table > tbody > tr > .no-line {
+    border-top: none;
+}
+
+.table > thead > tr > .no-line {
+    border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+    border-top: 2px solid;
+}
+
+p{
+    line-height:0.8;
+}
+.heading{
+    width:auto;
+    background-color: black; 
+    color: white ;  
+}
+</style>
+</head>
+<body>
+
+
+<div class="container" id="invoice" >
+    <div class="row">
+        <div class="col-xs-12 border-dark " >
+    		<div class="invoice-title">
+    			<h2>Invoice</h2><h3 class="pull-right">Order :{{orderData.[0]._id}}</h3>
+    		</div>
+    		<hr>
+            
+    		<div class="row">
+                <div class="heading text-center m-3"><h3>Fashion Kart pvt.ltd</h3></div>
+    			<div class="col-xs-6">
+    				<address>
+    				<strong>Billed To:</strong>
+                    <p>{{user.firstName}} {{user.lastName}} </p>
+                    <p>{{user.address}}</p>
+                    <p>{{user.city}}</p>
+                    <p>{{user.country}}</p>
+                    <p>{{user.pinCode}}</p>
+                    <p>{{user.mobileNumber}}</p>
+                    <p>{{user.email}}</p>
+    				</address>
+    			</div>
+    			<div class="col-xs-6 text-right">
+    				<address>
+        			<strong>Shipped To:</strong><br>
+    					<p>{{orderData.[0].deliveryDetails.name}}</p>
+                        <p>{{orderData.[0].deliveryDetails.address}}</p>
+                        <p>{{orderData.[0].deliveryDetails.city}}</p>
+                        <p>{{orderData.[0].deliveryDetails.country}}</p>
+                        <p>{{orderData.[0].deliveryDetails.pin}}</p>
+                        <p>{{orderData.[0].deliveryDetails.mobileNumber}}</p>
+                        <p>{{orderData.[0].deliveryDetails.email}}</p>
+    				</address>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-xs-6">
+    				<address>
+    					<strong>Payment Method:</strong>
+    					<p>{{orderData.[0].paymnetMethod}}</p>
+    					
+    				</address>
+    			</div>
+    			<div class="col-xs-6 text-right">
+    				<address>
+    					<strong>Order Date:</strong>
+                        <h4>{{orderData.[0].timeStamp}}</h4>
+    			
+    				</address>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				<h3 class="panel-title"><strong>Order summary</strong></h3>
+    			</div>
+    			<div class="panel-body">
+    				<div class="table-responsive">
+    					<table class="table table-condensed">
+    						<thead>
+                                <tr>
+        							<td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>MRP</strong></td>
+                                    <td class="text-center"><strong>Offer Percentage</strong></td>
+                                     <td class="text-center"><strong>Discount</strong></td>
+        							<td class="text-center"><strong>Offer Price</strong></td>
+        							<td class="text-center"><strong>Quantity</strong></td>
+        							<td class="text-right"><strong>Totals</strong></td>
+                                </tr>
+    						</thead>
+    						<tbody>
+    						{{#each orderData}}
+    							<tr>
+    								<td>{{this.product.productTitle}}</td>
+    								<td class="text-center">{{this.product.regularPrice}}</td>
+                                    <td class="text-center">{{this.product.offerPercentage}}</td>
+                                    <td class="text-center">{{this.product.discountedPrice}}</td>
+    								<td class="text-center">{{this.product.offerPrice}}</td>
+                                    <td class="text-center">{{this.quantity}}</td>
+                                    <td class="text-right">{{this.uniqueTotalOfferPrice}}</td>
+
+    							</tr>
+                                {{/each}}
+    							<tr>
+    							
+    								<td class="thick-line"></td>
+                                    	<td class="thick-line"></td>
+    								<td class="thick-line"></td>
+                                    	<td class="thick-line"></td>
+    								<td class="thick-line"></td>
+    								<td class="thick-line text-center"><strong>Subtotal</strong></td>
+    								<td class="thick-line text-right">{{orderData.[0].totalAmount}}</td>
+    							</tr>
+    							<tr>
+    								<td class="no-line"></td>
+    								<td class="no-line"></td>
+                                    <td class="no-line"></td>
+    								<td class="no-line"></td>
+                                    <td class="no-line"></td>
+    				
+    								<td class="no-line text-center"><strong>Shipping</strong></td>
+    								<td class="no-line text-right">00</td>
+    							</tr>
+                                {{#if orderData.[0].couponCodeApplied}}
+                                <tr>
+    								<td class="no-line"></td>
+    								<td class="no-line"></td>
+                                    <td class="no-line"></td>
+    								<td class="no-line"></td>
+                                    <td class="no-line"></td>
+    				
+    								<td class="no-line text-center"><strong>Coupon Discount</strong></td>
+    								<td class="no-line text-right">{{orderData.[0].couponDiiscount}}</td>
+    							</tr>
+                                {{/if}}
+    							<tr>
+    								<td class="no-line"></td>
+    								<td class="no-line"></td>
+                                      <td class="no-line"></td>
+    								<td class="no-line"></td>
+                                    <td class="no-line"></td>
+    								<td class="no-line text-center"><strong>Total</strong></td>
+    								<td class="no-line text-right">{{orderData.[0].finalAmount}}</td>
+    							</tr>
+    						</tbody>
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+<div class="text-center"> <button onclick="generatePDF()" style="color:#f6416c;" ><h2 id="downloadButton"><i class="pe-7s-print"></i></h2></button>
+    </div>
+     <script>
+        function addScript(url) {
+    var script = document.createElement('script');
+    script.type = 'application/javascript';
+    script.src = url;
+    document.head.appendChild(script);
+}
+       function generatePDF(){
+        const element = document.getElementById("invoice");
+      html2pdf().from(element).save()
+       }
+    </script>
+</body>
+</html>

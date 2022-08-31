@@ -2,9 +2,30 @@ var db = require("../config/connection");
 var collection = require("../config/collections");
 const { ObjectID } = require("bson");
 var objectId = require("mongodb").ObjectId;
+var Handlebars=require('handlebars')
+Handlebars.registerHelper('inc', function (value, options) {
+  return parseInt(value) + 1;
+});
 module.exports = {
-  addProduct: (prodDetails) => {
-    return new Promise(async (resolve, reject) => {
+  addProduct:async (prodDetails) => {
+   
+    console.log('prodDetails',prodDetails);
+    if(prodDetails.readyForSale=="readyForSale"){
+      prodDetails.readyForSale=true
+    }else{
+      prodDetails.readyForSale=false
+    }
+    prodDetails.offerPercentage=parseInt(prodDetails.productOfferPercentage)
+    prodDetails.productOfferPercentage=parseInt(prodDetails.productOfferPercentage)
+    prodDetails.regularPrice=parseInt(prodDetails.regularPrice)
+    prodDetails.quantity=parseInt(prodDetails.quantity)
+    prodDetails.offerPrice=(1-prodDetails.offerPercentage/100)*(prodDetails.regularPrice)
+    prodDetails.timeStamp=new Date();
+    prodDetails.catagoryOfferApplied=false
+    console.log('prodDetails',prodDetails);
+  
+    
+  return new Promise(async (resolve, reject) => {
       await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
@@ -13,6 +34,7 @@ module.exports = {
           resolve();
         });
     });
+    
   },
 
   // get all products 
@@ -27,28 +49,171 @@ module.exports = {
     });
   },
   // get all products which is listed under particular subcatagory 
-  getProducts: (subcata) => {
+  getProducts: (subcata,pageno=1,limit=2) => {
+    
+    pageno=parseInt(pageno)
+    limit=parseInt(limit)
+
+    let skip=limit*(pageno-1)
+    if(skip<=0) skip=0;
+    
+    
     return new Promise(async (resolve, reject) => {
       let productsData = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
-        .find({subCatagory:subcata})
-        .toArray();
-      resolve(productsData);
+        .find({$and:[{subCatagory:subcata},{readyForSale:true}]})
+       .skip(skip).limit(limit).toArray()
+     
+    
+       productsData.pageno=pageno
+       productsData.subCata=subcata
+       productsData.subcata=true
+       productsData.maincata=false
+       productsData.all=false
+
+     
+        
+        productsData.count= await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .find({$and:[{subCatagory:subcata},{readyForSale:true}]}).count()
+        
+        productsData.count=Math.floor(productsData.count/limit)
+        productsData.pageNos=[]
+       if ( productsData.count<1){
+        productsData.pageNos=[{ pageno: 1, currentPage: true}]
+       }else{
+
+      
+        for(i=1;i<= productsData.count;i++){
+          if(pageno==i){
+            productsData.pageNos.push({
+              pageno:i,
+              currentPage:true
+            })
+          }else{
+            productsData.pageNos.push({
+              pageno:i,
+              currentPage:false
+            })
+          }
+         
+        } }
+        resolve(productsData);
+        
     });
   },
 
   //productsVeiwMainCata
-  productsVeiwMainCata: (maincata) => {
+  productsVeiwMainCata: (maincata,pageno=1,limit=2) => {
+    pageno=parseInt(pageno)
+    limit=parseInt(limit)
+    let skip=limit*(pageno-1)
+    if(skip<=0) skip=0;
+    console.log(skip,limit)
+
     return new Promise(async (resolve, reject) => {
       let productsData = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
-        .find({catagory:maincata})
-        .toArray();
+        .find({$and:[{catagory:maincata},{readyForSale:true}]})
+        .skip(skip).limit(limit).toArray()
+        productsData.pageno=pageno
+        productsData.mainCata=maincata
+        productsData.subcata=false
+        productsData.maincata=true
+        productsData.all=false
+ 
+         productsData.count= await db
+         .get()
+         .collection(collection.PRODUCT_COLLECTION)
+         .find({$and:[{catagory:maincata},{readyForSale:true}]}).count()
+         
+         productsData.count=Math.floor(productsData.count/limit)
+         productsData.pageNos=[]
+        if ( productsData.count<1){
+         productsData.pageNos=[{ pageno: 1, currentPage: true}]
+        }else{
+ 
+       
+         for(i=1;i<= productsData.count;i++){
+           if(pageno==i){
+             productsData.pageNos.push({
+               pageno:i,
+               currentPage:true
+             })
+           }else{
+             productsData.pageNos.push({
+               pageno:i,
+               currentPage:false
+             })
+           }
+          
+         } }
+
+
+
+
       resolve(productsData);
     });
   },
+  
+  //  ALL PRODUCTS 
+  allProducts:(pageno=1,limit=2)=>{
+
+    pageno=parseInt(pageno)
+    limit=parseInt(limit)
+    let skip=limit*(pageno-1)
+    if(skip<=0) skip=0;
+    console.log(skip,limit)
+
+    return new Promise(async (resolve,reject)=>{
+      await  db.get().collection(collection.PRODUCT_COLLECTION).find({readyForSale:true}).skip(skip).limit(limit).toArray().then(async(productsData)=>{
+         productsData.pageno=pageno
+        productsData.subcata=false
+        productsData.maincata=false
+        productsData.all=true
+ 
+         productsData.count= await db
+         .get()
+         .collection(collection.PRODUCT_COLLECTION)
+         .find({readyForSale:true}).count()
+         
+         productsData.count=Math.floor(productsData.count/limit)
+         productsData.pageNos=[]
+        if ( productsData.count<1){
+         productsData.pageNos=[{ pageno: 1, currentPage: true}]
+        }else{
+ 
+       
+         for(i=1;i<= productsData.count;i++){
+           if(pageno==i){
+             productsData.pageNos.push({
+               pageno:i,
+               currentPage:true
+             })
+           }else{
+             productsData.pageNos.push({
+               pageno:i,
+               currentPage:false
+             })
+           }
+          
+         } }
+
+
+
+
+      resolve(productsData);
+        
+        })
+    })
+},
+
+
+
+
 
   getProduct: (prodId) => {
     return new Promise(async (resolve, reject) => {
@@ -134,15 +299,14 @@ module.exports = {
   deleteCatagoryWithProd:(data)=>{
     return new Promise(async(resolve,reject)=>{
      await db.get().collection(collection.PRODUCT_COLLECTION).find({catagory:data.cataName}).toArray().then((response)=>{
-      console.log(data,".............45")
         if(data.length==0){
           db.get().collection(collection.CATAGORY_COLLECTION).remove({catagory:data.cataName})
         }else{
-           db.get().collection(collection.PRODUCT_COLLECTION).remove({catagory:data.cataName})
-           db.get().collection(collection.CATAGORY_COLLECTION).remove({catagory:data.cataName})
+           db.get().collection(collection.PRODUCT_COLLECTION).updateMany({catagory:data.cataName},{$set:{readyForSale:false}},{multi:true})
+          
         }
         resolve(response)
-        console.log(response);
+        
       }) 
     })
 
@@ -179,26 +343,6 @@ module.exports = {
   },
 
 
-//add or update banners 
-// updateProduct: (bannerId, bannerData) => {
-//   return new Promise(async (resolve, reject) => {
-//     await db
-//       .get()
-//       .collection(collection.PRODUCT_COLLECTION)
-//       .updateOne(
-//         { _id: objectId(bannerId) },
-//         {
-//           $set: {
-//             bannerTitle1: bannerData.bannerTitle1,
-//             bannerTitle2: bannerData.bannerTitle2,
-//             bannerTitle3: bannerData.bannerTitle3,
-//             images: bannerData.images,
-//           },
-//         }
-//       );
-//     resolve();
-//   });
-//}
 updateSubCata:async(cataData)=>{
   db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(cataData.cataId)},{$pull:{subCatagory:cataData.cataName}})
   db.get().collection(collection.CATAGORY_COLLECTION).updateOne({_id:objectId(cataData.cataId)},{$push:{subCatagory:cataData.newCataName}})
@@ -237,6 +381,20 @@ updateNewSubCatagory:(cataData,cataId)=>{
     resolve()
   })
 
+},
+deactivateProduct:(prodId)=>{
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(prodId)},{$set:{readyForSale:false}}).then((response)=>{
+resolve(response)         
+    })
+  })
+},
+activateProduct:(prodId)=>{
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(prodId)},{$set:{readyForSale:true}}).then((response)=>{
+resolve(response)         
+    })
+  })
 }
 }
 
