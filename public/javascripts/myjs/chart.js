@@ -147,15 +147,18 @@ $.ajax({
 
     google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
-    let x=parseInt( data[0].count )
-    let y=parseInt( data[1].count )
-    let z=parseInt( data[2].count )
+   
+    let r=parseInt( data[0].count )
+    let x=parseInt( data[1].count )
+    let y=parseInt( data[2].count )
+    let z=parseInt( data[3].count )
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
         ['Payment Method', 'Nos.'],
-        ['COD',    x],
-        ['PayPal',     y],
-        ['RazorPay',  z],
+        ['COD',    r],
+        ['PayPal',     x],
+        ['RazorPay',  y],
+        ['Wallet', z]
       
       ]);
 

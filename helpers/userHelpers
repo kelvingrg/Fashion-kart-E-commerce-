@@ -16,21 +16,98 @@ var instance = new Razorpay({key_id: process.env.KEY_ID, key_secret: process.env
 
 // paypal configuration
 const paypal = require('paypal-rest-sdk');
+const { response } = require("express");
 paypal.configure({mode: "sandbox", client_id: 'ATVfUdlaEds_REEqb851ftHbOZRfYuSJrVBTxI1iUWCU2my_lpNjwkEfx82dpwe5T5m_NoMSCV1Vbdbq', client_secret: 'EBWuUe0r61_vNU4N2kK3EykHQR7xhx7nfC_YS4x472Lwr2Exay0a14Uly2DWPl8P18l6njI8FSRYOnmf'});
+
+async function debitAmountwallet(userId,amount,description){
+    userId=userId.toString()
+   console.log(userId,",reached at wallet  debitAmountwallet");
+ let user= await db.get().collection(collection.WALLET_COLLECTION).find({userId:userId}).toArray()
+ if(user.length>0){
+    historyData={description:description,
+        amount:-(parseInt(amount)),
+        timeStamp:new Date(),
+        date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+       debit:true,
+       credit:false}
+
+await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:userId},{$push:{history:historyData}})
+ }
+ else{
+
+ let historyData={
+    userId:userId,
+  
+  history:[ {description:description,
+    amount:-amount,
+    timeStamp:new Date(),
+    date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+   debit:true,
+   credit:false}]
+ }
+    await db.get().collection(collection.WALLET_COLLECTION).insertOne(historyData).then((response)=>{
+    })
+ }
+ }
+
+ async function creditAmountwallet(userId,amount,description){
+    userId=userId.toString()
+    let user= await db.get().collection(collection.WALLET_COLLECTION).find({userId:userId}).toArray()
+  
+   
+    if(user.length>0){
+       historyData={
+        description:description,
+           amount:amount,
+           timeStamp:new Date(),
+           date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+          debit:false,
+          credit:true
+        }
+   
+   await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:userId},{$push:{history:historyData}})
+ }
+ else{
+
+    let historyData={
+       userId:userId,
+     
+     history:[ {description:description,
+       amount:amount,
+       timeStamp:new Date(),
+       date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+      debit:false,
+      credit:true}]
+    }
+       await db.get().collection(collection.WALLET_COLLECTION).insertOne(historyData)
+    }
+
+ }
+
+
+
+
+
+
+
+
 
 
 module.exports = {
     doSignup: (userData) => {
      
         return new Promise(async (resolve, reject) => {
-      
+     
             userData.password = await bcrypt.hash(userData.password, 10); // this 10 refers salt value
-            db.get().collection(collection.USER_COLLECTION).insert(userData).then((data) => {
-                resolve(data.insertId);
+            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
+            
+                resolve(data.insertedId);
+                
             });
         });
     },
-    statusUpdate: async(userData) => {
+    statusUpdate: async(userData,newUserId) => {
+       console.log(newUserId,"new userid ");
   let wallet=0
   
         if(userData.referalCode){
@@ -39,10 +116,13 @@ module.exports = {
             referredUser._id=  referredUser._id.toString()
             wallet=2000
             db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(referredUser._id)},{$inc:{wallet:wallet}},{upsert:true})
+           
+            let description="referal bonus From "+userData.firstName+""+userData.lastName
+            creditAmountwallet( referredUser._id,wallet,description)
            }
 
         }
-        console.log(userData.referalCode,"referalCode")
+
         db.get().collection(collection.USER_COLLECTION).updateOne({
             email: userData.email,
         }, {
@@ -52,7 +132,16 @@ module.exports = {
             wallet:wallet,
             referalCode:referralCodeGenerator.alphaNumeric('uppercase',3 ,1)
             }
-        }).then((data) => {});
+        }).then(() => {
+if(wallet>0){
+    let description="Welcome bonus"
+    creditAmountwallet(newUserId,wallet,description)
+}});
+ userData= await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(newUserId)})
+   console.log(userData,"new uawerDARA")
+    return userData
+   
+
     },
 
     userExist: (userData) => {
@@ -79,6 +168,7 @@ module.exports = {
                 resolve(response);
             } else {
                 response.noexist = true;
+              
                 resolve(response);
             }
         });
@@ -507,7 +597,8 @@ module.exports = {
                 date: new Date().toDateString(),
                 timeStamp: new Date(),
                 status: status,
-                cancellation: false,    refund:false
+                cancellation: false,   
+                refund:false
             }
            
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async(response) => {
@@ -530,7 +621,7 @@ module.exports = {
       
         return new Promise((resolve, reject) => {
             var options = {
-                amount: total, // amount in the smallest currency unit
+                amount: total*100, // amount in the smallest currency unit
                 currency: "INR",
                 receipt: "" + orderId
             };
@@ -540,6 +631,22 @@ module.exports = {
             })
 
         })
+    },
+    conertRate: (totalinr) => {
+
+        let fromCurrency = "INR";
+        let toCurrency = "USD";
+        let amountToConvert = totalinr;
+        let currencyConverter = new CC({from: fromCurrency, to: toCurrency, amount: amountToConvert});
+        return new Promise(async (resolve, reject) => {
+            await currencyConverter.convert().then((response) => {
+                resolve(response)
+            });
+
+
+        })
+
+
     },
 
     // paypal integration
@@ -640,6 +747,7 @@ module.exports = {
                         item: '$products.item',
                         quantity: '$products.quantity',
                         cancellation:1,
+                        
                         
 
 
@@ -786,11 +894,13 @@ module.exports = {
     })
 
 },
-buyWithWallet:(userId,totalCost)=>{
+buyWithWallet:(userId,totalCost,orderId)=>{
+    
 return new Promise((resolve,reject)=>{
     db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{$inc:{wallet:totalCost}}).then(async()=>{
-        let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(userId)})
-       
+        let description=orderId+' order created'
+        debitAmountwallet(userId,totalCost,description)
+      
         resolve()
     })
 })
@@ -835,7 +945,8 @@ let orderData=await db.get().collection(collection.ORDER_COLLECTION).aggregate((
             couponDiiscount:1,
             finalAmount:1,
             status:1,
-            // mrp:{$sum:{$multiply:["$quantity",20]}},
+            refund:1,
+        
             cancellation:1,
            quantity: "$products.quantity",
             product: {
@@ -864,6 +975,7 @@ let orderData=await db.get().collection(collection.ORDER_COLLECTION).aggregate((
         }, {
             $toInt: '$product.offerPrice'
         }]}},
+        refund:1,
         cancellation:1,
        quantity: 1,
         product:1
@@ -882,6 +994,11 @@ allProducts:()=>{
             resolve(response)
         })
     })
+},
+walletHistory:async(userId)=>{
+ let wallet=  await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:userId})
+ return wallet
 }
 
 }
+

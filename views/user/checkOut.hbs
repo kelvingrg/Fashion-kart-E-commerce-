@@ -5,7 +5,12 @@
     </script>
 
     <!-- CHECKOUT-AREA START -->
-    <div class="checkout-area margin-bottom-80 mt-3">
+    <body>
+  <div class="spinnert container-fluid"  id="spinnerdiv" >
+  <div class="lds-hourglass" style="display:none;" id="spinnert"></div>
+  </div>
+
+    <div class="checkout-area margin-bottom-80 mt-3" style="display:content ;" id="checkOutContent">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -28,8 +33,7 @@
 
                                     <p class="checkout-coupon">
                                         <input type="text" placeholder="Coupon code" id="couponCodeInput"/>
-                                        <input type="submit" value="Apply Coupon" onclick="checkCouponCode('{{user._id}}','{{totalCost.[0].total}}')"/>
-                                    </p>
+                                        <input type="submit" value="Apply Coupon" onclick="checkCouponCode('{{user._id}}','{{totalCost.[0].total}}')"  />
 
                                 </div>
                             </div>
@@ -200,7 +204,7 @@
                                         <label for="">Wallet</label> <p style="display:inline; font-size:small"  >   (Rs. {{user.wallet}} Available)</p>
                                     </div>
                                     <div class="order-button-payment text-center">
-                                        <input type="submit" value="Place order"/>
+                                       <a href="#sp-phone"> <input type="submit" value="Place order" onclick="paymentInitiated()"/></a>
 											<input type="text" id="userId"name="userId" value="{{user._id}}" hidden>
                                     </div>
                                 </div>
@@ -215,40 +219,4 @@
     </div>
 </div>
 <!-- CHECKOUT-AREA END -->
-<!-- BRAND-LOGO-AREA START -->
-<div class="brand-logo-area margin-bottom-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5 col-sm-12">
-                <div class="brand-brief">
-                    <h2 class="border-left-right">they are with us</h2>
-                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-7 col-sm-12">
-                <div class="brand-logo fix">
-                    <div class="single-logo">
-                        <img src="img/brand/1.png" alt=""/>
-                    </div>
-                    <div class="single-logo">
-                        <img src="img/brand/2.png" alt=""/>
-                    </div>
-                    <div class="single-logo">
-                        <img src="img/brand/3.png" alt=""/>
-                    </div>
-                    <div class="single-logo">
-                        <img src="img/brand/4.png" alt=""/>
-                    </div>
-                    <div class="single-logo">
-                        <img src="img/brand/5.png" alt=""/>
-                    </div>
-                    <div class="single-logo">
-                        <img src="img/brand/6.png" alt=""/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- BRAND-LOGO-AREA END --></section><!-- PAGE-CONTENT END -->
+</section><!-- PAGE-CONTENT END -->

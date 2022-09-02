@@ -146,10 +146,10 @@ function verifyPayment(payment, order) {
 // razor pay fnunction
 function razorpayPayment(order) {
     console.log('razor pay reached at 2nd fn usesrside ajax 109')
-
+console.log(order.amount*100)
     var options = {
         "key": "rzp_test_0V5jZIcqZdR0p8", // Enter the Key ID generated from the Dashboard
-        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": order.amount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": "INR",
         "name": "Fashion Kart",
         "description": "Test Transaction",
@@ -208,6 +208,7 @@ function deleteProduct(prodId, userId) {
                     let quantity= document.getElementById(prodId).innerHTML 
                    let subtotal=document.getElementById("subtotal"+prodId).innerHTML 
                    let prodMrp=document.getElementById("uniqueMrp"+prodId).innerHTML 
+                   document.getElementById("tr"+prodId).outerHTML=""
                         document.getElementById("totalValue").innerHTML =parseInt(totalValue)-parseInt(subtotal)
                         document.getElementById("totalMrp").innerHTML =parseInt(totalMrp)-parseInt(quantity)*parseInt(prodMrp)
 
@@ -359,4 +360,9 @@ $.ajax({
   }
 })
  }
-
+ function paymentInitiated(){
+    
+    document.getElementById("checkOutContent").style.display="none"
+    document.getElementById("spinnert").style.display="block"
+    document.getElementById("spinnerdiv").style.height="30vw"
+ }

@@ -65,15 +65,18 @@ function validatePinCode(){
 }
 function validatePassword(){
     var password1=document.getElementById("password").value; 
+    var regx=/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    if(regx.test(password1)){
+      
     var password2=document.getElementById("confirmPassword").value;
    
     if(password1===password2&& password1!="")
     {
-        document.getElementById("labelPassword").innerHTML="done";
+        document.getElementById("labelPassword").innerHTML="<strong><i class='pe-7s-like2'> <i/></strong>";
         document.getElementById("labelPassword").style.visibility="visible";
         document.getElementById("labelPassword").style.color="green";
         pass=true
-        document.getElementById("resetPasswordSubmit").style.visibility="visible";
+     
   
     
     }
@@ -82,11 +85,38 @@ function validatePassword(){
 document.getElementById("labelPassword").style.visibility="visible";
 document.getElementById("labelPassword").style.color="red";
 pass=false
-document.getElementById("resetPasswordSubmit").style.visibility="hidden";
+
 }
+    }
+    else{
+       let errors = [];
+        if (password1.length < 6) {
+            errors.push("Your password must be at least 6 characters"); 
+        }else   errors.push("")
+        if (password1.search(/[a-z]/i) < 0) {
+            errors.push("Your password must contain at least one letter.");
+        }else   errors.push("")
+        if (password1.search(/[0-9]/) < 0) {
+            errors.push("Your password must contain at least one digit."); 
+        }else   errors.push("")
+        if (password1.search(/[!,@,#,$,%,^,&,*,]/) < 0) {
+            errors.push("Your password should contain atleast one special character."); 
+        }else   errors.push("")
+      
+console.log(errors);
+         
+    document.getElementById("labelPassword").innerHTML=errors[0]+"<br>"+errors[1]+"<br>"+errors[2]+"<br>"+errors[3]
+        document.getElementById("labelPassword").style.visibility="visible";
+        document.getElementById("labelPassword").style.color="red";
+        
+
+
+        
+            }
     }
 
     function validateSubmission(){
+        event.preventDefault();
         validatePassword()
         validatePinCode()
         validateNumber()
@@ -113,7 +143,7 @@ document.getElementById("resetPasswordSubmit").style.visibility="hidden";
 
 function valid(labelname){
     console.log(labelname)
-    document.getElementById(labelname).innerHTML="Valid";
+    document.getElementById(labelname).innerHTML="<strong><i class='pe-7s-like2'> <i/></strong>";
     document.getElementById(labelname).style.visibility="visible";
     setTimeout(() => {
         document.getElementById(labelname).style.visibility="none";
@@ -122,7 +152,7 @@ function valid(labelname){
 
 }
 function invalid(labelname){
-document.getElementById(labelname).innerHTML="check your entries";
+document.getElementById(labelname).innerHTML="<i class='pe-7s-close-circle'> check your entries<i/>";
 document.getElementById(labelname).style.visibility="visible";
 document.getElementById(labelname).style.color="red";
 }

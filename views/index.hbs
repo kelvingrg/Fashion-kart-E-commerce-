@@ -1,391 +1,480 @@
+<section>
+    <style>
+      
+    </style>
+
+    <!-- PAGE-CONTENT START -->
+    <section
+        class="page-content">
+        <!-- SLIDER-AREA START -->
+        <div class="slider-area margin-bottom-80">
+            <div class="bend niceties preview-2">
+                <div id="ensign-nivoslider" class="slides">
+                    {{#each bannerData}}
+                        <img src="/{{ this.images.[0] }}" alt="" title="#slider-direction-1"/>
+                        <img src="/{{ this.images.[1] }}" alt="" title="#slider-direction-2"/>
+                        <img src="/{{ this.images.[2] }}" alt="" title="#slider-direction-3"/>
+                    {{/each}}
+                </div>
+                <!-- direction 1 -->
+                <div id="slider-direction-1" class="t-cn slider-direction">
+                    <div class="slider-progress"></div>
+                    <div class="slider-content t-lfl s-tb">
+                        <div class="title-container s-tb-c title-compress">
+                            <div class="slider-1">
+                                <div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
+                                    <h1 class="title1">new fashion collection</h1>
+                                </div>
+                                <div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
+                                    <span><img src="img/slider/slider-1/slider-border.png" alt=""/></span>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
+                                    <p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
+                                    <a href="/allProducts" class="shop-now">shop now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- direction 2 -->
+                <div id="slider-direction-2" class="slider-direction">
+                    <div class="slider-progress"></div>
+                    <div class="slider-content t-lfl s-tb">
+                        <div class="title-container s-tb-c title-compress">
+                            <div class="slider-1">
+                                <div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
+                                    <h1 class="title1">Men's fashion collection</h1>
+                                </div>
+                                <div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
+                                    <span><img src="img/slider/slider-1/slider-border.png" alt=""/></span>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
+                                    <p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
+                                    <a href="/allProducts" class="shop-now">shop now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- direction 3 -->
+                <div id="slider-direction-3" class="slider-direction">
+                    <div class="slider-progress"></div>
+                    <div class="slider-content t-lfl s-tb">
+                        <div class="title-container s-tb-c title-compress">
+                            <div class="slider-1">
+                                <div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
+                                    <h1 class="title1">Women's fashion collection</h1>
+                                </div>
+                                <div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
+                                    <span><img src="img/slider/slider-1/slider-border.png" alt=""/></span>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
+                                    <p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
+                                    <a href="/allProducts" class="shop-now">shop now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SLIDER-AREA END -->
+        <!-- BANNER-AREA START -->
+        <div class="banner-area fix margin-bottom-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="single-banner fix">
+                            <div class="banner-photo padding-0 pull-left col-md-6 col-sm-6 col-xs-12">
+                                <a onclick="productsVeiwMainCata('Women')"><img src="/img/home/mens-business-fashion women.jpg" alt=""/></a>
+                            </div>
+                            <div class="banner-brief banner-brief-right col-md-6 col-sm-6">
+                                <h2>stylish
+                                    <span>
+                                        womens
+                                    </span>
+                                </h2>
+                                <h2 class="line-bottom">
+                                    <span>
+                                        product
+                                    </span>
+                                    collection</h2>
+                                <a onclick="productsVeiwMainCata('Women')" class="shop-now">shop now</a>
+                            </div>
+                        </div>
+                        <div class="single-banner fix">
+                            <div class="banner-brief banner-brief-left col-md-6 col-sm-6">
+                                <h2>Stunning
+                                    <span>
+                                        Menz
+                                    </span>
+                                </h2>
+                                <h2 class="line-bottom">
+                                    <span>
+                                        product
+                                    </span>
+                                    collection</h2>
+                                <a onclick="productsVeiwMainCata('Men')" class="shop-now">shop now</a>
+                            </div>
+                            <div class="banner-photo padding-0 pull-right col-md-6 col-sm-6 col-xs-12">
+                                <a onclick="productsVeiwMainCata('Men')"><img src="/img/home/mens-business-fashionmenmen.jpg" alt=""/></a>
+                            </div>
+                        </div>
+                        <div class="single-banner fix">
+                            <div class="banner-photo padding-0 pull-left col-md-6 col-sm-6 col-xs-12">
+                                <a onclick="productsVeiwMainCata('Kids')"><img src="/img/home/mens-business-fashion kids .jpg" alt=""/></a>
+                            </div>
+                            <div class="banner-brief banner-brief-right col-md-6 col-sm-6">
+                                <h2>smart
+                                    <span>
+                                        kids</span>
+                                </h2>
+                                <h2 class="line-bottom">
+                                    <span>
+                                        product
+                                    </span>
+                                    collection</h2>
+                                <a onclick="productsVeiwMainCata('Kids')" class="shop-now">shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- BANNER-AREA END -->
+
+        <!-- PRODUCT-AREA START -->
+        <div class="product-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h2 class="border-left-right-btm">New Arrivals</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="active-product" class="product-slider">
+                <!-- Single-product start -->
+                {{#each getProductDataHome.new}}
+                    <div class="single-product">
+                        <div class="product-photo">
+                            <a href="/singleProduct/{{ this._id }}">
+                                <img class="primary-photo" src="/{{ this.images.[0] }}" alt=""/>
+                                <img class="secondary-photo" src="/{{ this.images.[1] }}" alt=""/>
+                            </a>
+                            <div class="pro-action">
+                                <button onclick="addToCart('{{ this._id }}')">
+                                    <a class="action-btn">
+                                        <i class="sp-shopping-cart"></i>
+                                        <span>Add to cart</span>
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-brief">
+                            <div class="pro-rating">
+                                <a href="#">
+                                    <i class="sp-star rating-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="sp-star rating-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="sp-star rating-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="sp-star rating-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="sp-star rating-2"></i>
+                                </a>
+                            </div>
+                            <h2>
+                                <a href="/singleProduct/{{ this._id }}">{{ this.productTitle }}</a>
+                            </h2>
+                            <h3 style="display:inline;">
+                                <s>{{ this.regularPrice }}</s>
+                            </h3>
+                            <h3 style="display:inline">
+                                <strong>{{ this.offerPercentage }}
+                                    % Off</strong>
+                            </h3>
+                            <br>
+                                <h3 style="display:inline">₹<h3 style="color:red ;display:inline;">{{ this.offerPrice }}</h3>
+                                </h3>
+                            </div>
+                        </div>
+                    {{/each}}
+                    <!-- Single-product end -->
 
 
-		<section>
+                </div>
+            </div>
+            <!-- PRODUCT-AREA END -->
 
-		<!-- PAGE-CONTENT START -->
-		<section class="page-content">
-			<!-- SLIDER-AREA START -->
-			<div class="slider-area margin-bottom-80">
-				<div class="bend niceties preview-2">
-					<div id="ensign-nivoslider" class="slides">	
-						{{#each bannerData}}
-						<img src="/{{this.images.[0]}}" alt="" title="#slider-direction-1"  />
-						<img src="/{{this.images.[1]}}" alt="" title="#slider-direction-2"  />
-						<img src="/{{this.images.[2]}}" alt="" title="#slider-direction-3"  />
-				{{/each}}
-					</div>
-					<!-- direction 1 -->
-					<div id="slider-direction-1" class="t-cn slider-direction">
-						<div class="slider-progress"></div>
-						<div class="slider-content t-lfl s-tb">
-							<div class="title-container s-tb-c title-compress">
-								<div class="slider-1">
-									<div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
-										<h1 class="title1">new fashion collection</h1>
-									</div>
-									<div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
-										<span><img src="img/slider/slider-1/slider-border.png" alt="" /></span>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
-										<p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
-										<a  href="/allProducts" class="shop-now">shop now</a>
-									</div>
-								</div>
-							</div>
-						</div>	
-					</div>
-					<!-- direction 2 -->
-					<div id="slider-direction-2" class="slider-direction">
-						<div class="slider-progress"></div>
-						<div class="slider-content t-lfl s-tb">
-							<div class="title-container s-tb-c title-compress">
-								<div class="slider-1">
-									<div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
-										<h1 class="title1">Men's fashion collection</h1>
-									</div>
-									<div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
-										<span><img src="img/slider/slider-1/slider-border.png" alt="" /></span>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
-										<p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
-										<a  href="/allProducts" class="shop-now">shop now</a>
-									</div>
-								</div>
-							</div>
-						</div>		
-					</div>
-					<!-- direction 3 -->
-					<div id="slider-direction-3" class="slider-direction">
-						<div class="slider-progress"></div>
-						<div class="slider-content t-lfl s-tb">
-							<div class="title-container s-tb-c title-compress">
-								<div class="slider-1">
-									<div class="wow fadeInUpBig" data-wow-duration="1.2s" data-wow-delay="0.5s">
-										<h1 class="title1">Women's fashion collection</h1>
-									</div>
-									<div class="image wow fadeInUpBig" data-wow-duration="1.5s" data-wow-delay="0.7s">
-										<span><img src="img/slider/slider-1/slider-border.png" alt="" /></span>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="1.8s" data-wow-delay="0.9s">
-										<p class="slider-brief">Simply dummy text of the printing and typesetting industry. simply dummy text of the printing and typesetting industry.</p>
-									</div>
-									<div class="wow fadeInUpBig" data-wow-duration="2s" data-wow-delay="1.1s">
-										<a href="/allProducts" class="shop-now">shop now</a>
-									</div>
-								</div>
-							</div>
-						</div>		
-					</div>
-				</div>			
-			</div>
-			<!-- SLIDER-AREA END -->
-			<!-- BANNER-AREA START -->
-			<div class="banner-area fix margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="single-banner fix">
-								<div class="banner-photo padding-0 pull-left col-md-6 col-sm-6 col-xs-12">
-									<a href="#"><img src="/img/home/mens-business-fashion women.jpg" alt="" /></a>
-								</div>
-								<div class="banner-brief banner-brief-right col-md-6 col-sm-6">
-									<h2>stylish <span> womens </span></h2>
-									<h2 class="line-bottom"><span> product </span> collection</h2>
-									<a onclick="productsVeiwMainCata('Women')"class="shop-now">shop now</a>
-								</div>
-							</div>
-							<div class="single-banner fix">
-								<div class="banner-brief banner-brief-left col-md-6 col-sm-6">
-									<h2>Stunning <span> Menz </span></h2>
-									<h2 class="line-bottom"><span> product </span> collection</h2>
-									<a onclick="productsVeiwMainCata('Men')" class="shop-now">shop now</a>
-								</div>
-								<div class="banner-photo padding-0 pull-right col-md-6 col-sm-6 col-xs-12">
-									<a ><img src="/img/home/mens-business-fashionmenmen.jpg" alt="" /></a>
-								</div>
-							</div>
-							<div class="single-banner fix">
-								<div class="banner-photo padding-0 pull-left col-md-6 col-sm-6 col-xs-12">
-									<a href="#"><img src="/img/home/mens-business-fashion kids .jpg" alt="" /></a>
-								</div>
-								<div class="banner-brief banner-brief-right col-md-6 col-sm-6">
-									<h2>smart <span> kids</span></h2>
-									<h2 class="line-bottom"><span> product </span> collection</h2>
-									<a  onclick="productsVeiwMainCata('Kids')" class="shop-now">shop now</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- BANNER-AREA END -->
-			
-			<!-- PRODUCT-AREA START -->
-			<div class="product-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="section-title text-center">
-								<h2 class="border-left-right-btm">New Arrivals</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="active-product" class="product-slider">
-					<!-- Single-product start -->
-					{{#each getProductDataHome.new}}
-					<div class="single-product">
-						<div class="product-photo">
-							<a href="#">
-								<img class="primary-photo" src="/{{this.images.[0]}}" alt="" />
-								<img class="secondary-photo" src="/{{this.images.[1]}}" alt="" />
-							</a>
-							<div class="pro-action">
-								<a href="#" class="action-btn"><i class="sp-heart"></i><span>Wishlist</span></a>
-								<a href="#" class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a>
-								<a href="#" class="action-btn"><i class="sp-compare-alt"></i><span>Compare</span></a>
-							</div>
-						</div>
-						<div class="product-brief">
-							<div class="pro-rating">
-								<a href="#"><i class="sp-star rating-1"></i></a>
-								<a href="#"><i class="sp-star rating-1"></i></a>
-								<a href="#"><i class="sp-star rating-1"></i></a>
-								<a href="#"><i class="sp-star rating-1"></i></a>
-								<a href="#"><i class="sp-star rating-2"></i></a>
-							</div>
-							<h2><a href="#">{{this.productTitle}}</a></h2>
-							<h3 style="display:inline;" ><s>{{this.regularPrice}}</s></h3>
-							<h3 style="display:inline">  <strong>{{this.offerPercentage}} % Off</strong></h3><br>
-							<h3 style="display:inline" >₹<h3 style="color:red ;display:inline;">{{this.offerPrice}}</h3></h3>
-						</div>
-					</div>	
-					{{/each}}
-					<!-- Single-product end -->
-					
-					
-				</div>
-			</div>
-			<!-- PRODUCT-AREA END -->
-			
-			<!-- BEST-SELL-AREA START -->
-			<div class="best-sell-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="section-title text-center">
-								<h2 class="border-left-right-btm">Best Sell</h2>
-							</div>
-						</div>
-					</div>				
-					<div class="row">
-						<div class="col-md-12">
-							<!-- best-sell-menu -->
-							<ul role="tablist" class="best-sell-menu">
-								<li role="presentation" class="active"><a href="#men" role="tab" data-toggle="tab">Men</a></li>
-								<li role="presentation"><a href="#women"  role="tab" data-toggle="tab">Women</a></li>
-								<li role="presentation"><a href="#kids"  role="tab" data-toggle="tab">Kids</a></li>
-							</ul>
-							<!-- best-sell-product -->
-							<div class="tab-content best-sell-product">
-								<div role="tabpanel" class="tab-pane fade in active" id="men">
-									<div class="row">
-										{{#each getProductDataHome.men }}
-										<div class="col-md-4 col-sm-4 col-xs-12">
-											<!-- Single-product start -->
-											<div class="single-product">
-												<div class="product-photo">
-													<a href="#">
-														<img class="primary-photo"   src="/{{this.images.[0]}}" alt="" />
-														<img class="secondary-photo" src="/{{this.images.[1]}}" alt="" />
-													</a>
-													<div class="pro-action">
-														<a href="#" class="action-btn"><i class="sp-heart"></i><span>Wishlist</span></a>
-														<a href="#" class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a>
-														<a href="#" class="action-btn"><i class="sp-compare-alt"></i><span>Compare</span></a>
-													</div>
-												</div>
-												<div class="product-brief ">
-													<h2 class="text-center"><a href="#">{{this.productTitle}}</a></h2>
-							<h3 style="display:inline;" ><s>{{this.regularPrice}}</s></h3>
-							<h3 style="display:inline">&nbsp; <strong>{{this.offerPercentage}}     % Off</strong></h3>
-							<div style="float:right ;"><h3 style="display:inline" >₹<h3 style="color:red ;display:inline;">{{this.offerPrice}}</h3></h3></div>
-												</div>
-											</div>	
-											
-										</div>
-										{{/each}}
-									</div>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="women">
-									<div class="row">
-										{{#each getProductDataHome.women }}
-										<div class="col-md-4 col-sm-4 col-xs-12">
-											<!-- Single-product start -->
-											<div class="single-product">
-												<div class="product-photo">
-													<a href="#">
-														<img class="primary-photo"   src="/{{this.images.[0]}}" alt="" />
-														<img class="secondary-photo" src="/{{this.images.[1]}}" alt="" />
-													</a>
-													<div class="pro-action">
-														<a href="#" class="action-btn"><i class="sp-heart"></i><span>Wishlist</span></a>
-														<a href="#" class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a>
-														<a href="#" class="action-btn"><i class="sp-compare-alt"></i><span>Compare</span></a>
-													</div>
-												</div>
-												<div class="product-brief">
-													<h2 class="text-center"><a href="#">{{this.productTitle}}</a></h2>
-							<h3 style="display:inline;" ><s>{{this.regularPrice}}</s></h3>
-							<h3 style="display:inline">&nbsp; <strong>{{this.offerPercentage}}     % Off</strong></h3>
-							<div style="float:right ;"><h3 style="display:inline" >₹<h3 style="color:red ;display:inline;">{{this.offerPrice}}</h3></h3></div>
-												</div>
-											</div>	
-											<!-- Single-product end -->
-											
-										</div>
-										{{/each}}
-									</div>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="kids">
-									<div class="row">
-										<div class="col-md-4 col-sm-4 col-xs-12">
-											{{#each getProductDataHome.kids}}
-											<!-- Single-product start -->
-											<div class="single-product">
-												<div class="product-photo">
-													<a href="#">
-														<img class="primary-photo" src="/{{this.images.[0]}}" alt="" />
-														<img class="secondary-photo" src="/{{this.images.[1 ]}}" alt="" />
-													</a>
-													<div class="pro-action">
-														<a href="#" class="action-btn"><i class="sp-heart"></i><span>Wishlist</span></a>
-														<a href="#" class="action-btn"><i class="sp-shopping-cart"></i><span>Add to cart</span></a>
-														<a href="#" class="action-btn"><i class="sp-compare-alt"></i><span>Compare</span></a>
-													</div>
-												</div>
-												<div class="product-brief">
-														<h2><a href="#">{{this.productTitle}}</a></h2>
-							<h3 style="display:inline;" ><s>{{this.regularPrice}}</s></h3>
-							<h3 style="display:inline">  <strong>{{this.offerPercentage}} % Off</strong></h3><br>
-							<h3 style="display:inline" >₹<h3 style="color:red ;display:inline;">{{this.offerPrice}}</h3></h3>
-												</div>
-											</div>	
-											<!-- Single-product end -->
-											{{/each}}
-										</div>
-										
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- BEST-SELL-AREA END -->
-			<!-- ALL-PRODUCT-VIEW START -->
-			<div class="all-product-view-area margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="all-product-view">
-								<div class="row">
-									<div class="col-md-7 col-sm-8 col-xs-12 col-sm-offset-1 col-md-offset-2">
-										<div class="all-product-brief">
-											<h2>to view all products together  !!</h2>
-											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
-										</div>
-									</div>
-									<div class="col-md-3 col-sm-3 col-xs-12">
-										<div class="all-product-view-link">
-											<a  href="/allProducts" class="shop-now">View All</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- ALL-PRODUCT-VIEW END -->
-			
-			
-		
-		
-			
-			
-			<!-- SERVICE-AREA START -->
-			<div class="service-area margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4 col-sm-4 col-xs-12">
-							<div class="single-service">
-								<div class="service-icon">
-									<i class="sp-transport"></i>
-								</div>
-								<div class="service-brief">
-									<h3>free shipping</h3>
-									<p>There are many variations of passages of Lorem Ipsum available, alteration</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12">
-							<div class="single-service">
-								<div class="service-icon">
-									<i class="sp-head-phone"></i>
-								</div>
-								<div class="service-brief">
-									<h3>help line</h3>
-									<p>(+112) 1925184203 - call any time for any support Lorem Ipsum available, alteration </p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12">
-							<div class="single-service">
-								<div class="service-icon">
-									<i class="sp-business"></i>
-								</div>
-								<div class="service-brief">
-									<h3>money back guarantee</h3>
-									<p>There are many variations of passages of Lorem Ipsum available, alteration</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- SERVICE-AREA END -->
-			
-			<!-- SUBSCRIBE-AREA START -->
-			<div class="suscribe-area margin-bottom-80">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="subscribe">
-								<div class="subscribe-brief">
-									<h3>enter your email address</h3>
-									<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
-								</div>
-								<div class="subscribe-form">
-									<form action="#">
-										<input type="text" placeholder="Enter email to subscribe" />
-										<button type="submit">Submit</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- SUBSCRIBE-AREA START END -->
-		</section>
-		<!-- PAGE-CONTENT END -->
-</section>
-		
-		
-		
+            <!-- BEST-SELL-AREA START -->
+            <div class="best-sell-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section-title text-center">
+                                <h2 class="border-left-right-btm">Best Sell</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div
+                            class="col-md-12">
+                            <!-- best-sell-menu -->
+                            <ul role="tablist" class="best-sell-menu">
+                                <li role="presentation" class="active">
+                                    <a href="#men" role="tab" data-toggle="tab">Men</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#women" role="tab" data-toggle="tab">Women</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#kids" role="tab" data-toggle="tab">Kids</a>
+                                </li>
+                            </ul>
+                            <!-- best-sell-product -->
+                            <div class="tab-content best-sell-product">
+                                <div role="tabpanel" class="tab-pane fade in active" id="men">
+                                    <div class="row">
+                                        {{#each getProductDataHome.men }}
+                                            <div
+                                                class="col-md-4 col-sm-4 col-xs-12">
+                                                <!-- Single-product start -->
+                                                <div class="single-product">
+                                                    <div class="product-photo">
+                                                        <ahref="/singleProduct/{{ this._id }}">
+                                                            <img class="primary-photo" src="/{{ this.images.[0] }}" alt=""/>
+                                                            <img class="secondary-photo" src="/{{ this.images.[1] }}" alt=""/>
+                                                        </a>
+                                                        <div class="pro-action">
+
+                                                            <button onclick="addToCart('{{ this._id }}')">
+                                                                <a class="action-btn">
+                                                                    <i class="sp-shopping-cart"></i>
+                                                                    <span>Add to cart</span>
+                                                                </a>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-brief ">
+                                                        <h2 class="text-center">
+                                                            <a href="#">{{ this.productTitle }}</a>
+                                                        </h2>
+                                                        <h3 style="display:inline;">
+                                                            <s>{{ this.regularPrice }}</s>
+                                                        </h3>
+                                                        <h3 style="display:inline">&nbsp;
+                                                            <strong>{{ this.offerPercentage }}
+                                                                % Off</strong>
+                                                        </h3>
+                                                        <div style="float:right ;">
+                                                            <h3 style="display:inline">₹<h3 style="color:red ;display:inline;">{{ this.offerPrice }}</h3>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="women">
+                                    <div class="row">
+                                        {{#each getProductDataHome.women }}
+                                            <div
+                                                class="col-md-4 col-sm-4 col-xs-12">
+                                                <!-- Single-product start -->
+                                                <div class="single-product">
+                                                    <div class="product-photo">
+                                                        <a href="/singleProduct/{{ this._id }}">
+                                                            <img class="primary-photo" src="/{{ this.images.[0] }}" alt=""/>
+                                                            <img class="secondary-photo" src="/{{ this.images.[1] }}" alt=""/>
+                                                        </a>
+                                                        <div class="pro-action">
+                                                            <button onclick="addToCart('{{ this._id }}')">
+                                                                <a class="action-btn">
+                                                                    <i class="sp-shopping-cart"></i>
+                                                                    <span>Add to cart</span>
+                                                                </a>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-brief">
+                                                        <h2 class="text-center">
+                                                            <a href="#">{{ this.productTitle }}</a>
+                                                        </h2>
+                                                        <h3 style="display:inline;">
+                                                            <s>{{ this.regularPrice }}</s>
+                                                        </h3>
+                                                        <h3 style="display:inline">&nbsp;
+                                                            <strong>{{ this.offerPercentage }}
+                                                                % Off</strong>
+                                                        </h3>
+                                                        <div style="float:right ;">
+                                                            <h3 style="display:inline">₹<h3 style="color:red ;display:inline;">{{ this.offerPrice }}</h3>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Single-product end -->
+
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="kids">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            {{#each getProductDataHome.kids}}
+                                                <!-- Single-product start -->
+                                                <div class="single-product">
+                                                    <div class="product-photo">
+                                                        <a href="/singleProduct/{{ this._id }}">
+                                                            <img class="primary-photo" src="/{{ this.images.[0] }}" alt=""/>
+                                                            <img class="secondary-photo" src="/{{ this.images.[1 ] }}" alt=""/>
+                                                        </a>
+                                                        <div class="pro-action">
+                                                            <button onclick="addToCart('{{ this._id }}')">
+                                                                <a class="action-btn">
+                                                                    <i class="sp-shopping-cart"></i>
+                                                                    <span>Add to cart</span>
+                                                                </a>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-brief">
+                                                        <h2>
+                                                            <a</h2 href="/singleProduct/{{ this._id }}" {{ this.productTitle }} </a>>
+                                                                <h3 style="display:inline;">
+                                                                    <s>{{ this.regularPrice }}</s>
+                                                                </h3>
+                                                                <h3 style="display:inline">
+                                                                    <strong>{{ this.offerPercentage }}
+                                                                        % Off</strong>
+                                                                </h3>
+                                                                <br>
+                                                                    <h3 style="display:inline">₹<h3 style="color:red ;display:inline;">{{ this.offerPrice }}</h3>
+                                                                    </h3>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Single-product end -->
+                                                        {{/each}}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BEST-SELL-AREA END -->
+                    <!-- ALL-PRODUCT-VIEW START -->
+                    <div class="all-product-view-area margin-bottom-80">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="all-product-view">
+                                        <div class="row">
+                                            <div class="col-md-7 col-sm-8 col-xs-12 col-sm-offset-1 col-md-offset-2">
+                                                <div class="all-product-brief">
+                                                    <h2>to view all products together  !!</h2>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <div class="all-product-view-link">
+                                                    <a href="/allProducts" class="shop-now">View All</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ALL-PRODUCT-VIEW END -->
+
+
+                    <!-- SERVICE-AREA START -->
+                    <div class="service-area margin-bottom-80">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-service">
+                                        <div class="service-icon">
+                                            <i class="sp-transport"></i>
+                                        </div>
+                                        <div class="service-brief">
+                                            <h3>free shipping</h3>
+                                            <p>There are many variations of passages of Lorem Ipsum available, alteration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-service">
+                                        <div class="service-icon">
+                                            <i class="sp-head-phone"></i>
+                                        </div>
+                                        <div class="service-brief">
+                                            <h3>help line</h3>
+                                            <p>(+112) 1925184203 - call any time for any support Lorem Ipsum available, alteration
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-service">
+                                        <div class="service-icon">
+                                            <i class="sp-business"></i>
+                                        </div>
+                                        <div class="service-brief">
+                                            <h3>money back guarantee</h3>
+                                            <p>There are many variations of passages of Lorem Ipsum available, alteration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SERVICE-AREA END -->
+
+                    <!-- SUBSCRIBE-AREA START -->
+                    <div class="suscribe-area margin-bottom-80">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="subscribe">
+                                        <div class="subscribe-brief">
+                                            <h3>enter your email address</h3>
+                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.</p>
+                                        </div>
+                                        <div class="subscribe-form">
+                                            <form action="#">
+                                                <input type="text" placeholder="Enter email to subscribe"/>
+                                                <button type="submit">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SUBSCRIBE-AREA START END -->
+                </section>
+                <!-- PAGE-CONTENT END -->
+            </section>

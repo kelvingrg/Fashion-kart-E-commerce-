@@ -39,12 +39,20 @@
 		<!-- modernizr css -->
         <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
+	<style>
+		.loginbox{
+			display:flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 		
 			<!-- LOGIN-AREA START -->
+			<div class="loginbox">
 			<div class="lognin-area" style="margin-top: 9%; margin-left:29%">
 				<div class="container">
 					<div class="row">
@@ -52,7 +60,7 @@
 						<div class="col-md-6">
 							<form action="/admin/login" method="post">
 								<div class="registered-customers">
-									<h2 class="login-title">Admin Login</h2>
+									<h2 class="login-title text-center">Admin Login</h2>
 									<div class="registered">
 										<div class="row">
 											<div class="col-md-12">
@@ -66,8 +74,10 @@
 											</div>
                                             <p class="text-danger">{{#if logerr}}Invalid Credentials{{/if}}</p>
 										</div>
-									
+									<div class="loginbox">
 										<input type="submit" class="custom-submit-2" value="login" />
+									</div>
+										
 									</div>
 								</div>
 							</form>
@@ -75,6 +85,7 @@
 						
 					</div>
 				</div>
+			</div>
 			</div>
 			<!-- LOGIN-AREA END -->
 		

@@ -126,8 +126,12 @@ router.post("/signup", (req, res) => {
         }
 
         if (response.noexist) {
-            userHelpers.doSignup(req.body).then((respone) => {
-                userHelpers.statusUpdate(req.body);
+            userHelpers.doSignup(req.body).then(async(response) => {
+            let userData= await userHelpers.statusUpdate(req.body,response);
+            console.log(userData,"userData at kelvin george ");
+            req.session.user=userData
+            req.session.loggedIn = true;
+            user=userData
                 res.redirect("/");
             });
         }
@@ -152,8 +156,8 @@ router.get("/logout", (req, res) => {
 });
 
 // single Product
-router.get("/singleProduct/:id", async function (req, res, next) {
-    try{
+router.get("/singleProduct/:id", verifyLoggedIn, async function (req, res, next) {
+    
     let cartItemsCount = await userHelpers.getCartItemsCount(req.session.user._id)
     user.cartCount = cartItemsCount
     if (req.session.loggedIn) {
@@ -165,10 +169,8 @@ router.get("/singleProduct/:id", async function (req, res, next) {
         });
     } else 
         res.redirect("/login")
-}
-catch{
-    res.redirect('/errorPage')
-}
+
+
 });
 // product view 
 // router.get("/productsVeiw", async(req, res) => {
@@ -524,7 +526,7 @@ router.post('/placeOrder',verifyLoggedIn, async (req, res) => {
             res.json(response)
         }else if (req.body['paymentMethod'] === 'WALLET'){
             if(user.wallet>totalCost){
-            userHelpers.buyWithWallet(req.session.user._id,-totalCost).then(()=>{
+            userHelpers.buyWithWallet(req.session.user._id,-totalCost,insertedIds).then(()=>{
                 response.wallet = true;
                 res.json(response)
             })
@@ -549,7 +551,7 @@ router.post('/placeOrder',verifyLoggedIn, async (req, res) => {
             })
         } else if (req.body["paymentMethod"] == "PAYPAL") {
           
-            userHelpers.test(totalCost).then((data) => { // converting inr to usd
+            userHelpers.conertRate(totalCost).then((data) => { // converting inr to usd
                 convertedRate =Math.round(data) 
               
 
@@ -786,6 +788,12 @@ catch{
   }
 })
 
+router.get('/walletHistory/:userId',async(req,res)=>{
+let wallet =await userHelpers.walletHistory(req.params.userId)
+    res.render('user/walletHistory',{user,wallet,categoryData:await k()})
+
+
+})
 
 
 

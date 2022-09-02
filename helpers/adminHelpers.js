@@ -9,6 +9,83 @@ const { order } = require("paypal-rest-sdk");
 // const { response } = require('../app')
 var objectId = require("mongodb").ObjectId;
 let reportData = []
+
+async function debitAmountwallet(userId,amount,description){
+    userId=userId.toString()
+   
+  let user= await db.get().collection(collection.WALLET_COLLECTION).find({userId:userId}).toArray()
+  console.log(user)
+ 
+  if(user.length>0){
+     historyData={description:description,
+         amount:-(parseInt(amount)),
+         timeStamp:new Date(),
+         date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+        debit:true,
+        credit:false}
+ 
+ await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:userId},{$push:{history:historyData}})
+  }
+  else{
+ 
+  let historyData={
+     userId:userId,
+   
+   history:[ {description:description,
+     amount:-amount,
+     timeStamp:new Date(),
+     date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+    debit:true,
+    credit:false}]
+  }
+     await db.get().collection(collection.WALLET_COLLECTION).insertOne(historyData).then((response)=>{
+     })
+  }
+  }
+ 
+  async function creditAmountwallet(userId,amount,description){
+    userId=userId.toString()
+     let user= await db.get().collection(collection.WALLET_COLLECTION).find({userId:userId}).toArray()
+   
+    
+     if(user.length>0){
+        historyData={
+         description:description,
+            amount:amount,
+            timeStamp:new Date(),
+            date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+           debit:false,
+           credit:true
+         }
+    
+    await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:userId},{$push:{history:historyData}})
+  }
+  else{
+ 
+     let historyData={
+        usesrId:userId,
+      
+      history:[ {description:description,
+        amount:amount,
+        timeStamp:new Date(),
+        date:new Date().toISOString().replace(/T.*/,'').split('-').reverse().join('-'),
+       debit:false,
+       credit:true}]
+     }
+        await db.get().collection(collection.WALLET_COLLECTION).insertOne(historyData)
+     }
+ 
+  }
+ 
+ 
+ 
+ 
+
+
+
+
+
+
 module.exports = {
     getAllUsers: () => {
         return new Promise(async (resolve, reject) => {
@@ -43,6 +120,7 @@ module.exports = {
             userData.password = await bcrypt.hash(userData.password, 10);
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
                 resolve(data.insertedId);
+                
             });
         });
     },
@@ -161,7 +239,8 @@ module.exports = {
                 if(orderData.paymnetMethod!='COD'){
                     console.log('jkhghfdkjhsac resched inside out ');
                     await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(orderData.userId)},{$inc:{wallet:orderData.finalAmount}})
-                     
+                    let description=orderId.orderId+" order cancelled"
+                    creditAmountwallet(orderData.userId,orderData.finalAmount,description)
                     orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId.orderId)})
                     console.log(orderData); 
 
@@ -215,7 +294,8 @@ module.exports = {
                                     )
                                 }
                             }, {
-                                cancellation: false
+                                cancellation: false,
+                                refund:false
                             }
                         ]
                     }
@@ -251,7 +331,8 @@ module.exports = {
                                     )
                                 }
                             }, {
-                                cancellation: false
+                                cancellation: false,
+                                refund:false
                             }
                         ]
                     }
@@ -359,7 +440,8 @@ module.exports = {
         let data = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
             {
                 $match: {
-                    cancellation: false
+                    cancellation: false,
+                    refund:false
                 }
             }, {
 
@@ -374,7 +456,7 @@ module.exports = {
                         }
                     },
                     sumQuantity: {
-                        $sum: "$totalAmount"
+                        $sum: "$finalAmount"
                     }
                 }
             }, {
@@ -457,9 +539,13 @@ module.exports = {
                     _id: "$paymnetMethod",
                     count: {
                         $sum: 1
-                    }
+                             }
                 }
-            }]).toArray()
+            },
+            {
+                $sort:{_id:1}
+            }
+        ]).toArray()
         let data = [['Payment Method', 'Numbers']]
 
         dotNut.forEach(element => {
@@ -537,6 +623,7 @@ return new Promise(async(resolve,reject)=>{
 
             {
                 $project: {
+                    refund:1,
                     cancellation: 1,
                     finalAmount: 1,
                     products: 1,
@@ -550,6 +637,7 @@ return new Promise(async(resolve,reject)=>{
             },
             {
                 $match: {
+                    refund:false,
                     cancellation: false,
                     year: selectedYear
                 }
@@ -725,7 +813,9 @@ approveRefund:(orderId)=>{
      let orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId)})
         console.log(orderData);
         await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(orderData.userId)},{$inc:{wallet:orderData.finalAmount}})
-     await  db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{$unset:{refundWait:true},$set:{status:"Refunded",refund:true}},{upsert:true}) 
+    let description=orderId+"product returned and refunded"
+        creditAmountwallet(orderData.userId,orderData.finalAmount,description)
+        await  db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{$unset:{refundWait:true},$set:{status:"Refunded",refund:true}},{upsert:true}) 
      orderData= await  db.get().collection(collection.ORDER_COLLECTION).findOne({_id:ObjectId(orderId)})
      console.log(orderData);            
     })                            
@@ -814,6 +904,7 @@ resolve(response)
 
             {
                 $project: {
+                    refund:1,
                     cancellation: 1,
                     finalAmount: 1,
                     products: 1,
@@ -827,6 +918,7 @@ resolve(response)
             },
             {
                 $match: {
+                    refund:false,
                     cancellation: false,
                     year:year[i].year
                 }

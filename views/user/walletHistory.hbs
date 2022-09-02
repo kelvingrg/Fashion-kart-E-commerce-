@@ -1,0 +1,61 @@
+	<section class="page-content">
+			
+			<!-- SHOPPING-CART-AREA START -->
+			<div class="shopping-cart-area margin-bottom-80">
+				<div class="container">
+					
+						
+				<br><br>
+					<h4 class="">   WALLET </h4>
+                    Wallet Balance: 4557
+                <br>
+				
+					<div class="row">
+						<div class="col-md-12">
+							<form action="#">
+								<div class="table-content table-responsive">
+									<table>
+										<thead>
+											<tr>
+												<th class="product-thumbnail">Date</th>
+												<th class="product-name">Description</th>
+												<th class="product-edit">Debit</th>
+												<th class="product-edit">Credit</th>
+												
+										
+											</tr>
+										</thead>
+										<tbody>
+										
+										
+                                                {{#each wallet.history}}
+	<tr >
+												<td>{{this.date}}</td>
+                                                <td>{{this.description}}</td>
+                                                {{#if this.debit}}
+                                                <td class="text-danger">{{this.amount}}</td>
+                                                {{else}}
+                                                <td></td>
+                                                {{/if}}
+                                                 {{#if this.credit}}
+                                                <td class="text-success">{{this.amount}}</td>
+                                                {{else}}
+                                                <td></td>
+                                                {{/if}}
+
+</tr>
+                                                {{/each }}
+                                               
+
+												
+											
+											
+										</tbody>
+										
+									</table>
+								</div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+	</section>
