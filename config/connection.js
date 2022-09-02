@@ -1,9 +1,11 @@
 const mongoClient=require('mongodb').MongoClient
+require('dotenv').config()
+
 const state ={
     db:null
 }
 module.exports.connect=function(done){
-    const url='mongodb://localhost:27017'
+    const url=`mongodb+srv://kelvingeorge:${process.env.MONGODB}@cluster0.heyq6sz.mongodb.net/?retryWrites=true&w=majority`
     const dbname='fashionKart'
     mongoClient.connect(url,(err,data)=>{
         if(err) 
