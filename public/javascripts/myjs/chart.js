@@ -151,6 +151,7 @@ $.ajax({
     let r=parseInt( data[0].count )
     let x=parseInt( data[1].count )
     let y=parseInt( data[2].count )
+    
     let z=parseInt( data[3].count )
     function drawChart() {
       var data = google.visualization.arrayToDataTable([

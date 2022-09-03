@@ -1,5 +1,5 @@
 const mongoClient=require('mongodb').MongoClient
-require('dotenv').config()
+// require('dotenv').config()
 
 const state ={
     db:null
