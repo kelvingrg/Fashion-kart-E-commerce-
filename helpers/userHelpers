@@ -11,7 +11,7 @@ let referralCodeGenerator = require('referral-code-generator')
 
 let respond = {};
 // / razor pay configaration
-var instance = new Razorpay({key_id: "rzp_test_0V5jZIcqZdR0p8", key_secret: "3qBrEW2U86DN9F4ybWcCL57Q"});
+var instance = new Razorpay({key_id:"rzp_test_0V5jZIcqZdR0p8", key_secret:"3qBrEW2U86DN9F4ybWcCL57Q"});
 
 
 // paypal configuration
