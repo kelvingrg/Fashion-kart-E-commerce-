@@ -11,13 +11,13 @@ let referralCodeGenerator = require('referral-code-generator')
 
 let respond = {};
 // / razor pay configaration
-var instance = new Razorpay({key_id: process.env.KEY_ID, key_secret: process.env.KEY_SECRET});
+var instance = new Razorpay({key_id: "rzp_test_0V5jZIcqZdR0p8", key_secret: "3qBrEW2U86DN9F4ybWcCL57Q"});
 
 
 // paypal configuration
 const paypal = require('paypal-rest-sdk');
 const { response } = require("express");
-paypal.configure({mode: "sandbox", client_id: process.env.PAYPAL_CLIENT_ID, client_secret:process.env.PAYPAL_CLIENT_SECRET});
+paypal.configure({mode: "sandbox", client_id:"ATVfUdlaEds_REEqb851ftHbOZRfYuSJrVBTxI1iUWCU2my_lpNjwkEfx82dpwe5T5m_NoMSCV1Vbdbq", client_secret:"EBWuUe0r61_vNU4N2kK3EykHQR7xhx7nfC_YS4x472Lwr2Exay0a14Uly2DWPl8P18l6njI8FSRYOnmf"});
 
 async function debitAmountwallet(userId,amount,description){
     userId=userId.toString()
