@@ -5,7 +5,7 @@ var objectId = require("mongodb").ObjectId;
 var ObjectId = require("mongodb").ObjectId;
 const Razorpay = require('razorpay');
 const CC = require("currency-converter-lt");
-require("dotenv").config()
+// require("dotenv").config()
 const moment = require("moment");
 let referralCodeGenerator = require('referral-code-generator')
 

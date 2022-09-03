@@ -3,7 +3,7 @@ const adminHelpers = require("../helpers/adminHelpers");
 const productHelpers = require("../helpers/productHelpers");          
 var router = express.Router();
 var userHelpers = require("../helpers/userHelpers");
-require('dotenv').config()
+// require('dotenv').config()
 const paypal = require("paypal-rest-sdk");
 
 
