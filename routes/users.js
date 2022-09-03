@@ -10,7 +10,7 @@ const paypal = require("paypal-rest-sdk");
 
 
 
-const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
+const client = require('twilio')("AC6b7b6ce68eb697d1f3929f14a77462bb", "b5ebfa375e271ee4451a7360c6c31c48");
 
 let k=(async()=>{
 let c=await userHelpers.getCatagory()
@@ -264,7 +264,7 @@ router.post("/mobileNumber", (req, res) => {
     try{
     userHelpers.doMobileNumber(req.body).then(async(number) => {
         if (number) {
-            client.verify.services(process.env.SERVICE_SID).verifications.create({
+            client.verify.services("VA385192afb6828f7985b3bb7c66d9320b").verifications.create({
                     to: `+91${
                     req.body.mobileNumber
                 }`,
