@@ -8,6 +8,7 @@ fashionkart is an e-commerce platform for a clothing store
 
 
 
+### Features 
 User
 - Signup and login
 - Otp login
@@ -29,7 +30,7 @@ Admin
 - Sales reports
 - Product reports
 - Banner management 
-## Technologies used
+### Technologies used
 - Node.js 
 - Multer
 - Express.js
@@ -42,7 +43,7 @@ Admin
 
 
 
-## API Reference
+### API Reference
 
 #### Get home page
 
@@ -58,7 +59,7 @@ Admin
 
 
 
-## Run Locally
+### Run Locally
 
 Clone the project
 
