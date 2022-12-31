@@ -1,3 +1,5 @@
+
+
 // adding to cart
 function addToCart(prodId) {
 
@@ -85,7 +87,6 @@ function changeQuantity(cartId, prodId, userId, count) {
 // place an order from cx
 $("#placeOrder").submit((event) => {
     event.preventDefault();
-    
     $.ajax({
         url: "/placeOrder",
         method: "post",
@@ -118,6 +119,7 @@ $("#placeOrder").submit((event) => {
 
         }
     });
+
 });
 
 function verifyPayment(payment, order) {
@@ -361,8 +363,19 @@ $.ajax({
 })
  }
  function paymentInitiated(){
+
+  
+ document.getElementById("checkOutContent").style.display="none"
+        document.getElementById("spinnert").style.display="block"
+        document.getElementById("spinnerdiv").style.height="30vw"
+ 
+        }
+
+        function   addressCheck(){
+            event.preventDefault()
+            document.getElementById("checkAddress").innerHTML="<i class='pe-7s-close-circle'> please enter the address!<i/>";
+        }
+
     
-    document.getElementById("checkOutContent").style.display="none"
-    document.getElementById("spinnert").style.display="block"
-    document.getElementById("spinnerdiv").style.height="30vw"
- }
+
+ 

@@ -124,7 +124,7 @@
             </div>
             {{!-- address area ends  --}}
 
-            <form id="placeOrder">
+            <form id="placeOrder" name="paymentForm">
 
                 <div class="row">
                     <div class="col-md-2">&nbsp;</div>
@@ -138,7 +138,7 @@
                                 <div class="col-md-3">
                                     <div class="thumbnail">
                                         <div class="caption text-left ">
-                                            <input type="radio" name="address" value={{this._id}} checked>
+                                            <input type="radio" name="address" value={{this._id}} checked id="addressSelect">
                                             <h4>{{this.firstName}}&nbsp;{{this.lastName}}
                                             </h4>
                                         </div>
@@ -203,11 +203,12 @@
                                         <input type="radio" name="paymentMethod" id="wallet" value="WALLET" onchange="checkwalletAmount('{{user.wallet}}')">
                                         <label for="">Wallet</label> <p style="display:inline; font-size:small"  >   (Rs. {{user.wallet}} Available)</p>
                                     </div>
-                                    <div class="order-button-payment text-center">
-                                       <a href="#"> <input type="submit" value="Place order" onclick="paymentInitiated()"/></a>
+                                    <div class="order-button-payment text-center ">
+                                       <a href="#"> <input type="submit" value="Place order" {{#if addressData}} onclick="paymentInitiated()"{{else}} onclick="addressCheck()" {{/if}} /></a>
 											<input type="text" id="userId"name="userId" value="{{user._id}}" hidden>
+                                            <label for="text" id="checkAddress" class="text-danger"></label>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </div>
                     </div>

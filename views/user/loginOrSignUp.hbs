@@ -26,14 +26,14 @@
 										</div>
 										<div class="row">
 											<div class="col-md-12">
-												<input type="password" class="custom-form" placeholder="Password" name="password" />
+												<input type="password" class="custom-form" placeholder="Password" name="password" id />
 											</div>
 											{{#if logerr}}<label for="mobileNumber" style="color: red;">invalid credentials</label>{{/if}}
 												{{#if blocked}}<label for="mobileNumber" style="color: red;">You have been blocked please contact Customer Care</label>{{/if}}
 										</div>
 										<p><label class="forgot"><a href="#">Forgot your password?</a></label></p>
 										<input type="submit" class="custom-submit-2" value="login" />
-									<a href="/loginWithOtp"><span class="custom-submit-2" onclick="otpPage()"  style="margin-left:40%"/>Login With Otp</span></a>
+									<a href="/loginWithOtp"><span class="custom-submit-2"  style="margin-left:40%"/>Login With Otp</span></a>
 
 										
 									</div>
@@ -50,7 +50,7 @@
 						{{!-- otp login end --}}
 						<!-- Registered-Customers End -->
 						<div class="col-md-6">
-							<form action="/signup" method="POST">
+							<form action="/signup" method="POST" id="loginForm">
 								<div class="new-customers">
 									<h2 class="login-title">NEW CUSTOMERS</h2>
 									<div class="row">
@@ -93,7 +93,7 @@
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<input class="custom-form" type="text" placeholder="Email" name="email" required />
+											<input class="custom-form" type="text" placeholder="Email" name="email" id="email" required />
 										</div>
 									</div>
 									<div class="row">
@@ -117,7 +117,7 @@
 								
 									<div class="row">
 										<div class="col-sm-6">
-											<input type="submit" class="custom-form custom-submit no-margin" value="register" onclick="return validateSubmission()"\/>
+											<input type="submit" class="custom-form custom-submit no-margin" value="register" onclick="validateSubmission()"/>
 											<label for="text" id="labelSubmission" ></label>
 											{{#if phoneerr}}<label for="mobileNumber" style="color: red;">Mobile Number Already exists</label>{{/if}}
 											{{#if emailerr}}<label for="email" style="color: red;">Email Already exists</label>{{/if}}

@@ -65,7 +65,10 @@ function validatePinCode(){
 }
 function validatePassword(){
     var password1=document.getElementById("password").value; 
-    var regx=/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    var regx=
+    // /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,40}$/;
+    /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{6,}$/;
+
     if(regx.test(password1)){
       
     var password2=document.getElementById("confirmPassword").value;
@@ -89,11 +92,12 @@ pass=false
 }
     }
     else{
+     
        let errors = [];
         if (password1.length < 6) {
             errors.push("Your password must be at least 6 characters"); 
         }else   errors.push("")
-        if (password1.search(/[a-z]/i) < 0) {
+        if (password1.search(/[a-z]/i) < 0 || password1.search(/[A-Z]/i)<0 ) {
             errors.push("Your password must contain at least one letter.");
         }else   errors.push("")
         if (password1.search(/[0-9]/) < 0) {
@@ -128,7 +132,7 @@ console.log(errors);
              ln=false
              mn=false
              pin=false
-             pass=false
+             document.getElementById('loginForm').submit();
              return true;
 
         }else
@@ -142,7 +146,7 @@ console.log(errors);
 
 
 function valid(labelname){
-    console.log(labelname)
+
     document.getElementById(labelname).innerHTML="<strong><i class='pe-7s-like2'> <i/></strong>";
     document.getElementById(labelname).style.visibility="visible";
     setTimeout(() => {
@@ -152,7 +156,7 @@ function valid(labelname){
 
 }
 function invalid(labelname){
-document.getElementById(labelname).innerHTML="<i class='pe-7s-close-circle'> check your entries<i/>";
+document.getElementById(labelname).innerHTML="<i class='pe-7s-close-circle'> check your entries!<i/>";
 document.getElementById(labelname).style.visibility="visible";
 document.getElementById(labelname).style.color="red";
 }
